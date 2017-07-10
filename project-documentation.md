@@ -11,20 +11,20 @@
 #### Preprocessing
 
 1. Assign a unique ID to every review
-2. Filter out ininformative reviews
+2. Filter out uninformative reviews
     * Remove reviews with less than 10 helpfulness votes
     * Remove reviews with less than 20 characters
     * 107,035 reviews remaining
 3. Sample 20,000 reviews (randomly)
 4. Export to CSV file
+5. Withhold 10% of reviews as a development corpus and randomly sort the remaining 90% into ten sets for 10-fold cross validation.
+	* development section: 2,000 reviews
+	* training/test section: 18,000 reviews
 * ==Dataset description after filtering== (similar to Table 2 in Kim et al. 2006: 5)
 	* Total products
 	* Total reviews
 	* Average reviews/product
 	* Min/max reviews/product
-* Withhold 10% of reviews as a development corpus and randomly sort the remaining 90% into ten sets for 10-fold cross validation.
-	* development section: 2,000 reviews
-	* training/test section: 18,000 reviews
 
 ### Probabilistic Model
 

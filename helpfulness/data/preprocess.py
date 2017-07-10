@@ -1,3 +1,18 @@
+'''
+Preprocess Amazon-review data obtained from He & McAuley (2016).
+http://jmcauley.ucsd.edu/data/amazon/
+
+1. Assign a unique ID to every review
+2. Filter out uninformative reviews
+    * Remove reviews with less than 10 helpfulness votes
+    * Remove reviews with less than 20 characters
+3. Extract randomly sampled reviews (``SAMPLE_SIZE``)
+4. Segment sampled reviews into development and training/test sections
+   (``DEV_SIZE``)
+5. Export reviews as CSV files, review texts as individual text files,
+   and review IDs as one text file per section.
+'''
+
 import csv
 import gzip
 import hashlib
