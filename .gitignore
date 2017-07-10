@@ -21,3 +21,4 @@ pylint*
 .settings
 
 # Project-specific files
+/data
