@@ -23,6 +23,8 @@
 	* Average reviews/product
 	* Min/max reviews/product
 * Withhold 10% of reviews as a development corpus and randomly sort the remaining 90% into ten sets for 10-fold cross validation.
+	* development section: 2,000 reviews
+	* training/test section: 18,000 reviews
 
 ### Probabilistic Model
 

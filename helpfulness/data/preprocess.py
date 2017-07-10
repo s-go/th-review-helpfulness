@@ -20,6 +20,7 @@ FIELDNAMES = (
 )
 
 SAMPLE_SIZE = 20000
+DEV_SIZE = 2000
 
 
 def convert_to_csv(review_filepath, csv_filepath, review_ids_filepath):
@@ -54,13 +55,21 @@ def sample_review_ids(all_review_ids, sample_review_ids_filepath):
     print('Wrote %s IDs to "%s"' % (SAMPLE_SIZE, sample_review_ids_filepath))
 
 
+def get_set_of_lines(txt_filepath):
+    '''
+    :return: a set containing all lines from the given text file
+    :rtype: set
+    '''
+    with open(txt_filepath) as txt_file:
+        line_set = set([line.rstrip('\n') for line in txt_file])
+    return line_set
+
+
 def export_sample_reviews(
         sample_review_ids_filepath, all_csv_filepath,
         sample_csv_filepath, sample_texts_dirpath):
     # Get IDs of reviews that should be in the sample
-    with open(sample_review_ids_filepath) as sample_review_ids_file:
-        sample_review_ids = set(
-            [line.rstrip('\n') for line in sample_review_ids_file])
+    sample_review_ids = get_set_of_lines(sample_review_ids_filepath)
 
     written_rows = 0
 
@@ -75,6 +84,45 @@ def export_sample_reviews(
                 write_text_file(review, sample_texts_dirpath)
 
     print('Wrote %s rows to "%s"' % (written_rows, sample_csv_filepath))
+
+
+def export_dev_traintest_reviews(
+        sample_csv_filepath, sample_ids_filepath, dev_csv_filepath,
+        dev_ids_filepath, traintest_csv_filepath, traintest_ids_filepath):
+    '''
+    Segments the given sampled data into a dev section with ``DEV_SIZE``
+    and a training/test section containing the remaining data. Exports
+    the segmented reviews as CSV files and their IDs as text files.
+    '''
+    sample_ids = get_set_of_lines(sample_ids_filepath)
+    dev_ids = random.sample(sample_ids, DEV_SIZE)
+
+    written_dev_rows = 0
+    written_traintest_rows = 0
+
+    with open(sample_csv_filepath) as sample_csv_file, \
+            open(dev_csv_filepath, 'w') as dev_csv_file, \
+            open(dev_ids_filepath, 'w') as dev_ids_file, \
+            open(traintest_csv_filepath, 'w') as traintest_csv_file, \
+            open(traintest_ids_filepath, 'w') as traintest_ids_file:
+        csv_reader = csv.DictReader(sample_csv_file, fieldnames=FIELDNAMES)
+        dev_csv_writer = csv.DictWriter(dev_csv_file, fieldnames=FIELDNAMES)
+        traintest_csv_writer = csv.DictWriter(
+            traintest_csv_file, fieldnames=FIELDNAMES)
+        for review in csv_reader:
+            review_id = review['reviewID']
+            if review_id in dev_ids:
+                dev_csv_writer.writerow(review)
+                written_dev_rows += 1
+                dev_ids_file.write(review_id + '\n')
+            else:
+                traintest_csv_writer.writerow(review)
+                written_traintest_rows += 1
+                traintest_ids_file.write(review_id + '\n')
+
+    print('Wrote %s rows to "%s"' % (written_dev_rows, dev_csv_filepath))
+    print('Wrote %s rows to "%s"' % (
+        written_traintest_rows, traintest_csv_filepath))
 
 
 def write_text_file(review, dirpath):
@@ -108,8 +156,7 @@ def get_hash_value(obj):
     See http://stackoverflow.com/questions/19851990/
     """
     value = json.dumps(
-        obj, sort_keys=True, separators=(',', ':')
-    ).encode('utf-8')
+        obj, sort_keys=True, separators=(',', ':')).encode('utf-8')
     return hashlib.sha1(value).hexdigest()
 
 
@@ -138,16 +185,36 @@ def to_pretty_json(obj):
 
 
 if __name__ == '__main__':
+    # 1. Assign unique review IDs, filter out ininformative reviews,
+    #    export reviews as CSV file and review IDs as text file
+    # --
     #     all_review_ids = convert_to_csv(
     #         'data/reviews_Electronics_5.json.gz',
     #         'data/reviews_Electronics_5.csv',
     #         'data/review_ids_all.txt'
     #     )
 
-    # sample_review_ids(all_review_ids, 'data/review_ids_sample.txt')
+    # 2. Randomly sample 20,000 reviews, export their IDs as text file
+    # --
+    #     sample_review_ids(all_review_ids, 'data/review_ids_sample.txt')
 
-    export_sample_reviews(
-        'data/review_ids_sample.txt',
-        'data/reviews_Electronics_5.csv',
+    # 3. Export sampled reviews as CSV file and individual text files
+    # --
+    #    containing only the review texts
+    #     export_sample_reviews(
+    #         'data/review_ids_sample.txt',
+    #         'data/reviews_Electronics_5.csv',
+    #         'data/reviews_sample.csv',
+    #         'data/reviews_sample'
+    #     )
+
+    # 4. Segment sampled reviews into development and training/test sections
+    # --
+    export_dev_traintest_reviews(
         'data/reviews_sample.csv',
-        'data/reviews_sample')
+        'data/review_ids_sample.txt',
+        'data/reviews_dev.csv',
+        'data/review_ids_dev.txt',
+        'data/reviews_traintest.csv',
+        'data/review_ids_traintest.txt'
+    )
