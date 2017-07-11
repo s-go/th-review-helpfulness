@@ -25,6 +25,3 @@ class TestReviewHelpfulnessRegressionModel:
 
         assert round(helpfulness_model.reviews_dataframe[
             'helfulnessScore'][1], 6) == 0.454545
-
-    def test_run_pipeline(self, helpfulness_model):
-        helpfulness_model.run_pipeline()
