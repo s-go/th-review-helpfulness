@@ -20,8 +20,13 @@ import pandas as pd
 class ReviewHelpfulnessRegressionModel:
 
     def __init__(self, reviews_csv_filepath):
+        print(f'Data path: "{reviews_csv_filepath}"')
+
         self.reviews_dataframe = self._get_dataframe(reviews_csv_filepath)
-        self._model = SVR()
+        # Add features that need to be computed
+        self.extract_features()
+
+        self._model = SVR(kernel='rbf', C=1, gamma=0.001)
 
     def _get_dataframe(self, csv_filepath):
         '''
@@ -39,9 +44,19 @@ class ReviewHelpfulnessRegressionModel:
         '''
         # TODO: Use more features
         return self.reviews_dataframe.as_matrix(['overall'])
+        # TODO: Scale each feature between [0, 1]
+        # TODO: Apply standard transformation to each feature measurement *f*
+        # f = ln(f + 1)?
+
+    def get_scorer(self):
+        '''
+        Returns a scikit-learn scoring metric that calculates the
+        Pearson correlation coefficient.
+        '''
+        return make_scorer(plain_pearsonr)
 
     def get_target_vector(self):
-        return self.reviews_dataframe['helfulnessScore']
+        return self.reviews_dataframe['helpfulnessScore']
 
     def get_train_test_sets(self):
         '''
@@ -55,47 +70,22 @@ class ReviewHelpfulnessRegressionModel:
         return train_test_split(X, y, test_size=0.1, random_state=42)
 
     def extract_features(self):
-        self.reviews_dataframe['helfulnessScore'] = \
+        '''
+        Computes the feature 'helpfulnessScore' and adds it as a new column
+        to the reviews dataframe.
+        '''
+        self.reviews_dataframe['helpfulnessScore'] = \
             self.reviews_dataframe['helpful'].apply(compute_helpfulness_score)
 
-    def tune_hyper_params_kfold(self):
+    def fit_model(self):
+        X_train, X_test, y_train, y_test = self.get_train_test_sets()
+        self._model.fit(X_train, y_train).score(X_test, y_test)
+
+    def tune_hyperparams(self):
         '''
-        Tunes the hyper-parameters of the model by performing a full-grid
-        search and 10-fold cross-validation (slow!).
-        '''
-        X = self.get_feature_matrix()
-        y = self.get_target_vector()
-        kf = KFold(n_splits=10, shuffle=True, random_state=4)
-        kf.get_n_splits(X)
-
-        # TODO: Learn optimal kernel
-        # TODO: Learn optimal parameters
-        param_grid = [
-            {'C': [0.1, 0.5]},
-            {
-                'C': [1, 10, 100, 1000],
-                'gamma': [0.001, 0.0001],
-                'kernel': ['rbf']
-            },
-        ]
-        pearsonr_scorer = make_scorer(plain_pearsonr)
-        self._model = GridSearchCV(
-            self._model, param_grid, cv=5, scoring=pearsonr_scorer, n_jobs=1)
-
-        print('# Tuning hyper-parameters on development set...')
-        [self._model.fit(X[train], y[train]).score(X[test], y[test])
-         for train, test in kf.split(X)]
-
-        print('Best parameters set found:', self._model.best_params_)
-        print('Fit Pearson r:', self._model.best_score_)
-
-    def tune_hyper_params(self):
-        '''
-        Tunes the hyper-parameters of the model by performing a full-grid
+        Tunes the hyperparameters of the model by performing a full-grid
         search.
         '''
-        X_train, X_test, y_train, y_test = self.get_train_test_sets()
-
         # TODO: Learn optimal kernel
         # TODO: Learn optimal parameters
         param_grid = [
@@ -106,12 +96,11 @@ class ReviewHelpfulnessRegressionModel:
                 'kernel': ['rbf']
             },
         ]
-        pearsonr_scorer = make_scorer(plain_pearsonr)
         self._model = GridSearchCV(
-            self._model, param_grid, cv=5, scoring=pearsonr_scorer, n_jobs=1)
+            self._model, param_grid, cv=5, scoring=self.get_scorer(), n_jobs=1)
 
-        print('# Tuning hyper-parameters on development set...')
-        self._model.fit(X_train, y_train).score(X_test, y_test)
+        print('# Tuning hyperparameters on development set...')
+        self.fit_model()
         print('Best parameters set found:', self._model.best_params_)
         print('Fit Pearson r:', self._model.best_score_)
 
@@ -120,14 +109,16 @@ class ReviewHelpfulnessRegressionModel:
         Evaluates the model performance by performing a 10-fold
         cross-validation on the dataset.
         '''
-        # TODO: Parametrize dataset so we can evaluate on CV data after
-        # tuning on development data
+        print()
+        print('# Starting 10-fold cross-validation...')
+        print('Evaluating model:', self._model)
+
         X = self.get_feature_matrix()
         y = self.get_target_vector()
 
+        scores = cross_val_score(
+            self._model, X, y, cv=10, scoring=self.get_scorer(), n_jobs=-1)
         print()
-        print('# Starting 10-fold cross-validation...')
-        scores = cross_val_score(self._model, X, y, cv=10, n_jobs=-1)
         # TODO: Attention! 95% confidence bounds relative to CV!
         print("CV Pearson r: %0.2f (± %0.2f)" % (
             scores.mean(), scores.std() * 2))
@@ -136,8 +127,7 @@ class ReviewHelpfulnessRegressionModel:
         print('--- Starting experiment ---', end='\n\n')
         start_time = time.time()
 
-        self.extract_features()
-        self.tune_hyper_params()
+        self.tune_hyperparams()
         self.evaluate_model()
 
         print()
@@ -149,4 +139,6 @@ if __name__ == '__main__':
     # data_path = 'data/reviews_traintest.csv'
 
     helpfulness_model = ReviewHelpfulnessRegressionModel(data_path)
-    helpfulness_model.run_pipeline()
+
+    # helpfulness_model.run_pipeline()
+    helpfulness_model.evaluate_model()

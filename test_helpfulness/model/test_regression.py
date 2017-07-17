@@ -12,7 +12,7 @@ class TestReviewHelpfulnessRegressionModel:
 
     def test__get_dataframe(self, helpfulness_model):
         # Make sure the dataframe has the right dimensions
-        assert helpfulness_model.reviews_dataframe.shape == (2000, 10)
+        assert helpfulness_model.reviews_dataframe.shape == (2000, 11)
 
         # Make sure list conversion for helpfulness votes works
         assert type(helpfulness_model.reviews_dataframe['helpful'][1]) == list
@@ -24,4 +24,4 @@ class TestReviewHelpfulnessRegressionModel:
         assert helpfulness_model.reviews_dataframe.shape == (2000, 11)
 
         assert round(helpfulness_model.reviews_dataframe[
-            'helfulnessScore'][1], 6) == 0.454545
+            'helpfulnessScore'][1], 6) == 0.454545
