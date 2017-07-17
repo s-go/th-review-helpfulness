@@ -142,24 +142,21 @@ class ReviewHelpfulnessRegressionModel:
         print("CV Pearson r: %0.2f (± %0.2f)" % (
             scores.mean(), scores.std() * 2))
 
-    def run_pipeline(self):
-        print('--- Starting experiment ---', end='\n\n')
-        start_time = time.time()
-
-        self.extract_features()
-        self.tune_hyperparams()
-        self.evaluate_model()
-
-        print()
-        print("--- Took %0.2f seconds ---" % (time.time() - start_time))
-
 
 if __name__ == '__main__':
     data_path = 'data/reviews_dev.csv'
-    # data_path = 'data/reviews_traintest.csv'
+    data_path = 'data/reviews_traintest.csv'
+
+    print('--- Starting experiment ---', end='\n\n')
+    start_time = time.time()
 
     helpfulness_model = ReviewHelpfulnessRegressionModel(data_path)
     helpfulness_model.extract_features()
 
-    # helpfulness_model.run_pipeline()
+    # Tune hyperparameters (only on development set!)
+    # helpfulness_model.tune_hyperparams()
+
     helpfulness_model.evaluate_model()
+
+    print()
+    print("--- Took %0.2f seconds ---" % (time.time() - start_time))
