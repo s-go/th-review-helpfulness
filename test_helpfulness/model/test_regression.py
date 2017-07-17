@@ -26,4 +26,4 @@ class TestReviewHelpfulnessRegressionModel:
         assert round(helpfulness_model.reviews_dataframe[
             'helpfulnessScore'][1], 6) == 0.454545
 
-        assert helpfulness_model.reviews_dataframe['numTokens'][1] == 431
+        assert helpfulness_model.reviews_dataframe['numTokens'][1] == 327

@@ -1,8 +1,8 @@
 '''
 Feature-extraction functions for predicting review helpfulness.
 '''
-from nltk import word_tokenize
 from numpy import log
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
@@ -20,9 +20,8 @@ def num_tokens(text):
     '''
     Returns the number of tokens in the given text.
     '''
-    # TODO: Use sklearn tokenizer?
-    # http://scikit-learn.org/stable/modules/feature_extraction.html#common-vectorizer-usage
-    return len(word_tokenize(text))
+    analyze = CountVectorizer().build_analyzer()
+    return len(analyze(text))
 
 
 def get_tf_idf_matrix(reviews):

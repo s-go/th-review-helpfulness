@@ -15,4 +15,4 @@ class TestFeatures:
         capture "audio" quality... they offer a fix/upgrade according to them
         here : [...](Original review)
         '''
-        assert num_tokens(text) == 49
+        assert num_tokens(text) == 32
