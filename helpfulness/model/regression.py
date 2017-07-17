@@ -6,7 +6,6 @@ import time
 
 from sklearn.metrics.scorer import make_scorer
 from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVR
@@ -14,17 +13,16 @@ from sklearn.svm import SVR
 from helpfulness.data.preprocess import FIELDNAMES
 from helpfulness.model.evaluation import plain_pearsonr
 from helpfulness.model.features import compute_helpfulness_score
+from helpfulness.model.features import num_tokens
 import pandas as pd
 
 
 class ReviewHelpfulnessRegressionModel:
 
     def __init__(self, reviews_csv_filepath):
-        print(f'Data path: "{reviews_csv_filepath}"')
-
         self.reviews_dataframe = self._get_dataframe(reviews_csv_filepath)
-        # Add features that need to be computed
-        self.extract_features()
+        print(f'Data path: "{reviews_csv_filepath}" '
+              f'({len(self.reviews_dataframe)} reviews)')
 
         self._model = SVR(kernel='rbf', C=1, gamma=0.001)
 
@@ -38,12 +36,26 @@ class ReviewHelpfulnessRegressionModel:
                 converters={'helpful': eval}
             )
 
+    def extract_features(self):
+        '''
+        Adds features that need to be computed from the raw data to the
+        dataframe.
+        '''
+        print('Extracting features from raw data...')
+        # Add number of tokens (LEN)
+        self.reviews_dataframe['numTokens'] = \
+            self.reviews_dataframe['reviewText'].apply(num_tokens)
+
+        # Add helpfulness score (STR)
+        self.reviews_dataframe['helpfulnessScore'] = \
+            self.reviews_dataframe['helpful'].apply(compute_helpfulness_score)
+
     def get_feature_matrix(self):
         '''
         Returns the feature matrix of the model.
         '''
-        # TODO: Use more features
-        return self.reviews_dataframe.as_matrix(['overall'])
+        # TODO: Add Unigram (UGR)
+        return self.reviews_dataframe.as_matrix(['overall', 'numTokens'])
         # TODO: Scale each feature between [0, 1]
         # TODO: Apply standard transformation to each feature measurement *f*
         # f = ln(f + 1)?
@@ -68,14 +80,6 @@ class ReviewHelpfulnessRegressionModel:
         y = self.get_target_vector()
 
         return train_test_split(X, y, test_size=0.1, random_state=42)
-
-    def extract_features(self):
-        '''
-        Computes the feature 'helpfulnessScore' and adds it as a new column
-        to the reviews dataframe.
-        '''
-        self.reviews_dataframe['helpfulnessScore'] = \
-            self.reviews_dataframe['helpful'].apply(compute_helpfulness_score)
 
     def fit_model(self):
         X_train, X_test, y_train, y_test = self.get_train_test_sets()
@@ -110,8 +114,8 @@ class ReviewHelpfulnessRegressionModel:
         cross-validation on the dataset.
         '''
         print()
-        print('# Starting 10-fold cross-validation...')
-        print('Evaluating model:', self._model)
+        print('Starting 10-fold cross-validation...')
+        print('Model:', self._model)
 
         X = self.get_feature_matrix()
         y = self.get_target_vector()
@@ -127,6 +131,7 @@ class ReviewHelpfulnessRegressionModel:
         print('--- Starting experiment ---', end='\n\n')
         start_time = time.time()
 
+        self.extract_features()
         self.tune_hyperparams()
         self.evaluate_model()
 
@@ -139,6 +144,7 @@ if __name__ == '__main__':
     # data_path = 'data/reviews_traintest.csv'
 
     helpfulness_model = ReviewHelpfulnessRegressionModel(data_path)
+    helpfulness_model.extract_features()
 
     # helpfulness_model.run_pipeline()
     helpfulness_model.evaluate_model()
