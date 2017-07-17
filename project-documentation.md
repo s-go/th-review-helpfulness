@@ -63,6 +63,7 @@ $$
 * **Baseline model** with best-performing features (according to Kim et al. 2006: 6)
     * Length (LEN): The total number of tokens in a syntactic analysis of the review.
     * Unigram (UGR): The *tf-idf* statistic of each word occurring in a review.
+	  http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting
     * Stars (STR): Most websites require reviewers to include an overall rating for the products that they review (e.g., star ratings in Amazon.com). This feature set includes the rating score (STR1) as well as the absolute value of the difference between the rating score and the average rating score given by all reviewers (STR2).
 * **Discourse-relations model** with baseline features incremented by the use of explicit discourse relations
 

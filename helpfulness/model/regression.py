@@ -4,15 +4,18 @@ inspired by Kim et al. (2006).
 '''
 import time
 
+from scipy.sparse import hstack
 from sklearn.metrics.scorer import make_scorer
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import maxabs_scale
 from sklearn.svm import SVR
 
 from helpfulness.data.preprocess import FIELDNAMES
 from helpfulness.model.evaluation import plain_pearsonr
 from helpfulness.model.features import compute_helpfulness_score
+from helpfulness.model.features import get_tf_idf_matrix
 from helpfulness.model.features import num_tokens
 import pandas as pd
 
@@ -52,13 +55,25 @@ class ReviewHelpfulnessRegressionModel:
 
     def get_feature_matrix(self):
         '''
-        Returns the feature matrix of the model.
+        Returns a sparse feature matrix for the model.
+        Includes standard transformation and feature scaling.
         '''
-        # TODO: Add Unigram (UGR)
-        return self.reviews_dataframe.as_matrix(['overall', 'numTokens'])
-        # TODO: Scale each feature between [0, 1]
-        # TODO: Apply standard transformation to each feature measurement *f*
-        # f = ln(f + 1)?
+        # Get TF-IDF-weighted document-term matrix (UGR)
+        tf_idf_matrix = get_tf_idf_matrix(self.reviews_dataframe['reviewText'])
+
+        other_features_matrix = self.reviews_dataframe.as_matrix(
+            ['overall', 'numTokens'])
+
+        feature_matrix = hstack([tf_idf_matrix, other_features_matrix])
+
+        # Apply logarithmic transformation to each feature measurement
+        # Omitting this as it doesn't seem to have an effect
+        # feature_matrix.data = apply_log_transformation(feature_matrix.data)
+
+        # Scale each feature to the [-1, 1] range
+        feature_matrix = maxabs_scale(feature_matrix)
+
+        return feature_matrix
 
     def get_scorer(self):
         '''
