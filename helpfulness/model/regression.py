@@ -138,14 +138,14 @@ class ReviewHelpfulnessRegressionModel:
         scores = cross_val_score(
             self._model, X, y, cv=10, scoring=self.get_scorer(), n_jobs=-1)
         print()
-        # TODO: Attention! 95% confidence bounds relative to CV!
-        print("CV Pearson r: %0.2f (± %0.2f)" % (
+        # Note: 95% confidence bounds are calculated using 10-fold CV
+        print("CV Pearson r: %0.3f (± %0.3f)" % (
             scores.mean(), scores.std() * 2))
 
 
 if __name__ == '__main__':
     data_path = 'data/reviews_dev.csv'
-    data_path = 'data/reviews_traintest.csv'
+    # data_path = 'data/reviews_traintest.csv'
 
     print('--- Starting experiment ---', end='\n\n')
     start_time = time.time()

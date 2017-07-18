@@ -69,6 +69,23 @@ Model: SVR(C=1, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=0.001,
 CV Pearson r: 0.54 (± 0.11)
 ```
 
+### STR, LEN, UGR
+
+```
+--- Starting experiment ---
+
+Data path: "data/reviews_dev.csv" (2000 reviews)
+Extracting features from raw data...
+
+Starting 10-fold cross-validation...
+Model: SVR(C=1, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=0.001,
+  kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False)
+
+CV Pearson r: 0.540 (± 0.102)
+
+--- Took 7.20 seconds ---
+```
+
 ## Experiment
 
 ### STR, LEN, UGR
@@ -83,7 +100,7 @@ Starting 10-fold cross-validation...
 Model: SVR(C=1, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=0.001,
   kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False)
 
-CV Pearson r: 0.56 (± 0.04)
+CV Pearson r: 0.560 (± 0.042)
 
---- Took 414.84 seconds ---
+--- Took 418.74 seconds ---
 ```
