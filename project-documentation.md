@@ -77,6 +77,24 @@ java -Xmx12g -jar parser.jar data/reviews_sample
 	* Use level 2 type of relations (as in Lin et al. 2014)
 	* Only use `*.exp.res` files (containing explicit relations)
 	* Don't use `*.nonexp.res` files (containing implicit relations) because of the unsatisfactory performance of the non-explicit classifier (cf. Lin et al. 2014: 175)
+* List of annotated relations/senses:
+```
+Comparison.Concession
+Comparison.Contrast
+Comparison.Pragmatic concession
+Comparison.Pragmatic contrast
+Contingency.Cause
+Contingency.Condition
+Contingency.Pragmatic condition
+Expansion.Alternative
+Expansion.Conjunction
+Expansion.Exception
+Expansion.Instantiation
+Expansion.List
+Expansion.Restatement
+Temporal.Asynchronous
+Temporal.Synchrony
+```
 
 #### Learning the Probabilistic Model
 

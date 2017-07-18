@@ -37,6 +37,9 @@ FIELDNAMES = (
 SAMPLE_SIZE = 20000
 DEV_SIZE = 2000
 
+DEV_DATA_CSV_PATH = 'data/reviews_dev.csv'
+CV_DATA_CSV_PATH = 'data/reviews_traintest.csv'
+
 
 def convert_to_csv(review_filepath, csv_filepath, review_ids_filepath):
     written_rows = 0
@@ -228,8 +231,8 @@ if __name__ == '__main__':
     export_dev_traintest_reviews(
         'data/reviews_sample.csv',
         'data/review_ids_sample.txt',
-        'data/reviews_dev.csv',
+        DEV_DATA_CSV_PATH,
         'data/review_ids_dev.txt',
-        'data/reviews_traintest.csv',
+        CV_DATA_CSV_PATH,
         'data/review_ids_traintest.txt'
     )

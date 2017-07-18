@@ -12,20 +12,30 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import maxabs_scale
 from sklearn.svm import SVR
 
+from helpfulness.data.preprocess import DEV_DATA_CSV_PATH
 from helpfulness.data.preprocess import FIELDNAMES
+from helpfulness.data.relations import RELATIONS_DIRPATH
+from helpfulness.data.relations import RELATION_NAMES
 from helpfulness.model.evaluation import plain_pearsonr
 from helpfulness.model.features import compute_helpfulness_score
+from helpfulness.model.features import get_exprel_distribution
 from helpfulness.model.features import get_tf_idf_matrix
 from helpfulness.model.features import num_tokens
+
 import pandas as pd
 
 
 class ReviewHelpfulnessRegressionModel:
 
-    def __init__(self, reviews_csv_filepath):
+    def __init__(
+            self, reviews_csv_filepath, relations_dirpath=None,
+            use_discourse_relations=False):
         self.reviews_dataframe = self._get_dataframe(reviews_csv_filepath)
         print(f'Data path: "{reviews_csv_filepath}" '
               f'({len(self.reviews_dataframe)} reviews)')
+
+        self._relations_dirpath = relations_dirpath
+        self._use_discourse_relations = use_discourse_relations
 
         self._model = SVR(kernel='rbf', C=1, gamma=0.001)
 
@@ -53,6 +63,12 @@ class ReviewHelpfulnessRegressionModel:
         self.reviews_dataframe['helpfulnessScore'] = \
             self.reviews_dataframe['helpful'].apply(compute_helpfulness_score)
 
+        # Add explicit discourse relations (REL)
+        if self._use_discourse_relations:
+            rels_df = self.reviews_dataframe['reviewID'].apply(
+                get_exprel_distribution, args=[self._relations_dirpath])
+            self.reviews_dataframe = self.reviews_dataframe.join(rels_df)
+
     def get_feature_matrix(self):
         '''
         Returns a sparse feature matrix for the model.
@@ -61,11 +77,17 @@ class ReviewHelpfulnessRegressionModel:
         # Get TF-IDF-weighted document-term matrix (UGR)
         tf_idf_matrix = get_tf_idf_matrix(self.reviews_dataframe['reviewText'])
 
+        other_feature_columns = ['overall', 'numTokens']
+
+        if self._use_discourse_relations:
+            other_feature_columns.extend(RELATION_NAMES)
+
         other_features_matrix = self.reviews_dataframe.as_matrix(
-            ['overall', 'numTokens'])
+            other_feature_columns)
 
         feature_matrix = hstack([tf_idf_matrix, other_features_matrix])
 
+        # TODO: Remove?
         # Apply logarithmic transformation to each feature measurement
         # Omitting this as it doesn't seem to have an effect
         # feature_matrix.data = apply_log_transformation(feature_matrix.data)
@@ -144,13 +166,15 @@ class ReviewHelpfulnessRegressionModel:
 
 
 if __name__ == '__main__':
-    data_path = 'data/reviews_dev.csv'
-    # data_path = 'data/reviews_traintest.csv'
-
     print('--- Starting experiment ---', end='\n\n')
     start_time = time.time()
 
-    helpfulness_model = ReviewHelpfulnessRegressionModel(data_path)
+    helpfulness_model = ReviewHelpfulnessRegressionModel(
+        DEV_DATA_CSV_PATH,
+        relations_dirpath=RELATIONS_DIRPATH,
+        use_discourse_relations=True
+    )
+
     helpfulness_model.extract_features()
 
     # Tune hyperparameters (only on development set!)

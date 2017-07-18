@@ -15,7 +15,7 @@ PYTHON=${VIRTUALENV_DIR}/bin/python
 all: virtualenv install install-test
 
 test:
-	${VIRTUALENV_DIR}/bin/py.test -s ${TESTDIR}
+	${VIRTUALENV_DIR}/bin/py.test -vvs ${TESTDIR}
 
 virtualenv:
 	if [ ! -e ${PIP} ]; then \
