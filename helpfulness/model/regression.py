@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import maxabs_scale
 from sklearn.svm import SVR
 
+from helpfulness.data.preprocess import CV_DATA_CSV_PATH
 from helpfulness.data.preprocess import DEV_DATA_CSV_PATH
 from helpfulness.data.preprocess import FIELDNAMES
 from helpfulness.data.relations import RELATIONS_DIRPATH
@@ -163,14 +164,19 @@ class ReviewHelpfulnessRegressionModel:
             scores.mean(), scores.std() * 2))
 
 
-if __name__ == '__main__':
+def run_experiment(use_dev_data=True, use_discourse_relations=False):
     print('--- Starting experiment ---', end='\n\n')
     start_time = time.time()
 
+    if use_dev_data:
+        reviews_csv_filepath = DEV_DATA_CSV_PATH
+    else:
+        reviews_csv_filepath = CV_DATA_CSV_PATH
+
     helpfulness_model = ReviewHelpfulnessRegressionModel(
-        DEV_DATA_CSV_PATH,
+        reviews_csv_filepath,
         relations_dirpath=RELATIONS_DIRPATH,
-        use_discourse_relations=True
+        use_discourse_relations=use_discourse_relations
     )
 
     helpfulness_model.extract_features()
@@ -182,3 +188,7 @@ if __name__ == '__main__':
 
     print()
     print("--- Took %0.2f seconds ---" % (time.time() - start_time))
+
+
+if __name__ == '__main__':
+    run_experiment(use_dev_data=True, use_discourse_relations=True)
