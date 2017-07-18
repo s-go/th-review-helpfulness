@@ -127,8 +127,6 @@ class ReviewHelpfulnessRegressionModel:
         Tunes the hyperparameters of the model by performing a full-grid
         search.
         '''
-        # TODO: Learn optimal kernel
-        # TODO: Learn optimal parameters
         param_grid = [
             {'C': [0.1, 0.5]},
             {

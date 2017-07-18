@@ -20,20 +20,20 @@ class TestFeatures:
             pd.Series(
                 {
                     'Comparison.Concession': 0,
-                    'Comparison.Contrast': 13,
+                    'Comparison.Contrast': 1,
                     'Comparison.Pragmatic concession': 0,
                     'Comparison.Pragmatic contrast': 0,
-                    'Contingency.Cause': 8,
-                    'Contingency.Condition': 2,
+                    'Contingency.Cause': 1,
+                    'Contingency.Condition': 1,
                     'Contingency.Pragmatic condition': 0,
                     'Expansion.Alternative': 0,
-                    'Expansion.Conjunction': 17,
+                    'Expansion.Conjunction': 1,
                     'Expansion.Exception': 0,
                     'Expansion.Instantiation': 0,
                     'Expansion.List': 0,
                     'Expansion.Restatement': 0,
-                    'Temporal.Asynchronous': 8,
-                    'Temporal.Synchrony': 6
+                    'Temporal.Asynchronous': 1,
+                    'Temporal.Synchrony': 1
                 }
             )
         )

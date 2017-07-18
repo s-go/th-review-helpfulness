@@ -64,11 +64,11 @@ class TestReviewHelpfulnessRegressionModel:
             pd.Series(
                 {
                     'Comparison.Concession': 0,
-                    'Comparison.Contrast': 3,
+                    'Comparison.Contrast': 1,
                     'Comparison.Pragmatic concession': 0,
                     'Comparison.Pragmatic contrast': 0,
-                    'Contingency.Cause': 2,
-                    'Contingency.Condition': 2,
+                    'Contingency.Cause': 1,
+                    'Contingency.Condition': 1,
                     'Contingency.Pragmatic condition': 0,
                     'Expansion.Alternative': 1,
                     'Expansion.Conjunction': 1,

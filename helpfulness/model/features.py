@@ -33,8 +33,8 @@ def num_tokens(text):
 
 def get_exprel_distribution(filename, rel_basepath, file_ext='txt.exp.res'):
     '''
-    Returns the distribution of explicitly expressed discourse relations
-    in the specified file as a count vector.
+    Returns the existence of explicitly expressed discourse-relation
+    types in the specified file as a 0/1-valued vector.
 
     :param filename: bare file name without extension
     :param rel_basepath: path to the directory containing the output of
@@ -52,7 +52,7 @@ def get_exprel_distribution(filename, rel_basepath, file_ext='txt.exp.res'):
             for line in txt_file:
                 relation_name = match_relation_name(line)
                 try:
-                    relation_vector[relation_name] += 1
+                    relation_vector[relation_name] = 1
                 except KeyError:
                     print(
                         f'Warning: Undefined relation name "{relation_name}"')

@@ -126,7 +126,11 @@ $$
 
 ## Results
 
-
+| Feature Combinations | Pearson r      |
+|----------------------|----------------|
+| STR, LEN, UGR        | 0.560 (± 0.042)|
+| STR, LEN, UGR, REL1  | 0.560 (± 0.041)|
+| STR, LEN, UGR, REL2  | 0.574 (± 0.040)|
 
 ## Limitations
 
