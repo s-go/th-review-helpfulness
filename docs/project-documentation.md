@@ -138,6 +138,10 @@ $$
 	* https://stats.stackexchange.com/a/99747
 	* Compare with significance level: $$$p < .05$$$?
 
+## Discussion
+
+* No effect of relation-type counts: why?
+
 ## Limitations
 
 * Automatic discourse parsing
