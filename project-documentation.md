@@ -126,16 +126,22 @@ $$
 
 ## Results
 
-| Feature Combinations | Pearson r      |
-|----------------------|----------------|
-| STR, LEN, UGR        | 0.560 (± 0.042)|
-| STR, LEN, UGR, REL1  | 0.560 (± 0.041)|
-| STR, LEN, UGR, REL2  | 0.574 (± 0.040)|
+| Feature Combinations   | Pearson r      | $$$p_{one-tailed} $$$ |
+|------------------------|----------------|-----------------------|
+| STR, LEN, UGR          | 0.560 (± 0.042)| –
+| STR, LEN, UGR, REL-CNT | 0.560 (± 0.041)| 0.5
+| STR, LEN, UGR, REL-EXI | **0.574 (± 0.040)**| **0.0197**
+| STR, LEN, UGR, REL-CMP | 0.563 (± 0.042)| 0.33
+
+* Significance test:
+	* http://vassarstats.net/rdiff.html
+	* https://stats.stackexchange.com/a/99747
+	* Compare with significance level: $$$p < .05$$$?
 
 ## Limitations
 
 * Automatic discourse parsing
-	* "The parser gives an overall system F 1 score of 46.80 percent for partial matching utilizing gold standard parses, and 38.18 percent with full automation." (Lin et al. 2014: 152)
+	* "The parser gives an overall system $$$F_1$$$ score of 46.80 percent for partial matching utilizing gold standard parses, and 38.18 percent with full automation." (Lin et al. 2014: 152)
 	* "A large portion of the misses comes from the Non-Explicit relations, as these are more difficult to classify in comparison with the Explicit relations." (Lin et al. 2014: 177)
 
 ## References
