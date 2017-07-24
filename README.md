@@ -1,6 +1,6 @@
 # cr-review-helpfulness
 
-Predicting the helpfulness of product reviews based on discourse relations
+Predicting the helpfulness of product reviews using discourse relations
 
 Dependencies
 ------------
