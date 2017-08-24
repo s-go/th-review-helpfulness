@@ -1,8 +1,6 @@
 # Predicting the Helpfulness of Product Reviews Using Discourse Relations
 
-**Research Question:** Can the performance of a probabiblistic model predicting the helpfulness of product reviews be improved by adding features capturing the distribution of discourse relations?
-
-## Hypotheses
+## Hypothesis
 
 Previous work on predicting the helpfulness of product reviews has been using different kinds of features (cf. Kim et al. 2006: 2f.; Almagrabi et al. 2015):
 
@@ -12,19 +10,13 @@ Previous work on predicting the helpfulness of product reviews has been using di
 * semantic (such as sentiment analyses)
 * meta-data (such as the overall rating)
 
-Discourse structure has hardly been taken into account. It seems plausible that the way statements in a review are presented (e.g. justified, elaborated, contrasted) has an impact on its helpfulness to other users, as it affects as how comprehensible and credible it is perceived.
+Discourse structure has hardly been taken into account. However, it seems plausible that the way statements in a review are presented (e.g. justified, elaborated, contrasted) and interconnected (e.g., by causal or conceding relations) has an impact on its helpfulness to other users, as it affects as how comprehensible and credible it is perceived.
 
-The discourse structure of a review is reflected in the distribution of discourse relations that are used in it.
+Concretely, the aim of this study is to build upon the best-performing model of Kim et al. (2006), enrich it with features capturing the presence and occurrence frequencies of different discourse-relation types, and evaluate whether the additional features yield a significant improvement.
 
-> **Hypothesis 1:** The distribution of discourse relations in a product review is an indicator of its helpfulness to other users.
+Applying these operationalizations to the aforementioned expectations, the hypothesis of this study can be phrased as follows:
 
-In previous work, there have been contrary findings on whether a balanced review (that uses both positive and negative statements about a product) will be more helpful than an unbalanced one (see Mudambi & Schuff (2010); Connors et al. (2011); Schlosser (2011)).
-
-Schlosser (2011) concludes that "reviews including two-sided arguments are not necessarily more helpful, credible and persuasive than one-sided reviews" (p. 236), especially for reviews with an extreme product rating (1 or 5 stars). Reviews with a moderate product rating, however, "were deemed helpful by more voters" if they were two-sided (Schlosser 2011: 230).
-
-In these cases with a moderate rating, presenting both pros and cons of a product increases the helpfulness of the review. This balanced presentation ==should reflect (justify?)== in the usage of comparison relations in the PDTB 2.0 hierarchy of sense tags (`COMPARISON.Contrast`, `COMPARISON.Pragmatic_Contrast`, `COMPARISON.Concession`, `COMPARISON.Pragmatic_Concession`; cf. Prasad et al. 2008: 5).
-
-> **Hypothesis 2:** The usage of comparison relations within a product review is an indicator of its helpfulness, at least for reviews with a moderate product rating.
+> The distribution of discourse relations in a product review is an indicator of its helpfulness to other users.
 
 ## Method
 
