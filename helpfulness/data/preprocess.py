@@ -39,8 +39,11 @@ FIELDNAMES = (
 SAMPLE_SIZE = 20000
 DEV_SIZE = 2000
 
-DEV_DATA_CSV_PATH = 'data/reviews_dev.csv'
-CV_DATA_CSV_PATH = 'data/reviews_traintest.csv'
+DATA_BASE_DIR = 'data/books/'
+RAW_DATA_FILENAME = 'reviews_Books_5.json.gz'
+
+DEV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_dev.csv'
+CV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_traintest.csv'
 
 FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.([a-zA-Z])')
 
@@ -221,33 +224,33 @@ if __name__ == '__main__':
     # 1. Assign unique review IDs, filter out ininformative reviews,
     #    export reviews as CSV file and review IDs as text file
     # --
-    #     all_review_ids = convert_to_csv(
-    #         'data/reviews_Electronics_5.json.gz',
-    #         'data/reviews_Electronics_5.csv',
-    #         'data/review_ids_all.txt'
-    #     )
+    all_review_ids = convert_to_csv(
+        DATA_BASE_DIR + RAW_DATA_FILENAME,
+        DATA_BASE_DIR + 'all_reviews.csv',
+        DATA_BASE_DIR + 'all_review_ids.txt'
+    )
 
     # 2. Randomly sample 20,000 reviews, export their IDs as text file
     # --
-    #     sample_review_ids(all_review_ids, 'data/review_ids_sample.txt')
+    sample_review_ids(all_review_ids, DATA_BASE_DIR + 'sample_review_ids.txt')
 
     # 3. Export sampled reviews as CSV file and individual text files
-    # --
     #    containing only the review texts
-    #     export_sample_reviews(
-    #         'data/review_ids_sample.txt',
-    #         'data/reviews_Electronics_5.csv',
-    #         'data/reviews_sample.csv',
-    #         'data/reviews_sample'
-    #     )
+    # --
+    export_sample_reviews(
+        DATA_BASE_DIR + 'sample_review_ids.txt',
+        DATA_BASE_DIR + 'all_reviews.csv',
+        DATA_BASE_DIR + 'sample_reviews.csv',
+        DATA_BASE_DIR + 'sample_reviews'
+    )
 
     # 4. Segment sampled reviews into development and training/test sections
     # --
     export_dev_traintest_reviews(
-        'data/reviews_sample.csv',
-        'data/review_ids_sample.txt',
+        DATA_BASE_DIR + 'sample_reviews.csv',
+        DATA_BASE_DIR + 'sample_review_ids.txt',
         DEV_DATA_CSV_PATH,
-        'data/review_ids_dev.txt',
+        DATA_BASE_DIR + 'dev_review_ids.txt',
         CV_DATA_CSV_PATH,
-        'data/review_ids_traintest.txt'
+        DATA_BASE_DIR + 'cv_review_ids.txt'
     )
