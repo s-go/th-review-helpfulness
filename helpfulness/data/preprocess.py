@@ -3,13 +3,14 @@ Preprocess Amazon-review data obtained from He & McAuley (2016).
 http://jmcauley.ucsd.edu/data/amazon/
 
 1. Assign a unique ID to every review
-2. Filter out uninformative reviews
+2. Amend sentence boundaries to facilitate parsing
+3. Filter out uninformative reviews
     * Remove reviews with less than 10 helpfulness votes
     * Remove reviews with less than 20 characters
-3. Extract randomly sampled reviews (``SAMPLE_SIZE``)
-4. Segment sampled reviews into development and training/test sections
+4. Extract randomly sampled reviews (``SAMPLE_SIZE``)
+5. Segment sampled reviews into development and training/test sections
    (``DEV_SIZE``)
-5. Export reviews as CSV files, review texts as individual text files,
+6. Export reviews as CSV files, review texts as individual text files,
    and review IDs as one text file per section.
 '''
 
@@ -19,6 +20,7 @@ import hashlib
 import json
 import os
 import random
+import re
 
 
 FIELDNAMES = (
@@ -40,6 +42,17 @@ DEV_SIZE = 2000
 DEV_DATA_CSV_PATH = 'data/reviews_dev.csv'
 CV_DATA_CSV_PATH = 'data/reviews_traintest.csv'
 
+FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.([a-zA-Z])')
+
+
+def amend_sentence_boundaries(text):
+    '''
+    Returns a version of the given text with amended sentence boundaries
+    to facilitate parsing. Introduces whitespace after full stops if
+    missing.
+    '''
+    return FULL_STOP_PATTERN.sub(r'\1. \2', text)
+
 
 def convert_to_csv(review_filepath, csv_filepath, review_ids_filepath):
     written_rows = 0
@@ -54,6 +67,8 @@ def convert_to_csv(review_filepath, csv_filepath, review_ids_filepath):
                 review_id = get_hash_value(review)
                 review_ids.add(review_id)
                 review['reviewID'] = review_id
+                review['reviewText'] = amend_sentence_boundaries(
+                    review['reviewText'])
 
                 csv_writer.writerow(review)
                 written_rows += 1
