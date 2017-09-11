@@ -45,16 +45,18 @@ RAW_DATA_FILENAME = 'reviews_Books_5.json.gz'
 DEV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_dev.csv'
 CV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_traintest.csv'
 
-FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.([a-zA-Z])')
+ELLIPSIS_PATTERN = re.compile(r'\.+')
+FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.(\n|$|[a-zA-Z])')
 
 
 def amend_sentence_boundaries(text):
     '''
     Returns a version of the given text with amended sentence boundaries
-    to facilitate parsing. Introduces whitespace after full stops if
-    missing.
+    to facilitate parsing. Replaces ellipses ('...') by a single full stop.
+    Introduces whitespace after full stops, if missing.
     '''
-    return FULL_STOP_PATTERN.sub(r'\1. \2', text)
+    unellipsed_text = ELLIPSIS_PATTERN.sub('.', text)
+    return FULL_STOP_PATTERN.sub(r'\1. \2', unellipsed_text)
 
 
 def convert_to_csv(review_filepath, csv_filepath, review_ids_filepath):
