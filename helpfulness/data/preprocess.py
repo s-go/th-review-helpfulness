@@ -46,7 +46,7 @@ DEV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_dev.csv'
 CV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_traintest.csv'
 
 ELLIPSIS_PATTERN = re.compile(r'\.+')
-FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.(\n|$|[a-zA-Z])')
+FULL_STOP_PATTERN = re.compile(r'([a-zA-Z])\.([a-zA-Z])')
 
 
 def amend_sentence_boundaries(text):
@@ -163,6 +163,27 @@ def export_dev_traintest_reviews(
         written_traintest_rows, traintest_csv_filepath))
 
 
+def refine_review_texts(
+        old_csv_filepath, new_csv_filepath, sample_texts_dirpath):
+    written_rows = 0
+
+    with open(old_csv_filepath) as old_csv_file, open(
+            new_csv_filepath, 'w') as new_csv_file:
+        csv_reader = csv.DictReader(old_csv_file, fieldnames=FIELDNAMES)
+        csv_writer = csv.DictWriter(new_csv_file, fieldnames=FIELDNAMES)
+
+        for review in csv_reader:
+            review['reviewText'] = amend_sentence_boundaries(
+                review['reviewText'])
+
+            csv_writer.writerow(review)
+            written_rows += 1
+
+            write_text_file(review, sample_texts_dirpath)
+
+    print('Wrote %s rows to "%s"' % (written_rows, new_csv_filepath))
+
+
 def write_text_file(review, dirpath):
     # Check for missing directories
     if not os.path.exists(dirpath):
@@ -222,7 +243,7 @@ def to_pretty_json(obj):
                       sort_keys=True, ensure_ascii=False)
 
 
-if __name__ == '__main__':
+def preprocess_raw_data():
     # 1. Assign unique review IDs, filter out ininformative reviews,
     #    export reviews as CSV file and review IDs as text file
     # --
@@ -256,3 +277,10 @@ if __name__ == '__main__':
         CV_DATA_CSV_PATH,
         DATA_BASE_DIR + 'cv_review_ids.txt'
     )
+
+
+if __name__ == '__main__':
+    refine_review_texts(
+        'data/reviews_traintest.csv',
+        'data/electronics/reviews_traintest.csv',
+        'data/electronics/sample_reviews')
