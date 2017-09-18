@@ -10,7 +10,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import maxabs_scale
-from sklearn.svm import SVR
+from sklearn.svm import LinearSVR
 
 from helpfulness.data.preprocess import CV_DATA_CSV_PATH
 from helpfulness.data.preprocess import DEV_DATA_CSV_PATH
@@ -38,7 +38,8 @@ class ReviewHelpfulnessRegressionModel:
         self._relations_dirpath = relations_dirpath
         self._use_discourse_relations = use_discourse_relations
 
-        self._model = SVR(kernel='rbf', C=1, gamma=0.001)
+        # self._model = SVR(kernel='rbf', C=1, gamma=0.001)
+        self._model = LinearSVR(C=0.01, epsilon=0.1)
 
     def _get_dataframe(self, csv_filepath):
         '''
@@ -129,12 +130,10 @@ class ReviewHelpfulnessRegressionModel:
         search.
         '''
         param_grid = [
-            {'C': [0.1, 0.5]},
             {
-                'C': [1, 10, 100, 1000],
-                'gamma': [0.001, 0.0001],
-                'kernel': ['rbf']
-            },
+                'epsilon': [0, 0.01, 0.1, 0.5, 1],
+                'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+            }
         ]
         self._model = GridSearchCV(
             self._model, param_grid, cv=5, scoring=self.get_scorer(), n_jobs=1)

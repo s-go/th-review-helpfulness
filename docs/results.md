@@ -43,6 +43,41 @@ CV Pearson r: 0.545 (± 0.099)
 --- Took 9.12 seconds ---
 ```
 
+### Linear Kernel (SVR)
+
+```
+--- Starting experiment ---
+
+Data path: "data/electronics/reviews_dev.csv" (2000 reviews)
+Extracting features from raw data...
+
+Starting 10-fold cross-validation...
+Model: SVR(C=0.01, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+  kernel='linear', max_iter=-1, shrinking=True, tol=0.001, verbose=False)
+
+CV Pearson r: 0.546 (± 0.104)
+
+--- Took 16.05 seconds ---
+```
+
+### Linear Kernel (LinearSVR)
+
+```
+--- Starting experiment ---
+
+Data path: "data/electronics/reviews_dev.csv" (2000 reviews)
+Extracting features from raw data...
+
+Starting 10-fold cross-validation...
+Model: LinearSVR(C=0.01, dual=True, epsilon=0.1, fit_intercept=True,
+     intercept_scaling=1.0, loss='epsilon_insensitive', max_iter=1000,
+     random_state=None, tol=0.0001, verbose=0)
+
+CV Pearson r: 0.553 (± 0.099)
+
+--- Took 1.60 seconds ---
+```
+
 ## Experiment
 
 ### STR, LEN, UGR, REL-PRS
@@ -99,4 +134,22 @@ Model: SVR(C=1, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=0.001,
 CV Pearson r: 0.560 (± 0.042)
 
 --- Took 439.07 seconds ---
+```
+
+### Linear Kernel (LinearSVR)
+
+```
+--- Starting experiment ---
+
+Data path: "data/electronics/reviews_traintest.csv" (18000 reviews)
+Extracting features from raw data...
+
+Starting 10-fold cross-validation...
+Model: LinearSVR(C=0.01, dual=True, epsilon=0.1, fit_intercept=True,
+     intercept_scaling=1.0, loss='epsilon_insensitive', max_iter=1000,
+     random_state=None, tol=0.0001, verbose=0)
+
+CV Pearson r: 0.575 (± 0.032)
+
+--- Took 15.94 seconds ---
 ```
