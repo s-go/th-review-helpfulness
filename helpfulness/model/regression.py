@@ -7,6 +7,7 @@ import time
 from scipy.sparse import hstack
 from sklearn.metrics.scorer import make_scorer
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import maxabs_scale
@@ -164,16 +165,25 @@ class ReviewHelpfulnessRegressionModel:
 
     def get_feature_weights(self):
         '''
-        Outputs the learned coefficients of the discourse-relation features.
+        Performs 10-fold cross-validation and outputs the learned
+        coefficients of the discourse-relation features.
         '''
-        # TODO: Cross-validate?
-        self.fit_model()
+        X = self.get_feature_matrix()
+        y = self.get_target_vector()
+        n_splits = 10
+        kf = KFold(n_splits=n_splits, shuffle=True, random_state=4)
+        kf.get_n_splits(X)
 
-        dr_coefficients = pd.Series(
-            self._model.coef_[-15:], index=RELATION_NAMES)
+        dr_coef_matrix = pd.DataFrame(
+            index=range(n_splits), columns=RELATION_NAMES)
+
+        for run, (train, test) in enumerate(kf.split(X)):
+            self._model.fit(X[train], y[train]).score(X[test], y[test])
+            dr_coef_matrix.iloc[run] = pd.Series(
+                self._model.coef_[-15:], index=RELATION_NAMES)
 
         print()
-        print(dr_coefficients.sort_values(ascending=False))
+        print(dr_coef_matrix.mean().sort_values(ascending=False).round(3))
 
 
 def run_experiment(use_dev_data=True, use_discourse_relations=False):
