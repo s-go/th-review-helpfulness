@@ -162,6 +162,19 @@ class ReviewHelpfulnessRegressionModel:
         print("CV Pearson r: %0.3f (± %0.3f)" % (
             scores.mean(), scores.std() * 2))
 
+    def get_feature_weights(self):
+        '''
+        Outputs the learned coefficients of the discourse-relation features.
+        '''
+        # TODO: Cross-validate?
+        self.fit_model()
+
+        dr_coefficients = pd.Series(
+            self._model.coef_[-15:], index=RELATION_NAMES)
+
+        print()
+        print(dr_coefficients.sort_values(ascending=False))
+
 
 def run_experiment(use_dev_data=True, use_discourse_relations=False):
     print('--- Starting experiment ---', end='\n\n')
@@ -183,11 +196,13 @@ def run_experiment(use_dev_data=True, use_discourse_relations=False):
     # Tune hyperparameters (only on development set!)
     # helpfulness_model.tune_hyperparams()
 
-    helpfulness_model.evaluate_model()
+    helpfulness_model.get_feature_weights()
+
+    # helpfulness_model.evaluate_model()
 
     print()
     print("--- Took %0.2f seconds ---" % (time.time() - start_time))
 
 
 if __name__ == '__main__':
-    run_experiment(use_dev_data=True, use_discourse_relations=True)
+    run_experiment(use_dev_data=False, use_discourse_relations=True)
