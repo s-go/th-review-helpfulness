@@ -40,7 +40,7 @@ The data used for this experiment contains:
 * a cross-validation dataset of 18,000 reviews
 * the explicitly expressed discourse-relation types for the complete dataset
 
-Download the data from [Google Drive](https://drive.google.com/open?id=0B4FHGozCmQFEQkJmeWFTeUJKVEE) and extract it in the top-level directory of this project.
+Download the data from [Google Drive](https://drive.google.com/open?id=0B4FHGozCmQFEeTQtMUEzLWpLcTA) and extract it in the top-level directory of this project.
 
 Testing
 -------
