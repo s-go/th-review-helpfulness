@@ -6,7 +6,9 @@ from glob import glob
 import os
 import re
 
-RELATIONS_DIRPATH = 'data/exp_rel_output'
+from helpfulness.data.preprocess import DATA_BASE_DIR
+
+RELATIONS_DIRPATH = DATA_BASE_DIR + 'exp_rel_output'
 
 RELATION_NAMES = [
     'Comparison.Concession',

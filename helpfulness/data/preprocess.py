@@ -39,7 +39,7 @@ FIELDNAMES = (
 SAMPLE_SIZE = 20000
 DEV_SIZE = 2000
 
-DATA_BASE_DIR = 'data/books/'
+DATA_BASE_DIR = 'data/electronics/'
 RAW_DATA_FILENAME = 'reviews_Books_5.json.gz'
 
 DEV_DATA_CSV_PATH = DATA_BASE_DIR + 'reviews_dev.csv'
