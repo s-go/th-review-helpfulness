@@ -70,13 +70,25 @@ class ReviewHelpfulnessRegressionModel:
         if self._use_discourse_relations:
             rels_df = self.reviews_dataframe['reviewID'].apply(
                 get_exprel_distribution, args=[self._relations_dirpath])
+
+            # Normalize relation frequencies
+#             rels_df = rels_df.div(
+#                 self.reviews_dataframe['numTokens'], axis='rows')
+
             self.reviews_dataframe = self.reviews_dataframe.join(rels_df)
 
-    def get_feature_matrix(self):
+    def get_feature_matrix(self, discourse_features_only=False):
         '''
         Returns a sparse feature matrix for the model.
         Includes standard transformation and feature scaling.
         '''
+        if discourse_features_only:
+            feature_columns = []
+            feature_columns = ['overall']
+            feature_columns.extend(RELATION_NAMES)
+            feature_matrix = self.reviews_dataframe.as_matrix(feature_columns)
+            return maxabs_scale(feature_matrix)
+
         # Get TF-IDF-weighted document-term matrix (UGR)
         tf_idf_matrix = get_tf_idf_matrix(self.reviews_dataframe['reviewText'])
 
@@ -180,7 +192,7 @@ class ReviewHelpfulnessRegressionModel:
         for run, (train, test) in enumerate(kf.split(X)):
             self._model.fit(X[train], y[train]).score(X[test], y[test])
             dr_coef_matrix.iloc[run] = pd.Series(
-                self._model.coef_[-15:], index=RELATION_NAMES)
+                self._model.coef_[-len(RELATION_NAMES):], index=RELATION_NAMES)
 
         print()
         print(dr_coef_matrix.mean().sort_values(ascending=False).round(3))

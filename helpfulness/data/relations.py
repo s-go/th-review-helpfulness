@@ -17,6 +17,7 @@ RELATION_NAMES = [
     'Comparison.Pragmatic contrast',
     'Contingency.Cause',
     'Contingency.Condition',
+    'Contingency.Pragmatic cause',
     'Contingency.Pragmatic condition',
     'Expansion.Alternative',
     'Expansion.Conjunction',
