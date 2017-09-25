@@ -42,3 +42,18 @@ When taking a look at samples of reviews without any instances of `Expansion.Con
 * Only explicitly signalled relations
 * Causal relations: implicit
 * even more persuasive
+
+## Low Ranking of `Contingency.Cause`
+
+### Usage
+
+* Used not only to justify claims, but...
+	* to motivate decisions
+> i got this lens **because** i wanted a compact wide angle lens that i could easily throw in my bag to cover events.
+	* to explain observations
+> If the front and rear speakers are in phase (both pushing out at the same time) a ton of power is required **because** a vacuum is created inside the cabinet.
+
+### Parsing Mistakes
+
+* Many `Contingency.Cause` relations have been wrongly annotated with another relation type.
+* see [examples.md](examples.md)
