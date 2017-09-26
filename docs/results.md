@@ -5,21 +5,21 @@
 	* LEN: review length in tokens
 	* UGR: *tf-idf* statistic of each word occurring in a review
 	* REL-CNT: counts of explicit discourse-relations types
+	* REL-IPT: normalized frequencies of explicit discourse-relations types (instances per token)
 	* REL-PRS: presence of explicit discourse-relations types
-	* REL-PT: normalized frequencies of explicit discourse-relations types (per token)
 
 | Feature Combinations   | Electronics     | Books           |
 |------------------------|-----------------|-----------------|
 | STR, LEN, UGR          | 0.566 (± 0.032) | 0.590 (± 0.104)
 | STR, LEN, UGR, REL-CNT | 0.566 (± 0.032) | 0.590 (± 0.104)
-| STR, LEN, UGR, REL-PT  | 0.568 (± 0.032) | 0.590 (± 0.103)
+| STR, LEN, UGR, REL-IPT | 0.568 (± 0.032) | 0.590 (± 0.103)
 | STR, LEN, UGR, REL-PRS | 0.575 (± 0.032) | 0.595 (± 0.101)
-| REL-CNT                | 0.211 (± 0.040) |
-| REL-PT                 | 0.086 (± 0.040) |
-| REL-PRS                | 0.279 (± 0.056) |
+| REL-CNT                | 0.211 (± 0.040) | 0.167 (± 0.058)
+| REL-IPT                | 0.086 (± 0.040) | 0.125 (± 0.064)
+| REL-PRS                | 0.279 (± 0.056) | 0.237 (± 0.084)
 | STR                    | 0.479 (± 0.050) | 0.503 (± 0.119)
 | STR, REL-CNT           | 0.500 (± 0.045) | 0.515 (± 0.116)
-| STR, REL-PT            | 0.482 (± 0.051) | 0.505 (± 0.119)
+| STR, REL-IPT           | 0.482 (± 0.051) | 0.505 (± 0.119)
 | STR, REL-PRS           | 0.528 (± 0.046) | 0.536 (± 0.105)
 
 ## Pre-Study

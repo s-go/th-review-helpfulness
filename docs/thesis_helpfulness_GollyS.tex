@@ -192,7 +192,32 @@ Department of Linguistics
 
 \subsection{Experimental Setup}
 
+\begin{table}[h!]
+	\centering
+	
+	\caption{Evaluation results of a linear SVR model using different variants of discourse-relation features}
+	\label{tab:performance}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{lcc}
+		\textbf{Feature} & \textbf{Electronics:} \textbf{Pearson's \textit{r}}\tnote{a} & \textbf{Books:} \textbf{Pearson's \textit{r}}\tnote{a} \\ \hline
+		\lstinline|REL-CNT| & 0.211 (± 0.040) & 0.167 (± 0.058) \\ \hline
+		\lstinline|REL-IPT| & 0.086 (± 0.040) & 0.125 (± 0.064) \\ \hline
+		\lstinline|REL-PRS| & 0.279 (± 0.056) & 0.237 (± 0.084) \\ \hline
+		\end{tabular} 
+	}
+	
+	\begin{tablenotes}
+	\centering
+	\footnotesize
+	\item[a] 95\% confidence bounds are calculated using 10-fold cross-validation.
+	\end{tablenotes}
+	
+	\end{threeparttable}
 
+\end{table}
 
 \section{Results}
 \label{sec:results}
