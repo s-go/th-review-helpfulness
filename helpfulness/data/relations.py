@@ -13,12 +13,8 @@ RELATIONS_DIRPATH = DATA_BASE_DIR + 'exp_rel_output'
 RELATION_NAMES = [
     'Comparison.Concession',
     'Comparison.Contrast',
-    'Comparison.Pragmatic concession',
-    'Comparison.Pragmatic contrast',
     'Contingency.Cause',
     'Contingency.Condition',
-    'Contingency.Pragmatic cause',
-    'Contingency.Pragmatic condition',
     'Expansion.Alternative',
     'Expansion.Conjunction',
     'Expansion.Exception',

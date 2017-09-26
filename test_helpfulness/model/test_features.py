@@ -19,13 +19,10 @@ class TestFeatures:
         assert relation_vector.equals(
             pd.Series(
                 {
-                    'Comparison.Concession': 0,
+                    'Comparison.Concession': 1,
                     'Comparison.Contrast': 1,
-                    'Comparison.Pragmatic concession': 0,
-                    'Comparison.Pragmatic contrast': 0,
                     'Contingency.Cause': 1,
                     'Contingency.Condition': 1,
-                    'Contingency.Pragmatic condition': 0,
                     'Expansion.Alternative': 0,
                     'Expansion.Conjunction': 1,
                     'Expansion.Exception': 0,
@@ -47,11 +44,8 @@ class TestFeatures:
                 {
                     'Comparison.Concession': 0,
                     'Comparison.Contrast': 0,
-                    'Comparison.Pragmatic concession': 0,
-                    'Comparison.Pragmatic contrast': 0,
                     'Contingency.Cause': 0,
                     'Contingency.Condition': 0,
-                    'Contingency.Pragmatic condition': 0,
                     'Expansion.Alternative': 0,
                     'Expansion.Conjunction': 0,
                     'Expansion.Exception': 0,

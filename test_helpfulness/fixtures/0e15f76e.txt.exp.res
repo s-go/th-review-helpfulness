@@ -3,12 +3,12 @@
 209..212|Expansion.Conjunction
 241..243|Temporal.Synchrony
 457..460|Comparison.Contrast
-546..549|Comparison.Contrast
+546..549|Comparison.Pragmatic contrast
 616..619|Expansion.Conjunction
 950..952|Contingency.Cause
 967..970|Expansion.Conjunction
 971..976|Comparison.Contrast
-1031..1038|Contingency.Cause
+1031..1038|Contingency.Pragmatic cause
 1101..1105|Temporal.Synchrony
 1374..1377|Comparison.Contrast
 1409..1412|Expansion.Conjunction
@@ -34,7 +34,7 @@
 3956..3958|Temporal.Synchrony
 4012..4017|Temporal.Asynchronous
 4283..4286|Comparison.Contrast
-4376..4378|Contingency.Cause
+4376..4378|Comparison.Pragmatic concession
 4407..4410|Comparison.Contrast
 4468..4471|Expansion.Conjunction
 4669..4672|Comparison.Contrast

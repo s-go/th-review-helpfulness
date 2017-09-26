@@ -39,7 +39,7 @@ class TestReviewHelpfulnessRegressionModel:
         feature_matrix = helpfulness_model.get_feature_matrix()
 
         # Make sure discourse-relations columns  have been added
-        assert feature_matrix.shape == (2000, 6212)
+        assert feature_matrix.shape == (2000, 6209)
 
     def test_extract_features(self, helpfulness_model):
         helpfulness_model.extract_features()
@@ -57,7 +57,7 @@ class TestReviewHelpfulnessRegressionModel:
         helpfulness_model.extract_features()
 
         # Make sure extra columns for discourse relations have been added
-        assert helpfulness_model.reviews_dataframe.shape == (2000, 27)
+        assert helpfulness_model.reviews_dataframe.shape == (2000, 24)
 
         assert helpfulness_model.reviews_dataframe.loc[
             1][RELATION_NAMES].equals(
@@ -65,11 +65,8 @@ class TestReviewHelpfulnessRegressionModel:
                 {
                     'Comparison.Concession': 0,
                     'Comparison.Contrast': 1,
-                    'Comparison.Pragmatic concession': 0,
-                    'Comparison.Pragmatic contrast': 0,
                     'Contingency.Cause': 1,
                     'Contingency.Condition': 1,
-                    'Contingency.Pragmatic condition': 0,
                     'Expansion.Alternative': 1,
                     'Expansion.Conjunction': 1,
                     'Expansion.Exception': 0,

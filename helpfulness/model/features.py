@@ -2,6 +2,7 @@
 Feature-extraction functions for predicting review helpfulness.
 '''
 import os
+import re
 
 from numpy import log
 from sklearn.feature_extraction.text import CountVectorizer
@@ -9,8 +10,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from helpfulness.data.relations import RELATION_NAMES
 from helpfulness.data.relations import match_relation_name
-
 import pandas as pd
+
+
+PRAGMATIC_TYPE_PATTERN = re.compile(r'Pragmatic c')
 
 
 def apply_log_transformation(value):
@@ -51,6 +54,8 @@ def get_exprel_distribution(filename, rel_basepath, file_ext='txt.exp.res'):
         with open(filepath) as txt_file:
             for line in txt_file:
                 relation_name = match_relation_name(line)
+                # Merge pragmatic types
+                relation_name = PRAGMATIC_TYPE_PATTERN.sub('C', relation_name)
                 try:
                     relation_vector[relation_name] = 1
                 except KeyError:
