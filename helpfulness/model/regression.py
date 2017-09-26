@@ -77,14 +77,14 @@ class ReviewHelpfulnessRegressionModel:
 
             self.reviews_dataframe = self.reviews_dataframe.join(rels_df)
 
-    def get_feature_matrix(self, discourse_features_only=False):
+    def get_feature_matrix(self, discourse_features_only=True):
         '''
         Returns a sparse feature matrix for the model.
         Includes standard transformation and feature scaling.
         '''
         if discourse_features_only:
             feature_columns = []
-            feature_columns = ['overall']
+            # feature_columns = ['overall']
             feature_columns.extend(RELATION_NAMES)
             feature_matrix = self.reviews_dataframe.as_matrix(feature_columns)
             return maxabs_scale(feature_matrix)

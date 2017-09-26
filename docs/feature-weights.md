@@ -21,6 +21,19 @@ Contingency.Pragmatic cause        0.000
 Comparison.Pragmatic concession    0.000
 Comparison.Pragmatic contrast     -0.009
 Expansion.Instantiation           -0.012
+
+Expansion.Conjunction      0.035
+Temporal.Synchrony         0.019
+Comparison.Contrast        0.018
+Contingency.Condition      0.013
+Temporal.Asynchronous      0.011
+Expansion.Alternative      0.008
+Contingency.Cause          0.007
+Expansion.Exception        0.005
+Expansion.List             0.004
+Expansion.Restatement      0.000
+Comparison.Concession      0.000
+Expansion.Instantiation   -0.012
 ```
 
 ### STR, REL-PRS
@@ -65,6 +78,19 @@ Expansion.Exception               -0.001
 Comparison.Pragmatic contrast     -0.002
 Expansion.Alternative             -0.003
 Comparison.Pragmatic concession   -0.009
+
+Expansion.Conjunction      0.048
+Temporal.Synchrony         0.023
+Comparison.Contrast        0.018
+Contingency.Condition      0.012
+Contingency.Cause          0.011
+Comparison.Concession      0.009
+Expansion.Restatement      0.008
+Expansion.List             0.004
+Temporal.Asynchronous      0.001
+Expansion.Instantiation   -0.000
+Expansion.Exception       -0.001
+Expansion.Alternative     -0.003
 ```
 
 ### REL-CNT
@@ -90,6 +116,23 @@ Expansion.Alternative             -0.023
 ```
 
 ## Books
+
+### REL-PRS
+
+```
+Expansion.Conjunction      0.093
+Temporal.Synchrony         0.028
+Comparison.Contrast        0.017
+Expansion.Instantiation    0.015
+Temporal.Asynchronous      0.013
+Comparison.Concession      0.007
+Expansion.Restatement      0.000
+Contingency.Condition     -0.006
+Contingency.Cause         -0.006
+Expansion.Alternative     -0.025
+Expansion.Exception       -0.033
+Expansion.List            -0.041
+```
 
 ### STR, LEN, UGR, REL-PRS
 

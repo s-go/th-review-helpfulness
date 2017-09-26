@@ -1,1 +1,343 @@
-/home/sg/Documents/studies/Computerlinguistik/09_Thesis/review-helpfulness/paper/thesis_helpfulness_GollyS.tex
+\documentclass[
+    %german,
+    a4paper,%
+    %11pt,%
+    12pt,%
+    oneside,%
+    %twoside,%
+    %titlepage,%
+    %liststotoc,%
+    toc=bibliography,
+    %bibtotoc,%
+    %headinclude,%
+    %draft,
+    final,
+    %pointlessnumbers,%
+    %fleqn,% mathematische Gleichungen linksbündig statt zentriert
+]{scrartcl}
+
+%\usepackage{polyglossia} % (neue) deutsche Beschriftungen und Silbentrennung
+%\setdefaultlanguage[spelling=new]{german}
+%\usepackage{times} % Nimbus Roman statt CM Serif
+\usepackage{lmodern} % Latin Modern (in T1) statt CM
+%%\usepackage[T1]{fontenc} % T1-Kodierung: Umlaute als *eine* Glyphe
+%%\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\setsansfont{Myriad Pro}
+\setmainfont{Adobe Garamond Pro}
+
+%%%%%%%%%%%%%%%% Seitenspiegel, Typografie %%%%%%%%%%%%%%%%%%%
+%\usepackage{pdflscape} % Querformat: \begin{landscape}
+\usepackage{geometry} % Seitenränder selbst bestimmen
+\geometry{a4paper,%
+          top=18mm,%
+          left=20mm,%
+          right=20mm,% ohne Marginalien: 20mm - mit Marginalien: 45mm
+          bottom=22mm,%
+          headsep=10mm,%
+          footskip=12mm,%
+         }
+\setlength{\parindent}{0pt} % kein Einruecken bei Absatzbeginn
+\setlength{\parskip}{8pt} % Absaetze durch Abstand kennzeichnen (1 Zeichenhoehe)
+
+% Space between footnote mark and text
+\usepackage[hang]{footmisc}
+\setlength{\footnotemargin}{1em}
+
+\usepackage{caption}
+\captionsetup{
+  labelfont=bf,
+}
+
+\usepackage{threeparttable}
+\renewcommand{\TPTminimum}{\linewidth}
+
+\usepackage{ulem} % durchgestrichener Text: \sout{}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % schönere Farben, z. B. RawSienna
+\usepackage{enumerate} % Aufzählungsstil anpassen, z. B. {enumerate}[a)] – \setcounter{enumi}{4}
+
+\usepackage{natbib} % \bibitem[Guevara(2010)]{Guevara2010} - \citet[5]{Guevara2010}
+\bibpunct{(}{)}{;}{a}{}{,} % Interpunktion in Zitaten
+\setcitestyle{notesep={: }} % Doppelpunkt zwischen Jahr und Seitenzahl
+
+\usepackage{tocstyle}
+\newtocstyle[KOMAlike][leaders]{alldotted}{}
+\usetocstyle{alldotted}
+
+%%%%%%%%%%%%%%%% Quelltext-Satz %%%%%%%%%%%%%%%%%%%
+\usepackage{textcomp} % Text Companion fonts (für einfache Anführungszeichen)
+\usepackage{listings} % Umgebung lstlisting; \lstinline$...$
+\lstset{
+	language=,                % the language of the code
+	basicstyle=\ttfamily\small,
+	xleftmargin=2em,
+	xrightmargin=2em,
+	captionpos=b,
+	abovecaptionskip=.5em,
+	commentstyle=\color{OliveGreen},% sets comment style
+	tabsize=3,                      % sets default tabsize
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	escapechar=§,                   % escapes to LaTeX
+	columns=flexible,               % columns=fixed / columns=flexible / columns=fullflexible
+	upquote=true,                   % straight quotes
+	literate={ö}{{\"o}}1            % national characters:
+			 {ä}{{\"a}}1            %   *{replace}{replacement text}{length in output}
+			 {ü}{{\"u}}1            %   * (optional): not in delimited text (strings, comments, ...) 
+			 {Ö}{{\"O}}1
+			 {Ä}{{\"A}}1
+			 {Ü}{{\"U}}1
+			 {ß}{{\ss}}2
+	}
+
+%%%%%%%%%%%%%%%%%%% Linguistik-Pakete %%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{mathtools} % includes amsmath, adds some nice fixes
+\usepackage{amssymb} % für \varnothing
+%\usepackage{semantic} % für |[ |]
+%\usepackage{qtree} % qtree \Tree [. ] [. ] \qroof{}.
+%\usepackage[x11names, rgb]{xcolor} % für dot2tex
+%\usepackage{tikz} % für dot2tex
+%\usetikzlibrary{arrows,shapes} % für dot2tex
+         %%% unbedingt nach tikz-Paketen laden %%%
+%\usepackage{gb4e} % Beispiel-Umgebung: \begin{exe} \ex \begin{xlist}
+%\usepackage{avm}             % für AVMs
+%\avmfont{\sc}                % allgemeine AVM-Schriftart
+%\avmvalfont{\it}             % Schriftart für Werte
+%\avmsortfont{\footnotesize\it} % Schriftart für Sort Labels 
+
+%%%%%%%%%%%%%%%%%%% hyperref %%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[hidelinks]{hyperref} % letzter Paketaufruf!
+\makeatletter % changes the catcode of @ to 11
+\AtBeginDocument{
+  \hypersetup{ % hyperref: \title und \author in PDF-Eingenschaften übernehmen
+    pdftitle = {\@title},
+    pdfsubject = {\@subject},
+    pdfauthor = {\@author}
+  }
+}
+\makeatother % changes the catcode of @ back to 12
+
+%%%%%%%%%%%%%%%%%%%%%%% Titel %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subject{Bachelor Thesis}
+\title{Investigating the \\Impact of Discourse Relations\\ on Review Helpfulness}
+\subtitle{}
+%\setkomafont{author}{\normalsize}
+\setkomafont{date}{\normalsize}
+\setkomafont{publishers}{\normalsize}
+\author{Sebastian Golly\\ {\normalsize (761737)}}
+\date{\today}
+
+% Double line spacing for text body, but not for titles
+\usepackage[doublespacing]{setspace}
+\addtokomafont{disposition}{\linespread{1}}
+
+% No extra line spacing between list items
+\usepackage{enumitem}
+\setlist{nosep}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+
+\vfill
+
+\paragraph{Abstract}
+
+% TODO: Write abstract
+Previous studies...
+\\[3em]
+
+\vfill
+
+\begin{center}
+University of Potsdam\\[1.5em]
+Department of Linguistics
+\end{center}
+
+\thispagestyle{empty}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+
+
+\section{Previous Work}
+\label{sec:previous-work}
+
+
+
+\section{Goal of this Study}
+\label{sec:goal}
+
+
+
+
+\section{Method}
+\label{sec:method}
+
+
+\subsection{Data}
+
+
+\subsection{Learning Task}
+
+
+\subsection{Features}
+
+
+
+\subsection{Experimental Setup}
+
+
+
+\section{Results}
+\label{sec:results}
+
+Table~\ref{tab:feature-weights-electronics} shows ...
+
+\begin{table}[h!]
+	\centering
+	
+	\caption{Ranking of discourse-relation types according to their feature-weight coefficients in the model trained on electronics reviews}
+	\label{tab:feature-weights-electronics}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{clr}
+		\textbf{Rank} & \textbf{PDTB Sense Tag} & \textbf{Coefficient}\tnote{\textit{a}} \\ \hline
+		1 & Expansion.Conjunction & 0.048 \\ \hline
+		2 & Temporal.Synchrony  & 0.023 \\ \hline
+		3 & Comparison.Contrast\tnote{\textit{b}} & 0.018 \\ \hline
+		4 & Contingency.Condition\tnote{\textit{b}}  & 0.012 \\ \hline
+		5 & Contingency.Cause\tnote{\textit{b}}  & 0.011 \\ \hline
+		6 & Comparison.Concession\tnote{\textit{b}} & 0.009 \\ \hline
+		7 & Expansion.Restatement  & 0.008 \\ \hline
+		8 & Expansion.List  & 0.004 \\ \hline
+		9 & Temporal.Asynchronous    & 0.001 \\ \hline
+		10 & Expansion.Instantiation & -0.000 \\ \hline
+		11 & Expansion.Exception  & -0.001 \\ \hline
+		12 & Expansion.Alternative  & -0.003 \\ \hline
+		\end{tabular} 
+	}
+	
+	\begin{tablenotes}
+	\centering
+	\footnotesize
+	\item[\textit{a}] Coefficients calculated using 10-fold cross-validation.
+	\item[\textit{b}] Including \textit{Pragmatic} type.
+	\end{tablenotes}
+	
+	\end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	
+	\caption{Ranking of discourse-relation types according to their feature-weight coefficients in the model trained on book reviews}
+	\label{tab:feature-weights-books}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{clr}
+		\textbf{Rank} & \textbf{PDTB Sense Tag} & \textbf{Coefficient}\tnote{\textit{b}} \\ \hline
+		1 & Expansion.Conjunction & 0.093 \\ \hline
+		2 & Temporal.Synchrony  & 0.028 \\ \hline
+		3 & Comparison.Contrast\tnote{\textit{b}} & 0.017 \\ \hline
+		4 & Expansion.Instantiation & 0.015 \\ \hline
+		5 & Temporal.Asynchronous    & 0.013 \\ \hline
+		6 & Comparison.Concession\tnote{\textit{b}} & 0.007 \\ \hline
+		7 & Expansion.Restatement  & 0.000 \\ \hline
+		8 & Contingency.Condition\tnote{\textit{b}}  & -0.006 \\ \hline
+		9 & Contingency.Cause\tnote{\textit{b}}  & -0.006 \\ \hline
+		10 & Expansion.Alternative  & -0.025 \\ \hline
+		11 & Expansion.Exception  & -0.033 \\ \hline
+		12 & Expansion.List  & -0.041 \\ \hline
+		\end{tabular} 
+	}
+	
+	\begin{tablenotes}
+	\centering
+	\footnotesize
+	\item[\textit{a}] Coefficients calculated using 10-fold cross-validation.
+	\item[\textit{b}] Including \textit{Pragmatic} type.
+	\end{tablenotes}
+	
+	\end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	
+	\caption{Comparison of discourse-relation ranks between models trained on electronics vs. book reviews}
+	\label{tab:rank-comparison}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{lcc}
+		\textbf{PDTB Sense Tag} & \textbf{Electronics Rank} & \textbf{Books Rank} \\ \hline
+		Expansion.Conjunction & 1 & 1 \\ \hline
+		Temporal.Synchrony  & 2 & 2 \\ \hline
+		Comparison.Contrast\tnote{\textit{a}} & 3 & 3 \\ \hline
+		Contingency.Condition\tnote{\textit{a}}  & \textbf{4} & \textbf{8} \\ \hline
+		Contingency.Cause\tnote{\textit{a}}  & \textbf{5} & \textbf{9} \\ \hline
+		Comparison.Concession\tnote{\textit{a}} & 6 & 6 \\ \hline
+		Expansion.Restatement  & 7 & 7 \\ \hline
+		Expansion.List  & \textbf{8} & \textbf{12} \\ \hline
+		Temporal.Asynchronous    & \textbf{9} & \textbf{5} \\ \hline
+		Expansion.Instantiation & \textbf{10} & \textbf{4} \\ \hline
+		Expansion.Exception  & 11 & 11 \\ \hline
+		Expansion.Alternative  & \textbf{12} & \textbf{10} \\ \hline
+		\end{tabular} 
+	}
+	
+	\begin{tablenotes}
+		\centering
+		\footnotesize
+		\item[\textit{a}] Including \textit{Pragmatic} type.
+	\end{tablenotes}
+	
+	\end{threeparttable}
+\end{table}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Implications}
+
+
+
+\subsection{Limitations}
+
+
+
+\subsection{Future Work}
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+
+\vfill
+
+
+\begin{center}
+Both code and data used for this study are freely available for research purposes at \url{https://github.com/s-go/th-review-helpfulness}.
+\end{center}
+
+\newpage
+\begin{thebibliography}{9}
+
+
+
+\end{thebibliography}
+
+\end{document}
