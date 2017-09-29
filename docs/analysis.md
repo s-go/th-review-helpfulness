@@ -37,6 +37,20 @@ When taking a look at samples of reviews without any instances of `Expansion.Con
 
 > It works fine.  It was easy to install.  I think that may have something to do with my experience with other routers though.  I am new to this.
 
+| Electronics | Reviews including `Expansion.Conjunction` | Reviews without `Expansion.Conjunction` |
+|--------|--------|--------|
+| Avg. number of tokens       |      364.33  |      101.84  |
+| Avg. sentence length       |       17.64 |       14.95 |
+| Avg. number of discourse relations p.h.t.       |      3.83  |      2.34  |
+| Avg. helpfulness score       |      0.83  |      0.71  |
+
+| Books | Reviews including `Expansion.Conjunction` | Reviews without `Expansion.Conjunction` |
+|--------|--------|--------|
+| Avg. number of tokens       |      321.61  |      108.77  |
+| Avg. sentence length       |       19.9 |       16.53 |
+| Avg. number of discourse relations p.h.t.       |      3.15  |      1.93  |
+| Avg. helpfulness score       |      0.77  |      0.65  |
+
 ### Persuasiveness
 
 * Only explicitly signalled relations

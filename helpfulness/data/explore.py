@@ -56,30 +56,30 @@ def explore_reviews(csv_filepath):
     print('\n--- Reviews with Expansion.Conjunction ---\n')
 
     print('Average number of tokens: %s' %
-          reviews_with_conj_df['numTokens'].mean())
+          reviews_with_conj_df['numTokens'].mean().round(2))
 
     print('Average sentence length: %s' %
-          reviews_with_conj_df['meanSentenceLength'].mean())
+          reviews_with_conj_df['meanSentenceLength'].mean().round(2))
 
     print('Average number of discourse relations per hundred tokens: %s' %
-          reviews_with_conj_df['numRelations'].mean())
+          reviews_with_conj_df['numRelations'].mean().round(2))
 
     print('Average helpfulness score: %s' %
-          reviews_with_conj_df['helpfulnessScore'].mean())
+          reviews_with_conj_df['helpfulnessScore'].mean().round(2))
 
     print('\n--- Reviews without Expansion.Conjunction ---\n')
 
     print('Average number of tokens: %s' %
-          reviews_without_conj_df['numTokens'].mean())
+          reviews_without_conj_df['numTokens'].mean().round(2))
 
     print('Average sentence length: %s' %
-          reviews_without_conj_df['meanSentenceLength'].mean())
+          reviews_without_conj_df['meanSentenceLength'].mean().round(2))
 
     print('Average number of discourse relations per hundred tokens: %s' %
-          reviews_without_conj_df['numRelations'].mean())
+          reviews_without_conj_df['numRelations'].mean().round(2))
 
     print('Average helpfulness score: %s' %
-          reviews_without_conj_df['helpfulnessScore'].mean())
+          reviews_without_conj_df['helpfulnessScore'].mean().round(2))
 
 
 def show_helpful_example():
