@@ -1,11 +1,13 @@
 '''
 Functions that can be used for data exploration.
 '''
+from helpfulness.data.preprocess import CV_DATA_CSV_PATH
 from helpfulness.data.preprocess import DEV_DATA_CSV_PATH
 from helpfulness.data.preprocess import FIELDNAMES
 from helpfulness.data.preprocess import parse
 from helpfulness.data.preprocess import to_pretty_json
 from helpfulness.data.relations import RELATIONS_DIRPATH
+from helpfulness.data.relations import RELATION_NAMES
 from helpfulness.model.features import compute_helpfulness_score
 from helpfulness.model.features import get_exprel_distribution
 from helpfulness.model.features import mean_sentence_length
@@ -40,6 +42,11 @@ def explore_reviews(csv_filepath):
 
     reviews_df = reviews_df.join(rels_df)
 
+    # Calculate instances of discourse relations per hundred tokens (iph)
+    reviews_df['numRelations'] = reviews_df[
+        RELATION_NAMES].sum(axis=1).divide(
+            reviews_df['numTokens']).multiply(100)
+
     reviews_without_conj_df = reviews_df.loc[
         reviews_df['Expansion.Conjunction'] == 0]
 
@@ -54,6 +61,12 @@ def explore_reviews(csv_filepath):
     print('Average sentence length: %s' %
           reviews_with_conj_df['meanSentenceLength'].mean())
 
+    print('Average number of discourse relations per hundred tokens: %s' %
+          reviews_with_conj_df['numRelations'].mean())
+
+    print('Average helpfulness score: %s' %
+          reviews_with_conj_df['helpfulnessScore'].mean())
+
     print('\n--- Reviews without Expansion.Conjunction ---\n')
 
     print('Average number of tokens: %s' %
@@ -61,6 +74,12 @@ def explore_reviews(csv_filepath):
 
     print('Average sentence length: %s' %
           reviews_without_conj_df['meanSentenceLength'].mean())
+
+    print('Average number of discourse relations per hundred tokens: %s' %
+          reviews_without_conj_df['numRelations'].mean())
+
+    print('Average helpfulness score: %s' %
+          reviews_without_conj_df['helpfulnessScore'].mean())
 
 
 def show_helpful_example():
@@ -70,5 +89,4 @@ def show_helpful_example():
 
 
 if __name__ == '__main__':
-    # TODO: Use CV data
-    explore_reviews(DEV_DATA_CSV_PATH)
+    explore_reviews(CV_DATA_CSV_PATH)
