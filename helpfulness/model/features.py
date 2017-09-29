@@ -34,7 +34,8 @@ def num_tokens(text):
     return len(analyze(text))
 
 
-def get_exprel_distribution(filename, rel_basepath, file_ext='txt.exp.res'):
+def get_exprel_distribution(
+        filename, rel_basepath, file_ext='txt.exp.res', count_instances=False):
     '''
     Returns the existence of explicitly expressed discourse-relation
     types in the specified file as a 0/1-valued vector.
@@ -57,7 +58,10 @@ def get_exprel_distribution(filename, rel_basepath, file_ext='txt.exp.res'):
                 # Merge pragmatic types
                 relation_name = PRAGMATIC_TYPE_PATTERN.sub('C', relation_name)
                 try:
-                    relation_vector[relation_name] = 1
+                    if count_instances:
+                        relation_vector[relation_name] += 1
+                    else:
+                        relation_vector[relation_name] = 1
                 except KeyError:
                     print(
                         f'Warning: Undefined relation name "{relation_name}"')
