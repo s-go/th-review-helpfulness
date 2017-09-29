@@ -1,6 +1,6 @@
-# Discourse-Relation Types
+# Examples
 
-## Examples
+## Discourse-Relation Types
 
 Temporal.Asynchronous
 > The internal cables could be a tiny bit longer, so measure carefully inside your case **before** you purchase
@@ -83,3 +83,34 @@ Comparison.Pragmatic contrast
 * "The tag “Pragmatic Contrast” applies when the connective indicates a contrast between one of the
 arguments and an *inference* that can be drawn from the other" (PDTP Annotation Manual: 33)
 * Only a few instances annotated, all should be Comparison.Contrast
+
+## Product-Type Related Differences
+
+* Contingency.Condition, Contingency.Cause: electronics +, books -
+* Expansion.List: electronics (slightly) +, books -
+* Temporal.Asynchronous, Expansion.Instantiation: electronics 0, books +
+
+### Contingency.Condition
+
+#### Electronics
+> So **if** you want a great 70-200 zoom and crave attention and can carry the weight this lens is for you.
+
+#### Books
+
+often either related to the content or advise to the reader
+
+> I didn't like any one in this novel and really didn't care **if** they survived or not.
+> Do not buy this book **if** you have the option of buying Wolff's book- and definentely do not waste your money buying both of them.
+
+### Contingency.Cause
+
+#### Electronics
+> i got this lens **because** i wanted a compact wide angle lens that i could easily throw in my bag to cover events.
+
+#### Books
+
+Motivation
+> The only reason I finished the bk is **because** so many of my readers friends loved it and I kept waiting for its redeeming qualities.
+
+Justification
+> My guess is that this is the author's first book, because it reads like the work of an amateur, complete with awkward transitions, weak characterizations, and one-dimensional characters.

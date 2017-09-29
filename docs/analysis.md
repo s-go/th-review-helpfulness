@@ -53,6 +53,7 @@ When taking a look at samples of reviews without any instances of `Expansion.Con
 
 ### Persuasiveness
 
+* Kamalski et al. show that in a persuasive context, subjective marking points readers to the writer’s intent, which triggers their resistance and thus makes a text less convincing than an objectively marked one.
 * Only explicitly signalled relations
 * Causal relations: implicit
 * even more persuasive

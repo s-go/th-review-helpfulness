@@ -11,7 +11,9 @@
 * Kim
 * Mudambi and Schuff (2010)
 	* definition
-	* search vs. experience goods
+	* product type, specifically whether the product is a search or experience good, is important in understanding what makes a review helpful to consumers
+	* moderate reviews are more helpful than extreme reviews (whether they are strongly positive or negative) for experience goods, but not for search goods
+	* lengthier reviews generally increase the helpfulness of the review, but this effect is greater for search goods than experience goods
 * PDTB
 	* incl. pragmatic types
 * Lin
@@ -114,4 +116,4 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations
 
 ## Literature
 
-
+Kamalski, J., Lentz, L., Sanders, T., & Zwaan, R. A. (2008). The forewarning effect of coherence markers in persuasive discourse: Evidence from persuasion and processing. Discourse Processes, 45, 545–579.
