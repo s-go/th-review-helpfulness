@@ -4,6 +4,7 @@ Feature-extraction functions for predicting review helpfulness.
 import os
 import re
 
+from nltk.tokenize import sent_tokenize
 from numpy import log
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -32,6 +33,14 @@ def num_tokens(text):
     '''
     analyze = CountVectorizer().build_analyzer()
     return len(analyze(text))
+
+
+def mean_sentence_length(text):
+    sentences = sent_tokenize(text)
+
+    token_counts = [num_tokens(sent) for sent in sentences]
+
+    return sum(token_counts) / max(len(token_counts), 1)
 
 
 def get_exprel_distribution(

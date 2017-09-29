@@ -8,6 +8,7 @@ from helpfulness.data.preprocess import to_pretty_json
 from helpfulness.data.relations import RELATIONS_DIRPATH
 from helpfulness.model.features import compute_helpfulness_score
 from helpfulness.model.features import get_exprel_distribution
+from helpfulness.model.features import mean_sentence_length
 from helpfulness.model.features import num_tokens
 import pandas as pd
 
@@ -25,6 +26,8 @@ def explore_reviews(csv_filepath):
     print('Extracting features from raw data...')
     # Add number of tokens (LEN)
     reviews_df['numTokens'] = reviews_df['reviewText'].apply(num_tokens)
+    reviews_df['meanSentenceLength'] = reviews_df['reviewText'].apply(
+        mean_sentence_length)
 
     # Add helpfulness score (STR)
     reviews_df['helpfulnessScore'] = reviews_df['helpful'].apply(
@@ -48,10 +51,16 @@ def explore_reviews(csv_filepath):
     print('Average number of tokens: %s' %
           reviews_with_conj_df['numTokens'].mean())
 
+    print('Average sentence length: %s' %
+          reviews_with_conj_df['meanSentenceLength'].mean())
+
     print('\n--- Reviews without Expansion.Conjunction ---\n')
 
     print('Average number of tokens: %s' %
           reviews_without_conj_df['numTokens'].mean())
+
+    print('Average sentence length: %s' %
+          reviews_without_conj_df['meanSentenceLength'].mean())
 
 
 def show_helpful_example():

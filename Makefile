@@ -25,6 +25,7 @@ virtualenv:
 
 install: virtualenv
 	${PIP_INSTALL} -r requirements.txt
+	${PYTHON} -m nltk.downloader punkt
 
 install-test: install
 	${PIP_INSTALL} -r test-requirements.txt

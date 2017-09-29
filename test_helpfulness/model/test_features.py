@@ -1,7 +1,7 @@
 from helpfulness.model.features import compute_helpfulness_score
 from helpfulness.model.features import get_exprel_distribution
+from helpfulness.model.features import mean_sentence_length
 from helpfulness.model.features import num_tokens
-
 import pandas as pd
 
 
@@ -67,3 +67,9 @@ class TestFeatures:
         here : [...](Original review)
         '''
         assert num_tokens(text) == 32
+
+    def test_mean_sentence_length(self):
+        with open('test_helpfulness/fixtures/736f1d9b2919c.txt') as txt_file:
+            text = ' '.join([line for line in txt_file])
+
+        assert mean_sentence_length(text) == 16.75
