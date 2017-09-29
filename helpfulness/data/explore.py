@@ -17,7 +17,8 @@ import pandas as pd
 
 def explore_reviews(csv_filepath):
     '''
-    Converts the given CSV file into a pandas ``DataFrame``.
+    Evaluate writing quality of reviews without any instances of
+    `Expansion.Conjunction` relations (as compared with the rest)
     '''
     with open(csv_filepath) as csv_file:
         reviews_df = pd.read_csv(
@@ -42,10 +43,10 @@ def explore_reviews(csv_filepath):
 
     reviews_df = reviews_df.join(rels_df)
 
-    # Calculate instances of discourse relations per hundred tokens (iph)
+    # Calculate instances of discourse relations per thousand tokens
     reviews_df['numRelations'] = reviews_df[
         RELATION_NAMES].sum(axis=1).divide(
-            reviews_df['numTokens']).multiply(100)
+            reviews_df['numTokens']).multiply(1000)
 
     reviews_without_conj_df = reviews_df.loc[
         reviews_df['Expansion.Conjunction'] == 0]
@@ -80,6 +81,32 @@ def explore_reviews(csv_filepath):
 
     print('Average helpfulness score: %s' %
           reviews_without_conj_df['helpfulnessScore'].mean().round(2))
+
+
+def explore_relation_distribution(csv_filepath):
+    with open(csv_filepath) as csv_file:
+        reviews_df = pd.read_csv(
+            csv_file, header=None, names=FIELDNAMES,
+            converters={'helpful': eval}
+        )
+
+    print('Extracting features from raw data...')
+    # Add number of tokens (LEN)
+    reviews_df['numTokens'] = reviews_df['reviewText'].apply(num_tokens)
+
+    # Add explicit discourse-relation features
+    rels_df = reviews_df['reviewID'].apply(
+        get_exprel_distribution, args=[RELATIONS_DIRPATH],
+        count_instances=True)
+
+    reviews_df = reviews_df.join(rels_df)
+
+    # Calculate instances of discourse relations per thousand tokens
+    iph_series = reviews_df[RELATION_NAMES].sum().divide(
+        reviews_df['numTokens'].sum()).multiply(1000).sort_values(
+            ascending=False).round(2)
+
+    print(iph_series)
 
 
 def show_helpful_example():

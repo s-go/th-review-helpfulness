@@ -67,7 +67,22 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations
 
 ### Q2: Does the impact of discourse-relation types on review helpfulness vary across product categories?
 
-* Number of relations per type between electronics and book reviews
+* Number of relations per type between electronics and book reviews (per thousand tokens)
+| PDTB Sense Tag | Electronics | Books |
+|--------|--------|--------|
+| Expansion.Conjunction  |    10.18 | 8.91 |
+| Comparison.Contrast  |       7.41 | 6.46 |
+| Contingency.Cause  |         4.65 | 2.98 |
+| Contingency.Condition  |     4.15 | 2.43 |
+| Temporal.Synchrony  |        4.11 | 3.25 |
+| Temporal.Asynchronous  |     3.44 | 2.50 |
+| Expansion.Alternative  |     0.76 | 0.64 |
+| Comparison.Concession  |     0.49 | 0.61 |
+| Expansion.Restatement  |     0.30 | 0.26 |
+| Expansion.Instantiation  |   0.13 | 0.23 |
+| Expansion.List  |            0.03 | 0.02 |
+| Expansion.Exception  |       0.03 | 0.03 |
+
 * Comparison of ranks
 	* Three most predictive relation types: same
 	* Significant differences:
