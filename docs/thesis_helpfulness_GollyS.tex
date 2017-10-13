@@ -105,7 +105,7 @@
 %\usepackage{tikz} % für dot2tex
 %\usetikzlibrary{arrows,shapes} % für dot2tex
          %%% unbedingt nach tikz-Paketen laden %%%
-%\usepackage{gb4e} % Beispiel-Umgebung: \begin{exe} \ex \begin{xlist}
+\usepackage{gb4e} % Beispiel-Umgebung: \begin{exe} \ex \begin{xlist}
 %\usepackage{avm}             % für AVMs
 %\avmfont{\sc}                % allgemeine AVM-Schriftart
 %\avmvalfont{\it}             % Schriftart für Werte
@@ -134,7 +134,7 @@
 \date{\today}
 
 % Double line spacing for text body, but not for titles
-\usepackage[doublespacing]{setspace}
+\usepackage[onehalfspacing]{setspace}
 \addtokomafont{disposition}{\linespread{1}}
 
 % No extra line spacing between list items
@@ -169,38 +169,211 @@ Department of Linguistics
 
 
 
-\section{Previous Work}
-\label{sec:previous-work}
+\section{Related Work}
+\label{sec:related-work}
 
 
 
 \section{Goal of this Study}
 \label{sec:goal}
 
+Previous studies have shown that there is an effect of the distribution of discourse relations in product reviews on their perceived helpfulness to other users. It is still unclear, however, how certain discourse-relation types affect review helpfulness. This study aims to be a first step towards closing this research gap by investigating two research questions:
 
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{Q1}] What is the effect of individual discourse-relation types on predicting review helpfulness?
+\end{enumerate}
 
+As \citet{Golly2017} uses an SVM regression model with a non-linear RBF kernel that does not allow for feature-weight analysis, the contributions of individual discourse-relation types on helpfulness predictions could not be investigated.
+
+I expect product reviews that do not only make claims, but justify and reason these claims to be more comprehensible and credible to other users, offering an increased value in their purchase-decision process, and, consequently, being perceived as more helpful.
+
+\textbf{Example:}
+\vspace{-1em}
+
+\begin{exe}
+\ex Personal video glasses are a difficult item to purchase \textit{(Claim)}
+\ex Personal video glasses are a difficult item to purchase because it’s very hard to find a store that carries them \textit{(Justified claim)}
+\end{exe}
+\vspace{-.5em}
+
+This expectation can be phrased as a first hypothesis:
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{H1}] Causal relations (\lstinline|Contingency.Cause| and \lstinline|Contingency.Pragmatic Cause|, in terms of PDTB sense tags) have a particularly high impact on review helpfulness.
+\end{enumerate}
+
+\citet{MudambiSchuff2010} find that reviews on different product types are evaluated differently with respect to their helpfulness. They report both the effects of star ratings and review lengths to vary between search and experience goods. Basing on this observation, I want to investigate whether the effects of discourse structure vary across product categories as well, e.g., when comparing electronic products to books.
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{Q2}] Does the impact of discourse-relation types on review helpfulness vary across product categories?
+\end{enumerate}
+
+As reviews of search goods tend to focus on “objective claims about tangible attributes” \citep[189]{MudambiSchuff2010} whereas reviews of experience goods generally include more “subjective evaluations” (ibid.) and consumers seem to assess review helpfulness differently for these product types, I assume this dissimilarity to reflect in the effect of discourse relations, as well. This leads to the second hypothesis of this study:
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{H2}] The effect of individual discourse-relation types on predicting review helpfulness differs among different product categories.
+\end{enumerate}
 
 \section{Method}
 \label{sec:method}
 
+For investigating the research questions presented in the previous section, two probabilistic models have been trained on reviews from different product categories. This section descibes the data sets used in the experiments, the learning task and features of the probabilistic models, as well as the overall experimental setup.
 
 \subsection{Data}
 
+From the 5-core corpus of \textit{Amazon.com} reviews created by \citet{HeMcAuley2016}\footnote{Available at \url{http://jmcauley.ucsd.edu/data/amazon/}.}, two product categories have been chosen:
+
+\begin{itemize}
+\item “Electronics” (including many search goods) and
+\item “Books” (including many experience goods).
+\end{itemize}
+
+Each of the reviews in the two datasets includes, among others:
+
+\begin{itemize}
+\item the text of the review,
+\item its overall product rating (1 to 5 stars),
+\item the numbers of positive and total helpfulness votes it has received.
+\end{itemize}
+
+Listing~\ref{sample-review} shows a shortened sample review from the corpus.
+
+\begin{lstlisting}[basicstyle=\ttfamily\small\singlespacing, caption=Sample review (shortened) from the “Electronics” category., label=sample-review, float]
+{
+    "asin": "B000W9OJVA",
+    "helpful": [
+        103,
+        105
+    ],
+    "overall": 4.0,
+    "reviewText": "I recently purchased a set of these. Personal video glasses are a difficult item to purchase because it's very hard to find a store that carries them, let alone lets you try them on before purchase, so I wasn't quite sure what to expect. [...]",
+    "reviewTime": "03 27, 2008",
+    "reviewerID": "AVPNQUVZWMDSX",
+    "reviewerName": "esanta \"esanta\"",
+    "summary": "Fantastic!",
+    "unixReviewTime": 1206576000
+}
+\end{lstlisting}
+
+The review texts have been preprocessed to facilitate sentence-boundary detection, as many reviews missed whitespace after sentence-final punctuation or used ellipses instead of periods.
+
+In order to use only informative items, reviews with less than 10 helpfulness votes or with a text shorter than 20 characters have been filtered out. For each of the two product categories, 20,000 reviews have been randomly sampled and partitioned into a development dataset containing 2,000 reviews and a cross-validation dataset containing 18,000 reviews.\footnote{Available at \url{https://drive.google.com/open?id=0B4FHGozCmQFEeTQtMUEzLWpLcTA}.}
 
 \subsection{Learning Task}
 
+In this study, the task of predicting the helpfulness of product reviews is seen as a regression problem. Given a product review and its metadata, the probabilistic model predicts a score that captures the helpfulness of the review.
+
+For learning the model, the helpfulness score of a product review can be simply defined as the ratio of its positive helpfulness votes to its total helpfulness votes. \citet[424]{Kim2006} formalize this metric as the helpfulness function $ h $ computing the helpfulness score of a review $ r $:
+
+\vspace{-2em}
+
+\begin{align}
+\label{helpfulness-fuction}
+h(r \in R) = \frac{rating_+(r)}{rating_+(r) + rating_-(r)}
+\end{align}
+
+This helpfulness ratio is defined for every review with at least one helpfulness vote. It ranges between 0 (minimum helpfulness) and 1 (maximum helpfulness). For training and evaluation, the gold standard of helpfulness scores is determined based on the helpfulness votes given by \textit{Amazon.com} users that are indicated in the corpus.
 
 \subsection{Features}
 
+In order to answer the research questions, the review texts had to be annotated with discourse relations. PDTB sense tags have been extracted automatically using the \textit{PDTB-styled end-to-end discourse parser} \citep{Lin2014}. It can be configured to extract sense tags at any of the three levels of the PDTB sense hierarchy \citep[cf.][5]{Prasad2008}. As a reasonable compromise between accuracy and parsing performance, sense tags from the second (\textit{type}) level have been extracted (e.g., \lstinline|Comparison.Contrast| or \lstinline|Contingency.Cause|). Because of the unsatisfactory performance of the non-explicit classifier \citep[cf.][175]{Lin2014}, only explicitly signalled relations have been used in the experiments.
+
+% TODO: Why PDTB? Why this parser?
+
+\begin{sloppypar}
+Spot tests showed that the discourse parser was unable to correctly distinguish pragmatic PDTB types (\lstinline|Contingency.Pragmatic cause|, \lstinline|Contingency.Pragmatic condition|, \lstinline|Comparison.Pragmatic contrast|, and \lstinline|Comparison.Pragmatic concession|) from their non-pragmatic counterparts. As this distinction is not crucial to the intended analyses, I decided to merge the pragmatic types with their non-pragmatic variants. That is, the \lstinline|Contingency.Cause| feature also includes all instances of \lstinline|Contingency.Pragmatic cause|, covering both purely causal and justifying relations.
+\end{sloppypar}
+
+(\ref{ex-pdtb-types-first}–\ref{ex-pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective connective highlighted in bold.
+
+\begin{exe}
+\ex\label{ex-pdtb-types-first} \lstinline|Temporal.Asynchronous|\\
+The internal cables could be a tiny bit longer, so measure carefully inside your case \textbf{before} you purchase
+
+\ex \lstinline|Temporal.Synchrony|\\
+the DVD sounded like it was going through a meat grinder \textbf{when} it was playing
+
+\ex \lstinline|Contingency.Cause|\\
+i got this lens \textbf{because} i wanted a compact wide angle lens that i could easily throw in my bag to cover events.
+
+\ex \lstinline|Contingency.Condition|\\
+So \textbf{if} you want a great 70-200 zoom and crave attention and can carry the weight this lens is for you.
+
+\ex \lstinline|Comparison.Contrast|\\
+Yeah, you'll pay a little more, \textbf{but} the quality you'll get will be worth it.
+
+\ex \lstinline|Comparison.Concession|\\
+\textbf{Although} the camera cannot zoom very far it still is a very good camera.
+
+\ex \lstinline|Expansion.Conjunction|\\
+The kit lenses are a great starter. \textbf{And} they're worlds better than anything you'll get with a point-and-shoot.
+
+\ex \lstinline|Expansion.Instantiation|\\
+The only problem i have with the camera is that it has a hard time focusing on small texts. \textbf{For example} i want to copy a receipt and send it to the manufacturer it would come out blurry.
+
+\ex \lstinline|Expansion.Restatement|\\
+\textbf{Overall}, I am happy with the build and performance of these chargers.
+
+\ex \lstinline|Expansion.Alternative|\\
+you need to press it slow and firm, \textbf{or} it won't start.
+
+\ex \lstinline|Expansion.Exception|\\
+wifi works well, \textbf{except} that streaming does not work all the time.
+
+\ex\label{ex-pdtb-types-last} \lstinline|Expansion.List|\\
+The keyboard is great, screen is good \textbf{and} overall quality is very good.
+\end{exe}
+
+Based on the extracted occurrences of discourse relations in each review, three variants of discourse-relation features have been aggregated:
+
+\begin{itemize}
+\item \lstinline|REL-CNT|: occurrence frequencies of explicit discourse-relation types in each review (listing \ref{feat-rel-cnt} shows an instance of this feature for a sample review),
+\item \lstinline|REL-IPT|: normalized frequencies of explicit discourse-relations types (as instances per token),
+\item \lstinline|REL-PRS|: presence of explicit discourse-relation types in each review (with values \lstinline|1| or \lstinline|0| according to whether or not a certain discourse-relation type occurs in the review).
+\end{itemize}
+
+\begin{lstlisting}[caption=\texttt{REL-CNT} feature for a sample review., label=feat-rel-cnt, basicstyle=\ttfamily\small\singlespacing]
+  {
+      'Comparison.Concession': 0,
+      'Comparison.Contrast': 13,
+      'Comparison.Pragmatic concession': 0,
+      'Comparison.Pragmatic contrast': 0,
+      'Contingency.Cause': 8,
+      'Contingency.Condition': 2,
+      'Contingency.Pragmatic condition': 0,
+      'Expansion.Alternative': 0,
+      'Expansion.Conjunction': 17,
+      'Expansion.Exception': 0,
+      'Expansion.Instantiation': 0,
+      'Expansion.List': 0,
+      'Expansion.Restatement': 0,
+      'Temporal.Asynchronous': 8,
+      'Temporal.Synchrony': 6
+  }
+\end{lstlisting}
+
+For training and evaluating the models, each feature is scaled to the range $ [-1, 1] $.
 
 
 \subsection{Experimental Setup}
+
+Similar to \citet{Kim2006} and \citet{Golly2017}, a Support Vector Machine (SVM) regression model has been trained to predict review helpfulness. However, as the feature weights of the non-linear RBF kernel that has been used in previous studies cannot be analyzed meaningfully, a linear kernel has been chosen instead.
+
+Pre-studies showed that, with thorough tuning of the hyperparameters (performing full-grid search on the development dataset), an equal prediction performance can be reached even with the less powerful linear kernel.
+
+In contrast to \citet{Golly2017} that used discourse-relation features in addition to a set of baseline features (overall rating, review length, unigram statistics), the models in this study rely only on discourse-relation features in order to eliminate cross-effects with other factors.
+
+In order to compare feature weights between product categories, separate models have been trained on reviews from the two datasets (“Electronics” and “Books”).
+
+For evaluating the results, ten-fold cross-validation has been applied, where each model was trained using nine folds, and its performance was evaluated on the remaining test fold. As an evaluation metric, the Pearson correlation coefficient (\textit{Pearson's r}) between the predicted helpfulness scores and the gold standard (based on the \textit{Amazon.com} helpfulness votes) has been computed. It ranges between -1 (total negative correlation) and +1 (total positive correlation).
+
+Table~\ref{tab:disc-features-performance} compares the performance of the three discourse-feature variants presented in the previous subsection. In either of the two product categories, \lstinline|REL-PRS| that captures the presence of each discourse-relation type in a review yields the best performance. For this reason, it is selected for training and evaluating the models.
 
 \begin{table}[h!]
 	\centering
 	
 	\caption{Evaluation results of a linear SVR model using different variants of discourse-relation features}
-	\label{tab:performance}
+	\label{tab:disc-features-performance}
 	
 	\begin{threeparttable}
 	\renewcommand{\arraystretch}{1.5}
@@ -274,7 +447,7 @@ Table~\ref{tab:feature-weights-electronics} shows ...
 	\renewcommand{\arraystretch}{1.5}
 	\makebox[\linewidth]{
 		\begin{tabular}{clr}
-		\textbf{Rank} & \textbf{PDTB Sense Tag} & \textbf{Coefficient}\tnote{\textit{b}} \\ \hline
+		\textbf{Rank} & \textbf{PDTB Sense Tag} & \textbf{Coefficient}\tnote{\textit{a}} \\ \hline
 		1 & Expansion.Conjunction & 0.093 \\ \hline
 		2 & Temporal.Synchrony  & 0.028 \\ \hline
 		3 & Comparison.Contrast\tnote{\textit{b}} & 0.017 \\ \hline
@@ -364,8 +537,19 @@ Both code and data used for this study are freely available for research purpose
 
 \newpage
 \begin{thebibliography}{9}
+% TODO: Add literature
 
+\bibitem[Kim et al.(2006)]{Kim2006} Kim, S. M., Pantel, P., Chklovski, T., \& Pennacchiotti, M. (2006). Automatically assessing review helpfulness. In \textit{Proceedings of the 2006 Conference on Empirical Methods in Natural Language Processing}, Association for Computational Linguistics, 423-430.
 
+\bibitem[Golly(2017)]{Golly2017} Golly, S. (2017). \textit{Predicting the Helpfulness of Product Reviews Using Discourse Relations.} Unpublished term paper. University of Potsdam, Potsdam, Germany. Retrieved from \url{https://github.com/s-go/cr-review-helpfulness/raw/master/docs/cr-review-helpfulness.pdf}
+
+\bibitem[He and McAuley(2016)]{HeMcAuley2016} He, R., \& McAuley, J. (2016). Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering. In \textit{Proceedings of the 25th International Conference on World Wide Web}, International World Wide Web Conferences Steering Committee, 507-517.
+
+\bibitem[Lin et al.(2014)]{Lin2014} Lin, Z., Ng, H. T., \& Kan, M. Y. (2014). A PDTB-styled end-to-end discourse parser. In \textit{Natural Language Engineering}, 20(2), 151-184.
+
+\bibitem[Mudambi and Schuff(2010)]{MudambiSchuff2010} Mudambi, S. M., \& Schuff, D. (2010). What Makes a Helpful Online Review? A Study of Customer Reviews on Amazon.com. In \textit{MIS Quarterly}, 34(1), 185-200.
+
+\bibitem[Prasad et al.(2008)]{Prasad2008}Prasad, R., Dinesh, N., Lee, A., Miltsakaki, E., Robaldo, L., Joshi, A., \& Webber, B. (2008). \textit{The Penn Discourse Treebank 2.0.} Paper presented at the 6th International Conference on Language Resources and Evaluation (LREC 2008), Marrakesh, Morocco.
 
 \end{thebibliography}
 
