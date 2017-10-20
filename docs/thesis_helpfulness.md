@@ -128,6 +128,10 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 
 ### H2
 
+* Half of discourse-relation types: similar effect; other half: differing impact
+	* → suggests some mechanisms that might be common within the text type, others being sensitive to product categories
+	* To test this claim: investigate further product categories
+
 ### Implications
 
 ### Limitations

@@ -284,10 +284,10 @@ In order to answer the research questions, the review texts had to be annotated 
 Spot tests showed that the discourse parser was unable to correctly distinguish pragmatic PDTB types (\lstinline|Contingency.Pragmatic cause|, \lstinline|Contingency.Pragmatic condition|, \lstinline|Comparison.Pragmatic contrast|, and \lstinline|Comparison.Pragmatic concession|) from their non-pragmatic counterparts. As this distinction is not crucial to the intended analyses, I decided to merge the pragmatic types with their non-pragmatic variants. That is, the \lstinline|Contingency.Cause| feature also includes all instances of \lstinline|Contingency.Pragmatic cause| relations, covering both purely causal and justifying relations.
 \end{sloppypar}
 
-(\ref{ex-pdtb-types-first}–\ref{ex-pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective connective typeset in bold.
+(\ref{ex:pdtb-types-first}–\ref{ex:pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective connective typeset in bold.
 
 \begin{exe}
-\ex\label{ex-pdtb-types-first} \lstinline|Temporal.Asynchronous|\\
+\ex\label{ex:pdtb-types-first} \lstinline|Temporal.Asynchronous|\\
 The internal cables could be a tiny bit longer, so measure carefully inside your case \textbf{before} you purchase
 
 \ex \lstinline|Temporal.Synchrony|\\
@@ -320,7 +320,7 @@ you need to press it slow and firm, \textbf{or} it won't start.
 \ex \lstinline|Expansion.Exception|\\
 wifi works well, \textbf{except} that streaming does not work all the time.
 
-\ex\label{ex-pdtb-types-last} \lstinline|Expansion.List|\\
+\ex\label{ex:pdtb-types-last} \lstinline|Expansion.List|\\
 The keyboard is great, screen is good \textbf{and} overall quality is very good.
 \end{exe}
 
@@ -397,13 +397,13 @@ Table~\ref{tab:disc-features-performance} compares the performance of the three 
 \section{Results}
 \label{sec:results}
 
-% TODO: Present key results
+This section presents the results with regard to both research questions. They show that the discourse-relation type that contributes most to predicting review helpfulness is \lstinline|Expansion.Conjunction|, with causal relations having substantially lower impact. When comparing the results between both product categories, around half of the relation types exhibit similar impact on review helpfulness, while the other half shows differing effects.
 
 \begin{enumerate}[rightmargin=1cm]
 \item[\textbf{Q1}] What is the effect of individual discourse-relation types on predicting review helpfulness?
 \end{enumerate}
 
-Tables~\ref{tab:feature-weights-electronics} and \ref{tab:feature-weights-books} show that, for both product categories, the presence of explicit \lstinline|Expansion.Conjunction| relations proves to be by far most predictive of review helpfulness. This discourse-relation type is typically expressed by connectives such as \textit{and} or \textit{also}.
+Tables~\ref{tab:feature-weights-electronics} and \ref{tab:feature-weights-books} indicate that, for both product categories, the presence of explicit \lstinline|Expansion.Conjunction| relations proves to be by far most predictive of review helpfulness. This discourse-relation type is typically expressed by connectives such as \textit{and} or \textit{also}.
 
 \begin{table}[h!]
 	\centering
@@ -581,6 +581,8 @@ In sum, the results of the feature-weight analyses do not support the first hypo
 \item[\textbf{Q2}] Does the impact of discourse-relation types on review helpfulness vary across product categories?
 \end{enumerate}
 
+Table~\ref{tab:rank-comparison} compares the ranks of discourse-relation types according to their respective feature weights between the two product categories. Substantial differences are highlighted in bold.
+
 \begin{table}[h!]
 	\centering
 	
@@ -591,19 +593,19 @@ In sum, the results of the feature-weight analyses do not support the first hypo
 	\renewcommand{\arraystretch}{1.5}
 	\makebox[\linewidth]{
 		\begin{tabular}{lcc}
-		\textbf{PDTB Sense Tag} & \textbf{Electronics Rank} & \textbf{Books Rank} \\ \hline
-		Expansion.Conjunction & 1 & 1 \\ \hline
-		Temporal.Synchrony  & 2 & 2 \\ \hline
-		Comparison.Contrast\tnote{\textit{a}} & 3 & 3 \\ \hline
-		Contingency.Condition\tnote{\textit{a}}  & \textbf{4} & \textbf{8} \\ \hline
-		Contingency.Cause\tnote{\textit{a}}  & \textbf{5} & \textbf{9} \\ \hline
-		Comparison.Concession\tnote{\textit{a}} & 6 & 6 \\ \hline
-		Expansion.Restatement  & 7 & 7 \\ \hline
-		Expansion.List  & \textbf{8} & \textbf{12} \\ \hline
-		Temporal.Asynchronous    & \textbf{9} & \textbf{5} \\ \hline
-		Expansion.Instantiation & \textbf{10} & \textbf{4} \\ \hline
-		Expansion.Exception  & 11 & 11 \\ \hline
-		Expansion.Alternative  & \textbf{12} & \textbf{10} \\ \hline
+		\thead{PDTB Sense Tag} & \thead{Electronics\\ Rank (Coefficient)} & \thead{Books\\ Rank (Coefficient)} \\ \hline
+		Expansion.Conjunction & 1 (0.048) & 1 (0.093) \\ \hline
+		Temporal.Synchrony  & 2 (0.023) & 2 (0.028) \\ \hline
+		Comparison.Contrast\tnote{\textit{a}} & 3 (0.018) & 3 (0.017) \\ \hline
+		Contingency.Condition\tnote{\textit{a}}  & \textbf{4 (0.012)} & \textbf{8 (-0.006)} \\ \hline
+		Contingency.Cause\tnote{\textit{a}}  & \textbf{5 (0.011)} & \textbf{9 (-0.006)} \\ \hline
+		Comparison.Concession\tnote{\textit{a}} & 6 (0.009) & 6 (0.007) \\ \hline
+		Expansion.Restatement  & 7 (0.008) & 7 (0.000) \\ \hline
+		Expansion.List  & \textbf{8 (0.004)} & \textbf{12 (-0.041)} \\ \hline
+		Temporal.Asynchronous    & \textbf{9 (0.001)} & \textbf{5 (0.013)} \\ \hline
+		Expansion.Instantiation & \textbf{10 (-0.000)} & \textbf{4 (0.015)} \\ \hline
+		Expansion.Exception  & 11 \textbf{(-0.001)} & 11 \textbf{(-0.033)} \\ \hline
+		Expansion.Alternative  & \textbf{12 (-0.003)} & \textbf{10 (-0.025)} \\ \hline
 		\end{tabular} 
 	}
 	
@@ -615,6 +617,16 @@ In sum, the results of the feature-weight analyses do not support the first hypo
 	
 	\end{threeparttable}
 \end{table}
+
+Half of the examined discourse-relation types exhibit similar results in both product categories. This includes the three relation types with the strongest positive coefficients that have identical ranks for both electronic products and books. For the remaining relation types, a number of differences can be observed: 
+
+\begin{enumerate}
+\item Both types of the \lstinline|Contingency| class (\lstinline|Condition| and \lstinline|Cause|) are positive predictors for electronics reviews, while having small negative coefficients in the model trained on book reviews.
+\item \lstinline|Temporal.Asynchronous| and \lstinline|Expansion.Instantiation| relations have clearly positive coefficients in the books domain, while showing no predictive power for electronics reviews.
+\item The three \lstinline|Expansion| types \lstinline|List|, \lstinline|Exception|, and \lstinline|Alternative| exhibit a clear negative correlation with the helpfulness of book reviews while having almost no effect in the electronics domain.
+\end{enumerate}
+
+With regard to the second hypothesis, the results give a split answer. While one half of the discourse-relation types shows a similar impact on predicting review helpfulness, the other half exhibits differing effects among the two examined product categories.
 
 \section{Discussion}
 \label{sec:discussion}
