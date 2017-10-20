@@ -217,11 +217,11 @@ As reviews of search goods tend to focus on “objective claims about tangible a
 \section{Method}
 \label{sec:method}
 
-For investigating the research questions presented in the previous section, two probabilistic models have been trained on reviews from different product categories. This section descibes the data sets used in the experiments, the learning task and features of the probabilistic models, as well as the overall experimental setup.
+For investigating the research questions presented in the previous section, two probabilistic models have been trained on reviews from different product categories. This section descibes the datasets used in the experiments, the learning task and features of the probabilistic models, as well as the overall experimental setup.
 
 \subsection{Data}
 
-From the 5-core corpus of \textit{Amazon.com} reviews created by \citet{HeMcAuley2016}\footnote{Available at \url{http://jmcauley.ucsd.edu/data/amazon/}.}, two product categories have been chosen:
+From the 5-core corpus of \textit{Amazon.com} reviews created by \citet{HeMcAuley2016},\footnote{Available at \url{http://jmcauley.ucsd.edu/data/amazon/}.} two product categories have been chosen:
 
 \begin{itemize}
 \item “Electronics” (including many search goods) and
@@ -255,15 +255,15 @@ Listing~\ref{sample-review} shows a shortened sample review from the corpus.
 }
 \end{lstlisting}
 
-The review texts have been preprocessed to facilitate sentence-boundary detection, as many reviews missed whitespace after sentence-final punctuation or used ellipses instead of periods.
+The review texts have been preprocessed to facilitate sentence-boundary detection, as many reviews missed whitespace after sentence-final punctuation or showed a use of ellipses instead of periods.
 
-In order to use only informative items, reviews with less than 10 helpfulness votes or with a text shorter than 20 characters have been filtered out. For each of the two product categories, 20,000 reviews have been randomly sampled and partitioned into a development dataset containing 2,000 reviews and a cross-validation dataset containing 18,000 reviews.\footnote{Available at \url{https://drive.google.com/open?id=0B4FHGozCmQFEeTQtMUEzLWpLcTA}.}
+In order to use only informative items, reviews with less than ten helpfulness votes or with a text shorter than 20 characters have been filtered out. For each of the two product categories, 20,000 reviews have been randomly sampled and partitioned into a development dataset containing 2,000 reviews and a cross-validation dataset containing 18,000 reviews.\footnote{Available at \url{https://drive.google.com/open?id=0B4FHGozCmQFEeTQtMUEzLWpLcTA}.}
 
 \subsection{Learning Task}
 
 In this study, the task of predicting the helpfulness of product reviews is seen as a regression problem. Given a product review and its metadata, the probabilistic model predicts a score that captures the helpfulness of the review.
 
-For learning the model, the helpfulness score of a product review can be simply defined as the ratio of its positive helpfulness votes to its total helpfulness votes. \citet[424]{Kim2006} formalize this metric as the helpfulness function $ h $ computing the helpfulness score of a review $ r $:
+For learning the model, the helpfulness score of a product review can be simply defined as the ratio of its positive helpfulness votes to its total helpfulness votes. \citet[424]{Kim2006} formalize this metric as the helpfulness function $ h $ that computes the helpfulness score of a review $ r $:
 
 \vspace{-2em}
 
@@ -281,10 +281,10 @@ In order to answer the research questions, the review texts had to be annotated 
 % TODO: Why PDTB? Why this parser?
 
 \begin{sloppypar}
-Spot tests showed that the discourse parser was unable to correctly distinguish pragmatic PDTB types (\lstinline|Contingency.Pragmatic cause|, \lstinline|Contingency.Pragmatic condition|, \lstinline|Comparison.Pragmatic contrast|, and \lstinline|Comparison.Pragmatic concession|) from their non-pragmatic counterparts. As this distinction is not crucial to the intended analyses, I decided to merge the pragmatic types with their non-pragmatic variants. That is, the \lstinline|Contingency.Cause| feature also includes all instances of \lstinline|Contingency.Pragmatic cause|, covering both purely causal and justifying relations.
+Spot tests showed that the discourse parser was unable to correctly distinguish pragmatic PDTB types (\lstinline|Contingency.Pragmatic cause|, \lstinline|Contingency.Pragmatic condition|, \lstinline|Comparison.Pragmatic contrast|, and \lstinline|Comparison.Pragmatic concession|) from their non-pragmatic counterparts. As this distinction is not crucial to the intended analyses, I decided to merge the pragmatic types with their non-pragmatic variants. That is, the \lstinline|Contingency.Cause| feature also includes all instances of \lstinline|Contingency.Pragmatic cause| relations, covering both purely causal and justifying relations.
 \end{sloppypar}
 
-(\ref{ex-pdtb-types-first}–\ref{ex-pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective connective highlighted in bold.
+(\ref{ex-pdtb-types-first}–\ref{ex-pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective connective typeset in bold.
 
 \begin{exe}
 \ex\label{ex-pdtb-types-first} \lstinline|Temporal.Asynchronous|\\
@@ -352,22 +352,20 @@ Based on the extracted occurrences of discourse relations in each review, three 
   }
 \end{lstlisting}
 
-For training and evaluating the models, each feature is scaled to the range $ [-1, 1] $.
+For training and evaluating the models, each feature was scaled to the range $ [-1, 1] $.
 
 
 \subsection{Experimental Setup}
 
-Similar to \citet{Kim2006} and \citet{Golly2017}, a Support Vector Machine (SVM) regression model has been trained to predict review helpfulness. However, as the feature weights of the non-linear RBF kernel that has been used in previous studies cannot be analyzed meaningfully, a linear kernel has been chosen instead.
+Similar to \citet{Kim2006} and \citet{Golly2017}, a Support Vector Machine (SVM) regression model has been trained to predict review helpfulness. However, as the feature weights of the non-linear RBF kernel that has been used in previous studies cannot be analyzed meaningfully, a linear kernel has been chosen instead. Pre-studies showed that, with thorough tuning of the hyperparameters $ C $ and $ \epsilon $ (performing a full-grid search on the development dataset), an equal level of prediction performance can be reached even with the less powerful linear kernel.
 
-Pre-studies showed that, with thorough tuning of the hyperparameters (performing full-grid search on the development dataset), an equal prediction performance can be reached even with the less powerful linear kernel.
+In contrast to \citet{Golly2017} that used discourse-relation features in addition to a set of baseline features (overall rating, review length, and unigram statistics), the models in this study rely only on discourse-relation features in order to eliminate cross-effects with other factors.
 
-In contrast to \citet{Golly2017} that used discourse-relation features in addition to a set of baseline features (overall rating, review length, unigram statistics), the models in this study rely only on discourse-relation features in order to eliminate cross-effects with other factors.
-
-In order to compare feature weights between product categories, separate models have been trained on reviews from the two datasets (“Electronics” and “Books”).
+For the purpose of comparing feature weights between product categories, separate models have been trained on reviews from the two datasets (“Electronics” and “Books”).
 
 For evaluating the results, ten-fold cross-validation has been applied, where each model was trained using nine folds, and its performance was evaluated on the remaining test fold. As an evaluation metric, the Pearson correlation coefficient (\textit{Pearson's r}) between the predicted helpfulness scores and the gold standard (based on the \textit{Amazon.com} helpfulness votes) has been computed. It ranges between -1 (total negative correlation) and +1 (total positive correlation).
 
-Table~\ref{tab:disc-features-performance} compares the performance of the three discourse-feature variants presented in the previous subsection. In either of the two product categories, \lstinline|REL-PRS| that captures the presence of each discourse-relation type in a review yields the best performance. For this reason, it is selected for training and evaluating the models.
+Table~\ref{tab:disc-features-performance} compares the performance of the three discourse-feature variants presented in the previous subsection. In either of the two product categories, \lstinline|REL-PRS| that captures the presence of each discourse-relation type in a review yields the best performance. For this reason, it was selected for training and evaluating the models.
 
 \begin{table}[h!]
 	\centering
@@ -399,7 +397,13 @@ Table~\ref{tab:disc-features-performance} compares the performance of the three 
 \section{Results}
 \label{sec:results}
 
-Table~\ref{tab:feature-weights-electronics} shows ...
+% TODO: Present key results
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{Q1}] What is the effect of individual discourse-relation types on predicting review helpfulness?
+\end{enumerate}
+
+Tables~\ref{tab:feature-weights-electronics} and \ref{tab:feature-weights-books} show that, for both product categories, the presence of explicit \lstinline|Expansion.Conjunction| relations proves to be by far most predictive of review helpfulness. This discourse-relation type is typically expressed by connectives such as \textit{and} or \textit{also}.
 
 \begin{table}[h!]
 	\centering
@@ -472,6 +476,110 @@ Table~\ref{tab:feature-weights-electronics} shows ...
 	
 	\end{threeparttable}
 \end{table}
+
+As this result is rather unexpected, it deserves a more detailed investigation. (\ref{ex:conjunction-first}–\ref{ex:conjunction-last}) show typical examples for instances of \lstinline|Expansion.Conjunction| relations in the corpus. The connectives signaling the relation are typeset in bold. It can be observed that, in many of the examples, the conjunction relation is used to present an additional argument, often for buying the reviewed product.
+
+\begin{exe}
+\ex \label{ex:conjunction-first} The kit lenses are a great starter. \textbf{And} they're worlds better than anything you'll get with a point-and-shoot.
+\ex Plenty of reviews here on how great the camera is, \textbf{and} I agree with them.
+\ex You're not just buying an e500 here, you're \textbf{also} buying into Olympus's lens system.
+\ex The image quality is on par with similar offerings from Nikon and Canon, \textbf{and} it has the same, or very similar features.
+\ex Spend a little more now, \textbf{and} it'll literally save you about \$200 later.
+\ex The 14-54 is built like a tank \textbf{and} the image quality will blow you away.
+\ex \label{ex:conjunction-last} Overall, the sets are very similar, my personal choice being the Haier, as I think the picture is sharper, the price is better and the battery lasts longer for my needs in bad weather. Haier \textbf{also} has way more picture settings and adjustments in the tv's menu
+\end{exe}
+
+When analyzing samples of reviews without any instances of \lstinline|Expansion.Conjunction| relations, they often exhibit one or more of the following properties:
+
+\begin{itemize}
+\item short overall length,
+\item short sentence length,
+\item low usage of cohesive devices.
+\end{itemize}
+
+(\ref{ex:no-conjunction}) gives a complete example of one of the reviews showing all of these properties.
+
+\begin{exe}
+\ex \label{ex:no-conjunction} It works fine.  It was easy to install.  I think that may have something to do with my experience with other routers though.  I am new to this.
+\end{exe}
+
+In order to find out whether these indications gained from individual samples generalize over the complete corpus, I analyzed the following features and compared their average values between reviews including and reviews without \lstinline|Expansion.Conjunction| relations:
+
+\begin{itemize}
+\item review length: overall number of tokens,
+\item sentence length: average number of tokens per sentence,
+\item use of connectives: instances of explicit discourse relations per thousand tokens,
+\item helpfulness score.
+\end{itemize}
+
+Tables~\ref{tab:conjunction-features-electronics} and \ref{tab:conjunction-features-books} show that, for both product categories, reviews including at least one instance of an explicit \lstinline|Expansion.Conjunction| relation have, in average, both higher total and sentence lengths, higher normalized frequencies of explicitly signaled discourse relations, as well as higher helpfulness ratings.
+
+
+\begin{table}[h!]
+	\centering
+	
+	\caption{Comparison of selected linguistic features between reviews including and reviews without \lstinline|Expansion.Conjunction| relations in electronics reviews}
+	\label{tab:conjunction-features-electronics}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{lcc}
+		\thead{} & \thead{Reviews including\\ \lstinline|Expansion.Conjunction|} & \thead{Reviews without\\ \lstinline|Expansion.Conjunction|} \\ \hline
+		Avg. review length & 364.33 & 101.84 \\ \hline
+		Avg. sentence length & 17.64 & 14.95 \\ \hline
+		Avg. use of connectives & 38.34 & 23.36 \\ \hline
+		Avg. helpfulness score & 0.83 & 0.71 \\ \hline
+		\end{tabular} 
+	}
+	
+	\end{threeparttable}
+
+\end{table}
+
+
+\begin{table}[h!]
+	\centering
+	
+	\caption{Comparison of selected linguistic features between reviews including and reviews without \lstinline|Expansion.Conjunction| relations in book reviews}
+	\label{tab:conjunction-features-books}
+	
+	\begin{threeparttable}
+	\renewcommand{\arraystretch}{1.5}
+	\makebox[\linewidth]{
+		\begin{tabular}{lcc}
+		\thead{} & \thead{Reviews including\\ \lstinline|Expansion.Conjunction|} & \thead{Reviews without\\ \lstinline|Expansion.Conjunction|} \\ \hline
+		Avg. review length & 321.61 & 108.77 \\ \hline
+		Avg. sentence length & 19.9 & 16.53 \\ \hline
+		Avg. use of connectives & 31.5 & 19.27 \\ \hline
+		Avg. helpfulness score & 0.77 & 0.65 \\ \hline
+		\end{tabular} 
+	}
+	
+	\end{threeparttable}
+
+\end{table}
+
+Other than expected in the first hypothesis, the presence of \lstinline|Contingency.Cause| relations does not show to be a particularly good predictor of review helpfulness. In electronics reviews, the corresponding feature obtains the fifth rank according to its feature weight. In the model trained on book reviews, it even gets assigned a slightly negative coefficient and only reaches rank nine.
+
+When analyzing samples of the automatically extracted relations, a noticeable number of parsing mistakes with respect to \lstinline|Contingency.Cause| can be observed. (\ref{ex:parsing-mistakes-first}–\ref{ex:parsing-mistakes-last}) present typical examples of such incorrect annotations that seem to occur frequently.
+
+\begin{exe}
+\ex \label{ex:parsing-mistakes-first} Annotation of \lstinline|Temporal.Asynchronous| instead of \lstinline|Contingency.Cause|\\
+Don't know if the problem is router related or n-version related but \textbf{since} range and not speed is the issue for me, I do not find the unit to be an improvement over what I have already installed.
+\ex Annotation of \lstinline|Temporal.Synchrony| instead of \lstinline|Contingency.Cause|\\
+The picture is absolutely gorgeous, \textbf{as} it has the new atsc digital signal receiver built in!
+\ex \label{ex:parsing-mistakes-last} Annotation of \lstinline|Contingency.Cause| instead of \lstinline|Expansion.Conjunction|\\
+I've had time to thoroughly test it \textbf{and} I've sort of begun to have second thoughts about these.
+\end{exe}
+
+In sum, the results of the feature-weight analyses do not support the first hypothesis that expected a strong impact of \lstinline|Contingency.Cause| relations on predicting review helpfulness. The analyses of corpus samples and linguistic features, however, provide a number of findings that will be referred to in the discussion section to account for the observed results.
+
+%%% Q2
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{Q2}] Does the impact of discourse-relation types on review helpfulness vary across product categories?
+\end{enumerate}
 
 \begin{table}[h!]
 	\centering

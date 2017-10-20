@@ -102,9 +102,11 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 | Expansion.Exception  |       0.03 | 0.03 |
 
 * Comparison of ranks
-	* Three most predictive relation types: same
+	* Three relation types with strongest positive coefficients: same
 	* Significant differences:
 		* Contingency.Condition, Contingency.Cause: electronics +, books -
+		* Expansion.List, Expansion.Exception, Expansion.Alternative:
+          electronics: close to 0; books: strong negative correlation
 		* Expansion.List: electronics (slightly) +, books -
 		* Temporal.Asynchronous, Expansion.Instantiation: electronics 0, books +
 	* Typical examples?
@@ -115,13 +117,14 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 
 * Unexpected result: `Expansion.Conjunction`
 * Accounts/Explanations for predictiveness of `Expansion.Conjunction` relation
-	* Multi-Confirmation
-	* Writing Quality
+	* Multi-Confirmation (→ typical examples)
+	* Writing Quality (→ linguistic properties)
 		* writing style has an influence on predictive power (Liu et al. 2008)
 	* Eckle-Kohler et al. (2015): discourse marker *und* (and) as being indicative of premises
 * Accounts for medium/low predictiveness of causal relations
 	* explicit relations → Persuasiveness
 	* "the component-level argument feature provides less useful information in review helpfulness identification." (Liu et al. 2017)
+	* parsing mistakes
 
 ### H2
 
@@ -134,6 +137,9 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 	* electronics: laser printers vs. MP3 players
 * "approaches relying on discourse markers are not applicable for identifying argumentative discourse structures in documents which do not follow a standardized form" (Stab and Gurevych 2014)
 	* → rather Argumentation mining than discourse analysis?
+* automatic parsing
+	* only explicit
+	* partly incorrect annotations
 
 ### Future Work
 
