@@ -120,7 +120,8 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 	* Multi-Confirmation (→ typical examples)
 	* Writing Quality (→ linguistic properties)
 		* writing style has an influence on predictive power (Liu et al. 2008)
-	* Eckle-Kohler et al. (2015): discourse marker *und* (and) as being indicative of premises
+	* Eckle-Kohler et al. (2015: 2239): discourse marker *und* (and) as being indicative of premises
+		* claim-premise model of argumentation: premise → support for claim
 * Accounts for medium/low predictiveness of causal relations
 	* explicit relations → Persuasiveness
 	* "the component-level argument feature provides less useful information in review helpfulness identification." (Liu et al. 2017)
