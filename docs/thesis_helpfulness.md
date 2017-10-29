@@ -123,6 +123,8 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 	* Eckle-Kohler et al. (2015: 2239): discourse marker *und* (and) as being indicative of premises
 		* claim-premise model of argumentation: premise → support for claim
 * Accounts for medium/low predictiveness of causal relations
+	* "approaches relying on discourse markers are not applicable for identifying argumentative discourse structures in documents which do not follow a standardized form" (Stab and Gurevych 2014: 54)
+		* → rather Argumentation mining than discourse analysis?
 	* explicit relations → Persuasiveness
 	* "the component-level argument feature provides less useful information in review helpfulness identification." (Liu et al. 2017)
 	* parsing mistakes
@@ -140,8 +142,6 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 * No clear separation of search and experience goods
 	* books: non-fiction vs. novels
 	* electronics: laser printers vs. MP3 players
-* "approaches relying on discourse markers are not applicable for identifying argumentative discourse structures in documents which do not follow a standardized form" (Stab and Gurevych 2014)
-	* → rather Argumentation mining than discourse analysis?
 * automatic parsing
 	* only explicit
 	* partly incorrect annotations

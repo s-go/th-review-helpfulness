@@ -644,18 +644,33 @@ The experimental results do not support the expecation stated in the first hypot
 Instead, the relation that has shown to have the highest impact on review helpfulness is \lstinline|Expansion.Conjunction|. There are different potential accounts for this unexpected and even counter-intuitive result.
 \end{sloppypar}
 
-One of them can be dubbed \textit{multi-confirmation} account. As “[c]onsumers follow a purchase decision process that seeks to reduce uncertainty” \citep[187]{MudambiSchuff2010}, they read product reviews, at least partly, as a source of confirmation. Once they are reading the reviews of a product, they are already interested enough in that product that they actually \textit{want} to buy it. The more confirming statements a review contains, the more helpful it will be perceived by these users. An examination of samples of \lstinline|Expansion.Conjunction| relations in the corpus showed that the relation is often used to present an additional argument for buying the reviewed product. Following the multi-confirmation interpretation, these uses of conjunction relations increase the helpfulness of the corresponding review.
+One of them can be dubbed \textit{multi-confirmation} account. As “[c]onsumers follow a purchase decision process that seeks to reduce uncertainty” \citep[187]{MudambiSchuff2010}, they read product reviews, at least partly, as a source of confirmation. Once they are interested enough in a product to read its reviews, many of them only seek for an endorsement to go the last step and purchase it. The more confirming statements a review contains, the more helpful it will be perceived by these users. An examination of samples of \lstinline|Expansion.Conjunction| relations in the corpus showed that the relation is often used to present an additional argument for buying the reviewed product. Following the multi-confirmation interpretation, these uses of conjunction relations increase the helpfulness of the corresponding review.
 
-A second account refers to the \textit{writing quality} of the examined reviews. \citet{Liu2008} show that writing style has an influence on review-helpfulness predictions. The analyses performed in this study suggest that the presence of \lstinline|Expansion.Conjunction| relations is correlated with linguistic features such as review length, average sentence length, and density of discourse connectives. Higher average values of these features might indicate an increased writing quality that results in a gain of perceived review helpfulness.
+A second account refers to the \textit{writing quality} of the examined reviews. \citet{Liu2008} find that writing style has an influence on review-helpfulness predictions. The analyses performed in this study show that the presence of \lstinline|Expansion.Conjunction| relations is positively correlated with linguistic features such as review length, average sentence length, and density of discourse markers. The observed higher average values of these features might indicate an increased writing quality that results in a gain of perceived review helpfulness.
 
 A third and last account considers findings from argumentation-structure research. \citet[2239]{Eckle-Kohler2015} identify the german discourse connective \textit{und} (\textit{and}) that signals \lstinline|Expansion.Conjunction| relations as being indicative of \textit{premises}. In the claim-premise model of argumentation they adopt, premises are used for supporting (or attacking) a claim. This is in line with the initial expectation that lead to the first hypothesis: the assumption that justified claims (supported by one or more premises) are more comprehensible and credible to other users and thereby increase review helpfulness.
 
-% TODO: Accounts for medium/low predictiveness of causal relations
+% Accounts for medium/low predictiveness of causal relations
 
-%\subsection{Implications}
-%\subsection{Limitations}
-%\subsection{Future Work}
+Besides the high predictiveness of \lstinline|Expansion.Conjunction| relations, the observed medium to low predictiveness of causal relations deserves a distinct interpretation. Again, the results can be accounted for from different perspectives.
 
+As mentioned before, the assumption that a high ratio of justified claims gives rise to an increase in helpfulness might be better captured by analyses of argumentation structure rather than discourse structure. In fact, \citet[54]{StabGurevych2014} point out that “approaches relying on discourse markers are not applicable for identifying argumentative discourse structures in documents which do not follow a standardized form.” Thus, it could be promising to investigate this assumption based on an argumentation-mining approach.
+
+Second, it has to be stressed that for the analyses performed in this study, only explicit discourse relations have been taken into account because of the poor performance of current discourse parsers in automatically detecting implicit relations. The expectations that underlie the first hypothesis focus on \textit{subjective causality} (supporting a claim rather than relating two facts). If we classify product reviews as a rather persuasive than informative text type, the findings of \citet{Kamalski2008} provide another explanation to the low impact of causal relations. They find that, in a persuasive context, explicitly marked subjective relations trigger resistance in the readers and thereby reduce the persuasuasive power of the text. In any case, ignoring implicit relations is a clear limitation of this study that, with the help of more advanced discourse parsers, should be overcome in future research.
+
+Lastly, samples have shown a relatively high proportion of parsing mistakes related to causal relations. In particular, the discourse parser used in this experiment seems to be prone to incorrectly classifying discourse markers that can have both temporal and causal meanings, such as \textit{since} and \textit{as}. These incorrect annotations weaken the effects of causal relations on helpfulness predictions as well as the overall reliability of the results. Again, to obtain more reliable results, any improvements made in automatic discourse parsing should be taken advantage of in further studies.
+
+% H2
+
+The second hypothesis of this study is at least partly supported by the obtained results.
+
+\begin{enumerate}[rightmargin=1cm]
+\item[\textbf{H2}] The effect of individual discourse-relation types on predicting review helpfulness differs among different product categories.
+\end{enumerate}
+
+The observation that around half of the examined discourse-relation types show similar effects in both investigated product categories while the other half has diverging impacts suggests the existence of mechanisms that are shared within the text type while others being sensitive to product categories. To test this assumption, however, reviews from more than just two product categories will have to be compared.
+
+It should also be noted that \citet{MudambiSchuff2010} base their findings on different evaluations of product reviews between product types on the distinction of search and experience goods. The product categories used in this study, however, do not clearly separate between search and experience goods. Even though electronic products typically include many search goods (such as printers) and the book category contains a large number of experience goods (such as fictional literature), both categories also comprise a number of cross-classified product groups, such as headphones or non-fiction. A clearer separation of search and experience goods might lead to more pronounced results.
 
 
 \section{Conclusion}
@@ -682,6 +697,8 @@ Both code and data used for this study are freely available for research purpose
 
 \bibitem[He and McAuley(2016)]{HeMcAuley2016} He, R., \& McAuley, J. (2016). Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering. In \textit{Proceedings of the 25th International Conference on World Wide Web}, International World Wide Web Conferences Steering Committee, 507-517.
 
+\bibitem[Kamalski et al.(2008)]{Kamalski2008} Kamalski, J., Lentz, L., Sanders, T., \& Zwaan, R. A. (2008). The forewarning effect of coherence markers in persuasive discourse: Evidence from persuasion and processing. \textit{Discourse Processes}, 45, 545–579.
+
 \bibitem[Lin et al.(2014)]{Lin2014} Lin, Z., Ng, H. T., \& Kan, M. Y. (2014). A PDTB-styled end-to-end discourse parser. In \textit{Natural Language Engineering}, 20(2), 151-184.
 
 \bibitem[Liu et al.(2008)]{Liu2008} Liu, Y., Huang, X., An, A., \& Yu, X. (2008). Modeling and Predicting the Helpfulness of Online Reviews. In \textit{Data mining}, 2008. ICDM'08. Eighth IEEE international conference on Data mining, 443-452.
@@ -689,6 +706,8 @@ Both code and data used for this study are freely available for research purpose
 \bibitem[Mudambi and Schuff(2010)]{MudambiSchuff2010} Mudambi, S. M., \& Schuff, D. (2010). What Makes a Helpful Online Review? A Study of Customer Reviews on Amazon.com. In \textit{MIS Quarterly}, 34(1), 185-200.
 
 \bibitem[Prasad et al.(2008)]{Prasad2008}Prasad, R., Dinesh, N., Lee, A., Miltsakaki, E., Robaldo, L., Joshi, A., \& Webber, B. (2008). \textit{The Penn Discourse Treebank 2.0.} Paper presented at the 6th International Conference on Language Resources and Evaluation (LREC 2008), Marrakesh, Morocco.
+
+\bibitem[Stab and Gurevych(2014)]{StabGurevych2014}Stab, C., \& Gurevych, I. (2014). Identifying Argumentative Discourse Structures in Persuasive Essays. In \textit{EMNLP}, 46-56.
 
 \end{thebibliography}
 
