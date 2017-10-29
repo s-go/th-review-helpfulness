@@ -135,8 +135,6 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 	* → suggests some mechanisms that might be common within the text type, others being sensitive to product categories
 	* To test this claim: investigate further product categories
 
-### Implications
-
 ### Limitations
 
 * No clear separation of search and experience goods
@@ -146,10 +144,10 @@ Other than expected: mid-field to low ranking of `Contingency.Cause` relations (
 	* only explicit
 	* partly incorrect annotations
 
-### Future Work
-
 
 ## Conclusion
+
+This study investigated the effect of individual discourse-relation types on predicting review helpfulness. Contrary to expectations, the highest predictive power could not be found in causal relations, but rather in conjunction relations. Whether this is because the latter are often used to signal additional confirming statements, because their existence in a review is correlated with its writing quality, or because they are indicative of premises supporting a claim will have to be examined by further studies.
 
 
 ## Literature
