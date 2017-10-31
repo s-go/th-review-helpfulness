@@ -1,4 +1,4 @@
-# Investigating the Impact of Discourse-Relations on Review Helpfulness
+# Investigating the Impact of Discourse Relations on Review Helpfulness
 
 Dependencies
 ------------
