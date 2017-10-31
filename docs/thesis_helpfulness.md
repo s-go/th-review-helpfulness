@@ -20,6 +20,9 @@
 
 ## Related Work
 
+* PDTB
+	* incl. pragmatic types
+	* incl. Debopam's feedback
 * Almagrabi
 * Kim
 * Mertz
@@ -30,9 +33,7 @@
 	* lengthier reviews generally increase the helpfulness of the review, but this effect is greater for search goods than experience goods
 	* "Reviews of search goods are more likely to address specific, tangible aspects of the product, and how the product performed in different situations. Consumers are in search of specific information regarding the functional attributes of the product. Since objective claims about tangible attributes are more easily substantiated, extreme claims for search goods can be perceived as credible, as shown in the advertising literature (Ford et al. 1990)." (189)
 	* "On consumer ratings sites, experience goods often have many extreme ratings and few moderate ratings, which can be explained by the subjective nature of the dominant attributes of experience goods. Taste plays a large role in many experience goods"
-* PDTB
-	* incl. pragmatic types
-	* incl. Debopam's feedback
+
 * Lin
 * He & McAuley
 * Golly (2017)
