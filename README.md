@@ -1,6 +1,4 @@
-# Predicting the Helpfulness of Product Reviews Using Discourse Relations
-
-Check the [project documentation](docs/project-documentation.md) for background information.
+# Investigating the Impact of Discourse-Relations on Review Helpfulness
 
 Dependencies
 ------------

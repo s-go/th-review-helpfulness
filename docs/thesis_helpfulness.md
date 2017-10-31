@@ -4,6 +4,8 @@
 
 ## Introduction
 
+* The task of automatically evaluating the helpfulness of product reviews has rev
+
 * Golly (2017) provides some evidence for the general claim that discourse structure influences the helpfulness of product reviews.
 * Goal: investigate how certain discourse-relation types affect review helpfulness.
 * Does this influence vary across product categories?
@@ -12,6 +14,7 @@
 
 * Almagrabi
 * Kim
+* Mertz
 * Mudambi and Schuff (2010)
 	* definition
 	* product type, specifically whether the product is a search or experience good, is important in understanding what makes a review helpful to consumers

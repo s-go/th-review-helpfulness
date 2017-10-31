@@ -167,6 +167,15 @@ Department of Linguistics
 
 \section{Introduction}
 
+The task of automatically assessing the helpfulness of product reviews has received considerable attention over the last ten years (cf. \citealt{Almagrabi2015} for a survey). \citet[186]{MudambiSchuff2010} define a helpful review as “a peer-generated product evaluation that facilitates the consumer’s purchase decision process.”
+
+While the helpfulness of reviews is currently largely evaluated manually by users who are asked for their votes by answering a question like “Was this review helpful to you?” it makes sense to find automatic solutions for assessing review helpfulness. These solutions will enable website operators to instantly obtain a helpfulness assessment for every single review, with less interference by human biases, and, like that, reliably rank reviews according to their helpfulness.
+
+Various kinds of features have been proposed for training probabilistic models to predict review helpfulness \citep[cf.][50ff.]{Almagrabi2015}. However, taking into account discourse structure as an indicator for this task is a rather novel approach first explored by \citet{Mertz2014}. Recently, \citet{Golly2017} provides some evidence for the general claim that discourse structure influences the helpfulness of product reviews.
+
+The goal of this study is to obtain a better understanding of how individual discourse-relation types influence review helpfulness. In addition, I want to investigate whether these effects vary across different product categories. To do so, two separate probabilistic models are trained on electronics and book reviews, using the distribution of discourse-relation types as their only features. Insights are drawn based on analyses of their feature weights and comparisons across product categories.
+
+This study is structured as follows: Section~\ref{sec:related-work} gives an overview of relevant previous work. Section~\ref{sec:goal} presents the research objectives and section~\ref{sec:method} the methods applied for investigating them. The experimental results are described in section~\ref{sec:results} and interpreted in section~\ref{sec:discussion}. Finally, section~\ref{sec:conclusion} briefly summarizes and concludes the study.
 
 
 \section{Related Work}
@@ -676,9 +685,9 @@ It should also be noted that \citet{MudambiSchuff2010} base their findings on di
 \section{Conclusion}
 \label{sec:conclusion}
 
-This study investigated the effect of individual discourse-relation types on predicting review helpfulness. Contrary to expectations, the highest predictive power was not found in causal relations, but rather in conjunction relations. Whether this is because the latter are often used to signal additional confirming statements, because their existence in a review is correlated with its writing quality, or because they are indicative of premises supporting a claim will have to be examined by further studies.
+This study investigated the effect of individual discourse-relation types on predicting review helpfulness. Contrary to expectations, the highest predictive power was not found in causal relations, but rather in conjunction relations. Whether this is because the latter are often used to signal additional confirming statements, because their existence in a review is correlated with its writing quality, or because they are indicative of premises supporting a claim will have to be examined in further studies.
 
-As a second finding, the influence of one half of the analyzed discourse-relation types on predicting review helpfulness has been shown to differ among product categories, while the other half exhibited similar effects across both categories. Future comparisons of reviews clustered into more product categories and types (such as search and experience goods) will show whether this indicates the presence of certain mechanisms being common to the complete text type and others being sensitive to product types.
+As a second finding, the influence of one half of the analyzed discourse-relation types on predicting review helpfulness has been shown to differ among two product categories, while the other half exhibited similar effects across both categories. Future comparisons of reviews clustered into more product categories and types (such as search and experience goods) will show whether this indicates the presence of certain mechanisms being common to the complete text type and others being sensitive to product types.
 
 In total, the study presents a number of novel and partly unexpected findings and and opens up a range of research avenues. However, it also shows that a significant amount of additional research is needed to better understand the influence of discourse structure on review helpfulness.
 
@@ -693,6 +702,8 @@ Both code and data used for this study are freely available for research purpose
 \begin{thebibliography}{9}
 % TODO: Add literature
 
+\bibitem[Almagrabi et al.(2015)]{Almagrabi2015} Almagrabi, H., Malibari, A., \& McNaught, J. (2015). A Survey of Quality Prediction of Product Reviews. In \textit{International Journal of Advanced Computer Science \& Applications}, 1(6), 49-58.
+
 \bibitem[Eckle-Kohler et al.(2015)]{Eckle-Kohler2015} Eckle-Kohler, J., Kluge, R., \& Gurevych, I. (2015). On the Role of Discourse Markers for Discriminating Claims and Premises in Argumentative Discourse. In \textit{EMNLP}, 2236-2242.
 
 \bibitem[Kim et al.(2006)]{Kim2006} Kim, S. M., Pantel, P., Chklovski, T., \& Pennacchiotti, M. (2006). Automatically assessing review helpfulness. In \textit{Proceedings of the 2006 Conference on Empirical Methods in Natural Language Processing}, Association for Computational Linguistics, 423-430.
@@ -706,6 +717,8 @@ Both code and data used for this study are freely available for research purpose
 \bibitem[Lin et al.(2014)]{Lin2014} Lin, Z., Ng, H. T., \& Kan, M. Y. (2014). A PDTB-styled end-to-end discourse parser. In \textit{Natural Language Engineering}, 20(2), 151-184.
 
 \bibitem[Liu et al.(2008)]{Liu2008} Liu, Y., Huang, X., An, A., \& Yu, X. (2008). Modeling and Predicting the Helpfulness of Online Reviews. In \textit{Data mining}, 2008. ICDM'08. Eighth IEEE international conference on Data mining, 443-452.
+
+\bibitem[Mertz et al.(2014)]{Mertz2014} Mertz, M., Korfiatis, N., \& Zicari, R. V. (2014). Using Dependency Bigrams and Discourse Connectives for Predicting the Helpfulness of Online Reviews. In \textit{International Conference on Electronic Commerce and Web Technologies}, Springer International Publishing, 146-152.
 
 \bibitem[Mudambi and Schuff(2010)]{MudambiSchuff2010} Mudambi, S. M., \& Schuff, D. (2010). What Makes a Helpful Online Review? A Study of Customer Reviews on Amazon.com. In \textit{MIS Quarterly}, 34(1), 185-200.
 
