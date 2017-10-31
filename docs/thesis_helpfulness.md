@@ -2,6 +2,14 @@
 
 [TOC]
 
+## Abstract
+
+* Investigate what influence individual discourse-relation types have on predicting the helpfulness of product reviews, and whether these effects vary across product categories.
+* Two probabilistic models are trained on electronics and book reviews, using the distribution of discourse-relation types as their only features.
+* Based on feature-weight analyses and comparisons across product categories, two key results are drawn:
+	1. Other than expected, conjunction relations contribute most to predicting review helpfulness.
+	2. When comparing the results between both product categories, around half of the relation types exhibit similar impact on review helpfulness, while the other half shows differing effects.
+
 ## Introduction
 
 * The task of automatically evaluating the helpfulness of product reviews has rev
