@@ -148,7 +148,7 @@
 \vfill
 
 \paragraph{Abstract}
-This study investigates what influence individual discourse-relation types have on predicting the helpfulness of product reviews, and whether these effects vary across product categories. To this end, two probabilistic models are trained on electronics and book reviews, using the distribution of discourse-relation types as their only features. Based on feature-weight analyses and comparisons across the product categories, two key results are drawn: a) Other than expected, not causal, but conjunction relations contribute most to predicting review helpfulness. b) When comparing the results of both product categories, around half of the relation types exhibit similar effects on review helpfulness, while the other half shows differing patterns.
+This thesis investigates the influence individual discourse-relation types have on predicting the helpfulness of product reviews, and whether these effects vary across product categories. To this end, two probabilistic models are trained on electronics and book reviews, using the distribution of discourse-relation types as their only features. Based on feature-weight analyses and comparisons across product categories, two key results are drawn: a) Other than expected, not causal, but conjunction relations contribute most to predicting review helpfulness. b) Approximately half of the relation types exhibit similar effects on review helpfulness in both product categories, while the other half shows differing effects.
 \\[3em]
 
 \vfill
@@ -165,16 +165,56 @@ Department of Linguistics
 
 \section{Introduction}
 
-The task of automatically assessing the helpfulness of product reviews has received considerable attention over the last ten years (cf. \citealt{Almagrabi2015} for a survey). \citet[186]{MudambiSchuff2010} define a helpful review as “a peer-generated product evaluation that facilitates the consumer’s purchase decision process.”
+The task of automatically assessing the helpfulness of product reviews has received considerable attention over the last ten years (see \citealt{Almagrabi2015} for a survey). \citet[186]{MudambiSchuff2010} define a helpful review as “a peer-generated product evaluation that facilitates the consumer’s purchase decision process.”
 
-While the helpfulness of reviews is currently largely evaluated manually by users who are asked for their votes by answering a question like “Was this review helpful to you?” it makes sense to find automatic solutions for assessing review helpfulness. These solutions will enable website operators to instantly obtain a helpfulness assessment for every single review, with less interference by human biases, and, like that, reliably rank reviews according to their helpfulness.
+While the helpfulness of reviews is currently largely evaluated manually by users who are asked for their votes by answering a question like “Was this review helpful to you?”, it makes sense to find automatic solutions for assessing review helpfulness. These solutions will enable website operators to instantly obtain a helpfulness assessment for every single review, with less interference by human biases, and, like that, reliably rank reviews according to their helpfulness.
 
-Various kinds of features have been proposed for training probabilistic models to predict review helpfulness \citep[cf.][50ff.]{Almagrabi2015}. However, taking into account discourse structure as an indicator for this task is a rather novel approach first explored by \citet{Mertz2014}. Recently, \citet{Golly2017} provides some evidence for the general claim that discourse structure influences the helpfulness of product reviews.
+Discourse relations (also known as \textit{coherence relations} or \textit{rhetorical relations}) describe the logical connections holding between individual discourse segments, typically clauses. Characteristical classes of discourse relations include temporal, causal, conditional, contrastive, and elaborating relation types.
+
+Various kinds of features have been proposed for training probabilistic models to predict review helpfulness \citep[see][50ff.]{Almagrabi2015}. However, taking into account discourse structure as an indicator for this task is a rather novel approach first explored by \citet{Mertz2014}. Recently, \citet{Golly2017} provides some evidence for the general claim that discourse structure influences the helpfulness of product reviews.
 
 The goal of this study is to obtain a better understanding of how individual discourse-relation types affect review helpfulness. In addition, I want to investigate whether these effects vary across different product categories. To do so, two separate probabilistic models are trained on electronics and book reviews, using the distribution of discourse-relation types as their only features. Insights are drawn based on analyses of their feature weights and comparisons across product categories.
 
-This study is structured as follows: Section~\ref{sec:related-work} gives an overview of relevant previous work. Section~\ref{sec:goal} presents the research objectives and section~\ref{sec:method} the methods applied for investigating them. The experimental results are described in section~\ref{sec:results} and interpreted in section~\ref{sec:discussion}. Finally, section~\ref{sec:conclusion} briefly summarizes and concludes the study.
+This thesis is structured as follows: Section~\ref{sec:background} provides background information on the PDTB framework of discourse structure. Section~\ref{sec:related-work} gives an overview of relevant previous work. Section~\ref{sec:goal} presents the research objectives and Section~\ref{sec:method} the methods applied for investigating them. The experimental results are described in Section~\ref{sec:results} and interpreted in Section~\ref{sec:discussion}. Finally, Section~\ref{sec:conclusion} briefly summarizes and concludes the study.
 
+
+\section{Background}
+\label{sec:background}
+
+Different frameworks have been proposed for modeling discourse structure. Among the most widely used ones is PDTB (Penn Discourse Treebank 2.0), as presented in \citet{Prasad2008}. It has initially been applied to add a layer of discourse annotation to the Penn Treebank \citep{Marcus1993} and strives to be independent of any particular theory of discourse structure.
+
+PDTB provides a \textit{lexically grounded} approach, that is, instances of discourse relations are usually signaled by a discourse connective. In PDTB, discourse is considered to exhibit a predicate-argument structure, with the connective operating as a binary predicate that takes two \textit{abstract objects} (AOs) as its arguments. AOs can be single clauses or sentences, or sequences of these. The arguments are labeled Arg1 and Arg2 based on their syntactic position, with Arg2 being syntactically bound to the connective and Arg1 being the other argument. (\ref{ex:pdtb-basic}) \citep[taken from][3]{Webber2006} gives a basic example of the annotation, with Arg1 typeset in italics, Arg2 in bold, and the connective underlined.
+
+\begin{exe}
+\ex \label{ex:pdtb-basic} \textit{John eats porridge for breakfast}, \underline{while} \textbf{Mary eats muesli}.
+\end{exe}
+
+In case a relation holds between discourse units that is not explicitly signaled, an implicit connective is inferred and annotated, if possible. (\ref{ex:pdtb-implicit}) \citep[from][3]{Prasad2008} gives an example of such an implicit relation.
+
+\begin{exe}
+\ex \label{ex:pdtb-implicit} But a few funds have taken other defensive steps. \textit{Some have raised their cash positions to record levels.} \underline{Implicit = \textsc{because}} \textbf{High cash positions help buffer a fund when the market falls.}
+\end{exe}
+
+PDTB only describes low-level relations between AOs, no relations between larger spans of text. Also, it does not try to cover the complete discourse, but only those parts of it where an explicit connective can be found or an implicit one can be inferred.
+
+As discourse connectives are often ambiguous in meaning, PDTB provides an annotation of discourse-relation types, so-called \textit{senses}, used for disambiguation. These sense tags are structured in a three-level hierarchy where nested tags inherit the properties of their parents (see Figure~\ref{fig:pdtb-sense-hierarchy}). The subtypes \lstinline|Reason| and \lstinline|Result|, for instance, both inherit from the type \lstinline|Cause|, which is, in turn, a child of the \lstinline|Contingency| class.
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth, trim=2.5cm 17cm 3.5cm 2cm, clip]{img/pdtb-sense-hierarchy}
+
+\caption{The PDTB hierarchy of sense tags. Reprinted from \citet[5]{Prasad2008}.}
+\label{fig:pdtb-sense-hierarchy}
+\end{figure}
+
+(\ref{ex:since-1}) and (\ref{ex:since-2}) \citep[from][4]{Prasad2008} show how the PDTB sense tags can be used to disambiguate between the temporal and causal readings of the connective \textit{since}.
+
+\begin{exe}
+\ex \label{ex:since-1} \textit{The Mountain View, Calif., company has been receiving 1,000 calls a day about the product} \underline{since} \textbf{it was demonstrated at a computer publishing conference several weeks ago}.\\
+\hspace*{\fill}(\lstinline|Temporal.Asynchronous|)
+\ex \label{ex:since-2} \textit{It was a far safer deal for lenders} \underline{since} \textbf{NWA had a healthier cash flow and more collateral on hand}.\hspace*{\fill}(\lstinline|Contingency.Cause|)
+\end{exe}
+
+The PDTB framework defines specific relation types for \textit{pragmatic} uses of connectives. While standard relations are fact-related, their pragmatic counterparts are rather presentational. For instance, the type \lstinline|Contingency.Cause| is used when there is a reason-result relationship between the situations described in both arguments. \lstinline|Contingency.Pragmatic Cause|, on the other hand, is annotated when one of the arguments provides justification for a claim made in the other one, without a causal influence between the two situations \citep[see][29]{Prasad2007}.
 
 \section{Related Work}
 \label{sec:related-work}
@@ -182,17 +222,10 @@ This study is structured as follows: Section~\ref{sec:related-work} gives an ove
 \citet[186]{MudambiSchuff2010} define review helpfulness as “a measure of perceived value in the decision-making process” of a consumer. They show that product type has an influence on how the helpfulness of reviews is evaluated. Basing on a classification introduced by \citet{Nelson1970}, they distinguish between \textit{search goods} whose relevant properties can easily be compared without necessarily having to interact with them (e.g., laser printers, computer screens, or tires) and \textit{experience goods} whose key attributes are subjective and thus difficult to evaluate prior to interaction (e.g., music CDs, headphones, or wine).
 
 % Kim
-There have been a number of studies working towards the goal of automatically assessing the helpfulness of product reviews (cf. \citealt{Almagrabi2015}). A very influential one is that by \citet{Kim2006} who propose a Support Vector Machine (SVM) regression model for predicting review helpfulness. They systematically investigate how well different types of features capture the helpfulness of a review and evaluate different combinations of these features.
+There have been a number of studies working towards the goal of automatically assessing the helpfulness of product reviews (see \citealt{Almagrabi2015}). A very influential one is that by \citet{Kim2006} who propose a Support Vector Machine (SVM) regression model for predicting review helpfulness. They systematically investigate how well different types of features capture the helpfulness of a review and evaluate different combinations of these features.
 
 % Mertz
 \citet{Mertz2014} build upon the model proposed by \citet{Kim2006}, evaluating the use of discourse connectives as additional features, as they assume that the degree and type of coherence in a review might be an indicator of its helpfulness. In their experiment, however, this does not yield a significant improvement in prediction performance. This can be explained by several restrictions in their experimental setup.
-
-% PDTB (RST)
-Among the most widely used frameworks for modeling discourse structure is PDTB (Penn Discourse Treebank 2.0), as presented in \citet{Prasad2008}. PDTB provides a lexically grounded approach, that is, relations are usually signaled by a discourse marker. In case a relation holds between discourse units that is not explicitly signaled, an implicit discourse marker is annotated, if possible.
-
-As discourse markers are often ambiguous in meaning (\textit{since}, for example, can have both temporal and causal semantics), PDTB provides an annotation of discourse-relation types, so-called \textit{senses}, used for disambiguation. These sense tags are structured in a three-level hierarchy where nested tags inherit the properties of their parents \citep[cf.][5]{Prasad2008}. The subtypes \lstinline|Reason| and \lstinline|Result|, for instance, both inherit from the type \lstinline|Cause|, which, in turn, is a child of the \lstinline|Contingency| class.
-
-Separate relation types have been defined for \textit{pragmatic} uses of connectives, e.g., while the \lstinline|Cause| relation is used to relate two facts in the world, its \lstinline|Pragmatic Cause| counterpart is chosen when a discourse segment provides justification for a claim made in the discourse \citep[cf.][29]{Prasad2007}.
 
 % Lin
 With their \textit{PDTB-styled end-to-end discourse parser}, \citet{Lin2014} present a tool for automatically annotating text with PDTB sense tags. It achieves high performance in classifying explicitly signaled relations, while suffering from poor performance with regard to implict relations.
@@ -203,7 +236,7 @@ Using the PDTB framework and the discourse parser by \citet{Lin2014}, \citet{Gol
 \section{Goal of this Study}
 \label{sec:goal}
 
-\citet{Golly2017} has shown that there is an effect of the distribution of discourse relations in product reviews on their perceived helpfulness to other users. It is still unclear, however, how certain discourse-relation types affect review helpfulness. The present study aims to be a first step towards filling this research gap by investigating two questions:
+\citet{Golly2017} has shown that there is an effect of the distribution of discourse relations in product reviews on their perceived helpfulness to other users. It is still unclear, however, how certain discourse-relation types affect review helpfulness. The present thesis aims to be a first step towards filling this research gap by investigating two questions:
 
 \begin{enumerate}[rightmargin=1cm]
 \item[\textbf{Q1}] What is the effect of individual discourse-relation types on predicting review helpfulness?
@@ -246,12 +279,7 @@ For investigating the research questions presented in the previous section, two 
 
 \subsection{Data}
 
-From the 5-core corpus of \textit{Amazon.com} reviews created by \citet{HeMcAuley2016},\footnote{Available at \url{http://jmcauley.ucsd.edu/data/amazon/}.} two product categories have been chosen:
-
-\begin{itemize}
-\item “Electronics” (including many search goods) and
-\item “Books” (including many experience goods).
-\end{itemize}
+From the 5-core corpus of \textit{Amazon.com} reviews created by \citet{HeMcAuley2016},\footnote{Available at \url{http://jmcauley.ucsd.edu/data/amazon/}.} two product categories have been chosen: “Electronics” and “Books”. While the “Electronics” category includes mostly search goods (such as printers), the “Books” category contains many experience goods (such as fiction books).
 
 Each of the reviews in the two datasets includes, among others:
 
@@ -301,7 +329,7 @@ This helpfulness ratio is defined for every review with at least one helpfulness
 
 \subsection{Features}
 
-In order to answer the research questions, the review texts had to be annotated with discourse relations. PDTB sense tags have been extracted automatically using the \textit{PDTB-styled end-to-end discourse parser} \citep{Lin2014}. It can be configured to extract sense tags at any of the three levels of the PDTB sense hierarchy \citep[cf.][5]{Prasad2008}. As a reasonable compromise between accuracy and parsing performance, sense tags from the second (\textit{type}) level have been extracted (e.g., \lstinline|Comparison.Contrast| or \lstinline|Contingency.Cause|). Because of the unsatisfactory performance of the non-explicit classifier \citep[cf.][175]{Lin2014}, only explicitly signaled relations have been used in the experiments.
+In order to answer the research questions, the review texts had to be annotated with discourse relations. PDTB sense tags have been extracted automatically using the \textit{PDTB-styled end-to-end discourse parser} \citep{Lin2014}. It can be configured to extract sense tags at any of the three levels of the PDTB sense hierarchy \citep[see][5]{Prasad2008}. As a reasonable compromise between accuracy and parsing performance, sense tags from the second (\textit{type}) level have been extracted (e.g., \lstinline|Comparison.Contrast| or \lstinline|Contingency.Cause|). Because of the unsatisfactory performance of the non-explicit classifier \citep[see][175]{Lin2014}, only explicitly signaled relations have been used in the experiments.
 
 % TODO: Why PDTB? Why this parser?
 
@@ -309,7 +337,7 @@ In order to answer the research questions, the review texts had to be annotated 
 Spot tests showed that the discourse parser was unable to correctly distinguish pragmatic PDTB types (\lstinline|Contingency.Pragmatic cause|, \lstinline|Contingency.Pragmatic condition|, \lstinline|Comparison.Pragmatic contrast|, and \lstinline|Comparison.Pragmatic concession|) from their non-pragmatic counterparts. As this distinction is not crucial to the intended analyses, I decided to merge the pragmatic types with their non-pragmatic variants. That is, the \lstinline|Contingency.Cause| feature also includes all instances of \lstinline|Contingency.Pragmatic cause| relations, covering both purely causal and justifying relations.
 \end{sloppypar}
 
-(\ref{ex:pdtb-types-first}–\ref{ex:pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective discourse markers typeset in bold.
+(\ref{ex:pdtb-types-first}–\ref{ex:pdtb-types-last}) show typical examples for each of the extracted PDTB types, with the respective discourse connectives typeset in bold.
 
 \begin{exe}
 \ex\label{ex:pdtb-types-first} \lstinline|Temporal.Asynchronous|\\
@@ -505,7 +533,7 @@ The coefficients represent the mean change in the predicted helpfulness score if
 
 For both product categories, the presence of explicit \lstinline|Expansion.Conjunction| relations proves to be by far most predictive of review helpfulness. This discourse-relation type is typically expressed by connectives such as \textit{and} or \textit{also}.
 
-As this result is rather unexpected, it deserves a more detailed investigation. (\ref{ex:conjunction-first}–\ref{ex:conjunction-last}) show typical examples for instances of \lstinline|Expansion.Conjunction| relations in the corpus. The connectives signaling the relation are typeset in bold. It can be observed that, in many of the examples, the conjunction relation is used to present an additional argument, often for buying the reviewed product.
+As this result is rather unexpected, it deserves a more detailed investigation. (\ref{ex:conjunction-first}–\ref{ex:conjunction-last}) show typical examples for instances of \lstinline|Expansion.Conjunction| relations in the corpus. The connectives signaling the relation are typeset in bold. It can be observed that, in many of the examples, the conjunction relation is used to present an additional argument (with reference to argumentation structure), often for buying the reviewed product.
 
 \begin{exe}
 \ex \label{ex:conjunction-first} The kit lenses are a great starter. \textbf{And} they're worlds better than anything you'll get with a point-and-shoot.
@@ -517,7 +545,7 @@ As this result is rather unexpected, it deserves a more detailed investigation. 
 \ex \label{ex:conjunction-last} Overall, the sets are very similar, my personal choice being the Haier, as I think the picture is sharper, the price is better and the battery lasts longer for my needs in bad weather. Haier \textbf{also} has way more picture settings and adjustments in the tv's menu
 \end{exe}
 
-When analyzing samples of reviews without any instance of an \lstinline|Expansion.Conjunction| relation, they often exhibit one or more of the following properties:
+Samples of reviews without any instance of an \lstinline|Expansion.Conjunction| relation often exhibit one or more of the following properties:
 
 \begin{itemize}
 \item short overall length,
@@ -588,7 +616,7 @@ Tables~\ref{tab:conjunction-features-electronics} and \ref{tab:conjunction-featu
 
 \end{table}
 
-Other than expected in the first hypothesis, the presence of \lstinline|Contingency.Cause| relations does not show to be a particularly good predictor of review helpfulness. In electronics reviews, the corresponding feature obtains the fifth rank according to its feature weight. In the model trained on book reviews, it even gets assigned a slightly negative coefficient and only reaches rank nine.
+Contrary to the first hypothesis, the presence of \lstinline|Contingency.Cause| relations does not show to be a particularly good predictor of review helpfulness. In electronics reviews, the corresponding feature obtains the fifth rank according to its feature weight. In the model trained on book reviews, it even gets assigned a slightly negative coefficient and only reaches rank nine.
 
 When analyzing samples of the automatically extracted relations, a noticeable number of parsing mistakes with respect to \lstinline|Contingency.Cause| can be observed. (\ref{ex:parsing-mistakes-first}–\ref{ex:parsing-mistakes-last}) present typical examples of such incorrect annotations that occur frequently.
 
@@ -671,7 +699,7 @@ Instead, the relation that has shown to have the highest impact on review helpfu
 
 One of them can be dubbed \textit{multi-confirmation} account. As “[c]onsumers follow a purchase decision process that seeks to reduce uncertainty” \citep[187]{MudambiSchuff2010}, they read product reviews, at least partly, as a source of confirmation. Once they are interested enough in a product to read its reviews, many of them only seek for an endorsement to make the last step and purchase it. The more confirming statements a review contains, the more helpful it will be perceived by these users. An examination of samples of conjunction relations in the corpus showed that the relation is often used to present an additional argument for buying the reviewed product. Following the multi-confirmation interpretation, these uses of conjunction relations increase the helpfulness of the corresponding review.
 
-A second account refers to the \textit{writing quality} of the examined reviews. \citet{Liu2008} find that writing style has an influence on review-helpfulness predictions. The analyses performed in this study show that the presence of \lstinline|Expansion.Conjunction| relations is positively correlated with linguistic features such as review length, average sentence length, and density of discourse markers. The observed higher average values of these features might indicate an increased writing quality that results in a gain of perceived review helpfulness.
+A second account refers to the \textit{writing quality} of the examined reviews. \citet{Liu2008} find that writing style has an influence on review-helpfulness predictions. The analyses performed in this study show that the presence of \lstinline|Expansion.Conjunction| relations is positively correlated with linguistic features such as review length, average sentence length, and density of discourse connectives. The greater mean values of these features observed in reviews including at least one instance of a conjunction relation might indicate a higher writing quality of these reviews, on average, which would explain their gain in perceived helpfulness.
 
 A third and last account considers findings from argumentation-structure research. \citet[2239]{Eckle-Kohler2015} identify the German discourse connective \textit{und} (\textit{and}) that signals conjunction relations as being indicative of \textit{premises}. In the claim-premise model of argumentation they adopt, premises are used for supporting (or attacking) a claim. This is in line with the initial expectation that lead to the first hypothesis: the assumption that justified claims (supported by one or more premises) are more comprehensible and credible to other users and thereby increase review helpfulness.
 
@@ -683,7 +711,7 @@ As mentioned before, the assumption that a high ratio of justified claims gives 
 
 Second, it has to be stressed that for the analyses performed in this study, only explicit discourse relations have been taken into account because of the poor performance of current discourse parsers in automatically detecting implicit relations. The expectations that underlie the first hypothesis focus on \textit{subjective causality} (supporting a claim rather than relating two facts). If we classify product reviews as a rather persuasive than informative text type, the findings of \citet{Kamalski2008} provide another explanation to the low impact of causal relations. They find that, in a persuasive context, explicitly marked subjective relations trigger resistance in the readers and thereby reduce the persuasuasive power of the text. In any case, ignoring implicit relations is a clear limitation of this study that, with the help of more advanced discourse parsers, should be overcome in future research.
 
-Lastly, samples have shown a relatively high proportion of parsing mistakes related to causal relations. In particular, the discourse parser used in this experiment seems to be prone to incorrectly classifying discourse markers that can have both temporal and causal semantics, such as \textit{since} and \textit{as}. These incorrect annotations weaken the effects of causal relations on helpfulness predictions as well as the overall reliability of the results. Again, to obtain more reliable results, any improvements made in automatic discourse parsing should be taken advantage of in further studies.
+Lastly, samples have shown a relatively high proportion of parsing mistakes related to causal relations. In particular, the discourse parser used in this experiment seems to be prone to incorrectly classifying discourse connectives that can have both temporal and causal semantics, such as \textit{since} and \textit{as}. These incorrect annotations weaken the effects of causal relations on helpfulness predictions as well as the overall reliability of the results. Again, to obtain more reliable results, any improvements made in automatic discourse parsing should be taken advantage of in further studies.
 
 % H2
 
@@ -701,7 +729,7 @@ It should also be noted that \citet{MudambiSchuff2010} base their findings on di
 \section{Conclusion}
 \label{sec:conclusion}
 
-This study investigated the effect of individual discourse-relation types on predicting review helpfulness. Contrary to expectations, the highest predictive power was not found in causal relations, but rather in conjunction relations. Whether this is because the latter are often used to signal additional confirming statements, because their existence in a review is correlated with its writing quality, or because they are indicative of premises supporting a claim will have to be examined in further studies.
+This thesis investigated the effect of individual discourse-relation types on predicting review helpfulness. Contrary to expectations, the highest predictive power was not found in causal relations, but rather in conjunction relations. Whether this is because the latter are often used to signal additional confirming statements, because their existence in a review is correlated with its writing quality, or because they are indicative of premises supporting a claim will have to be examined in further studies.
 
 As a second finding, the influence of one half of the analyzed discourse-relation types on predicting review helpfulness has been shown to differ among two product categories, while the other half exhibited similar effects across both categories. Future comparisons of reviews clustered into more product categories and types (such as search and experience goods) will show whether this indicates the presence of certain mechanisms being common to the complete text type and others being sensitive to product types.
 
@@ -733,17 +761,21 @@ Both code and data used for this study are freely available for research purpose
 
 \bibitem[Liu et al.(2008)]{Liu2008} Liu, Y., Huang, X., An, A., \& Yu, X. (2008). Modeling and Predicting the Helpfulness of Online Reviews. In \textit{Data mining}, 2008. ICDM'08. Eighth IEEE international conference on Data mining, 443-452.
 
+\bibitem[Marcus et al.(1993)]{Marcus1993} Marcus, M. P., Marcinkiewicz, M. A., \& Santorini, B. (1993). Building a large annotated corpus of English: The Penn Treebank. In \textit{Computational linguistics}, 19(2), 313-330.
+
 \bibitem[Mertz et al.(2014)]{Mertz2014} Mertz, M., Korfiatis, N., \& Zicari, R. V. (2014). Using Dependency Bigrams and Discourse Connectives for Predicting the Helpfulness of Online Reviews. In \textit{International Conference on Electronic Commerce and Web Technologies}, Springer International Publishing, 146-152.
 
 \bibitem[Mudambi and Schuff(2010)]{MudambiSchuff2010} Mudambi, S. M., \& Schuff, D. (2010). What Makes a Helpful Online Review? A Study of Customer Reviews on Amazon.com. In \textit{MIS Quarterly}, 34(1), 185-200.
 
-\bibitem[Nelson(1970)]{Nelson1970}Nelson, P. (1970). Information and consumer behavior. \textit{Journal of political economy}, 78(2), 311-329.
+\bibitem[Nelson(1970)]{Nelson1970} Nelson, P. (1970). Information and consumer behavior. \textit{Journal of political economy}, 78(2), 311-329.
 
-\bibitem[Prasad et al.(2008)]{Prasad2008}Prasad, R., Dinesh, N., Lee, A., Miltsakaki, E., Robaldo, L., Joshi, A., \& Webber, B. (2008). \textit{The Penn Discourse Treebank 2.0.} Paper presented at the 6th International Conference on Language Resources and Evaluation (LREC 2008), Marrakesh, Morocco.
+\bibitem[Prasad et al.(2008)]{Prasad2008} Prasad, R., Dinesh, N., Lee, A., Miltsakaki, E., Robaldo, L., Joshi, A., \& Webber, B. (2008). \textit{The Penn Discourse Treebank 2.0.} Paper presented at the 6th International Conference on Language Resources and Evaluation (LREC 2008), Marrakesh, Morocco.
 
-\bibitem[Prasad et al.(2007)]{Prasad2007}Prasad, R., Miltsakaki, E., Dinesh, N., Lee, A., Joshi, A., Robaldo, L., \& Webber, B. L. (2007). \textit{The Penn Discourse Treebank 2.0 Annotation Manual.}
+\bibitem[Prasad et al.(2007)]{Prasad2007} Prasad, R., Miltsakaki, E., Dinesh, N., Lee, A., Joshi, A., Robaldo, L., \& Webber, B. L. (2007). \textit{The Penn Discourse Treebank 2.0 Annotation Manual.}
 
-\bibitem[Stab and Gurevych(2014)]{StabGurevych2014}Stab, C., \& Gurevych, I. (2014). Identifying Argumentative Discourse Structures in Persuasive Essays. In \textit{EMNLP}, 46-56.
+\bibitem[Stab and Gurevych(2014)]{StabGurevych2014} Stab, C., \& Gurevych, I. (2014). Identifying Argumentative Discourse Structures in Persuasive Essays. In \textit{EMNLP}, 46-56.
+
+\bibitem[Webber et al.(2006)]{Webber2006} Webber, B., Joshi, A., Miltsakaki, E., Prasad, R., Dinesh, N., Lee, A., \& Forbes, K. (2006). A Short Introduction to the Penn Discourse TreeBank. \textit{Copenhagen Studies in Language}, 32(9).
 
 \end{thebibliography}
 
