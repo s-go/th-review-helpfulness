@@ -216,22 +216,36 @@ As discourse connectives are often ambiguous in meaning, PDTB provides an annota
 
 The PDTB framework defines specific relation types for \textit{pragmatic} uses of connectives. While standard relations are fact-related, their pragmatic counterparts are rather presentational. For instance, the type \lstinline|Contingency.Cause| is used when there is a reason-result relationship between the situations described in both arguments. \lstinline|Contingency.Pragmatic Cause|, on the other hand, is annotated when one of the arguments provides justification for a claim made in the other one, without a causal influence between the two situations \citep[see][29]{Prasad2007}.
 
+% Lin
+With their \textit{PDTB-styled end-to-end discourse parser}, \citet{Lin2014} present a tool for automatically annotating free text with PDTB sense tags. It implements a pipeline consisting of a connective classifier, an argument labeler, an explicit classifier, a non-explicit classifier, as well as an attribution-span labeler, trained on the PDTB corpus. They report “an overall system $ F_1 $ score of 46.80 percent for partial matching utilizing gold standard parses, and 38.18 percent with full automation” \citep[152]{Lin2014}, where “a large portion of the misses comes from the Non-Explicit relations, as these are more difficult to classify in comparison with the Explicit relations”  \citep[177]{Lin2014}. The component classifying explicitly signaled relations achieves a high $ F_1 $ performance of 80.61 percent (with full automation and error propagation), while the non-explicit classifier suffers from an unsatisfactory $ F_1 $ performance of 25.46 percent.
+
 \section{Related Work}
 \label{sec:related-work}
 
-\citet[186]{MudambiSchuff2010} define review helpfulness as “a measure of perceived value in the decision-making process” of a consumer. They show that product type has an influence on how the helpfulness of reviews is evaluated. Basing on a classification introduced by \citet{Nelson1970}, they distinguish between \textit{search goods} whose relevant properties can easily be compared without necessarily having to interact with them (e.g., laser printers, computer screens, or tires) and \textit{experience goods} whose key attributes are subjective and thus difficult to evaluate prior to interaction (e.g., music CDs, headphones, or wine).
+There have been a number of studies working towards the goal of automatically assessing the helpfulness of product reviews by training probabilistic models on corpora that include manual helpfulness evaluations. Many of them see the problem of predicting review helpfulness as a regression task in which the model learns to assign a helpfulness score to each review (see, e.g., \citealt{Kim2006}, \citealt{ZhangVaradarajan2006}, and \citealt{SieringMuntermann2013}). Others treat it as the problem of classifying each review, mostly into one of the two classes \textit{helpful} and \textit{not helpful} (see, e.g., \citealt{ChenTseng2011}, \citealt{Mertz2014}, and \citealt{Zhang2015}). For an extensive survey of the different approaches, see \citet{Almagrabi2015}.
+
+\citet[186]{MudambiSchuff2010} define review helpfulness as “a measure of perceived value in the decision-making process” of a consumer. They show that product type has an influence on how the helpfulness of reviews is evaluated. Basing on a classification introduced by \citet{Nelson1970}, they distinguish between \textit{search goods} whose relevant properties can easily be compared without necessarily having to interact with them (e.g., laser printers, computer screens, or tires) and \textit{experience goods} whose key attributes are subjective and thus difficult to evaluate prior to interaction (e.g., music CDs, headphones, or wine). They find that for experience goods, but not for search goods, reviews that give a moderate rating are more helpful than reviews with a strongly positive or a strongly negative rating. In addition, they discover that the positive correlation between the length of reviews and their helpfulness is stronger for search goods than for experience goods.
 
 % Kim
-There have been a number of studies working towards the goal of automatically assessing the helpfulness of product reviews (see \citealt{Almagrabi2015}). A very influential one is that by \citet{Kim2006} who propose a Support Vector Machine (SVM) regression model for predicting review helpfulness. They systematically investigate how well different types of features capture the helpfulness of a review and evaluate different combinations of these features.
+In an influential study, \citet{Kim2006} propose a Support Vector Machine (SVM) regression model for predicting review helpfulness. They systematically investigate how well different types of features capture the helpfulness of a review and evaluate different combinations of these features, including
+
+\begin{itemize}
+\item \textit{structural} features (e.g., the number of tokens in the review),
+\item \textit{lexical} features (e.g., its \textit{n-gram} statistics),
+\item \textit{syntactic} features (e.g., part-of-speech analyses),
+\item \textit{semantic} features (e.g., sentiment analyses), and
+\item \textit{meta-data} features (e.g., the overall product rating the review gives).
+\end{itemize}
+
+The feature combination that performs best in their experiments captures the length of the review, its unigram statistic, and its product rating.
 
 % Mertz
-\citet{Mertz2014} build upon the model proposed by \citet{Kim2006}, evaluating the use of discourse connectives as additional features, as they assume that the degree and type of coherence in a review might be an indicator of its helpfulness. In their experiment, however, this does not yield a significant improvement in prediction performance. This can be explained by several restrictions in their experimental setup.
+\citet{Mertz2014} argue that the main influence on review helpfulness is the text of the review itself (rather than its product rating or other features derived from meta data). Accordingly, they propose and evaluate two novel text-based features for predicting review helpfulness: dependency bigrams and discourse connectives. However, their reasoning that a “potential indicator of review helpfulness could be the amount of internal discourse in a review text” \citep[7]{Mertz2014} reveals a theoretical shortcoming in their work: There is no “amount of discourse” in a text, since every text constitutes a piece of discourse.
 
-% Lin
-With their \textit{PDTB-styled end-to-end discourse parser}, \citet{Lin2014} present a tool for automatically annotating text with PDTB sense tags. It achieves high performance in classifying explicitly signaled relations, while suffering from poor performance with regard to implict relations.
+Building upon a baseline model including star-rating and unigram features, they add features capturing the frequencies of discourse connectives aggregated into PDTB senses. As they do not use discourse parsing but simple regular-expression matching for extracting discourse features, it remains unclear, however, how they disambiguate between the senses of a connective. Also, they set up their experiment in a way that the baseline model already obtains an extremely high classification performance, which can explain why none of the newly proposed features significantly improves prediction performance.
 
 % Golly
-Using the PDTB framework and the discourse parser by \citet{Lin2014}, \citet{Golly2017} shows that the presence of certain discourse-relation types in product reviews has, in fact, an effect on their perceived helpfulness to other users. As this experiment employs an SVM regression model with a non-linear RBF kernel that does not allow for feature-weight analysis, the contributions of individual discourse-relation types on helpfulness predictions could not be investigated.
+A recent study by \citet{Golly2017} takes up the idea of \citet{Mertz2014} that discourse structure is likely to have an effect on the perceived helpfulness of product reviews, while trying to overcome the shortcomings in their work. It enriches a baseline regression model using the best-performing feature combination from \citet{Kim2006} by features capturing the presence and occurrence frequencies of different discourse-relation types. To this end, it employs the discourse parser by \citet{Lin2014} to extract explicit discourse connectives and aggregate them into PDTB senses. The obtained results support the hypothesis that the distribution of discourse relations in a product review is an indicator of its helpfulness to other users – at least if the term “distribution” is defined as the \textit{presence} of certain relation types, rather than their occurrence frequencies. However, as this experiment uses an SVM regression model with a non-linear RBF kernel that does not allow for feature-weight analysis, the contributions of individual discourse-relation types on helpfulness predictions could not be investigated.
 
 \section{Goal of this Study}
 \label{sec:goal}
@@ -244,7 +258,6 @@ Using the PDTB framework and the discourse parser by \citet{Lin2014}, \citet{Gol
 
 I expect product reviews that do not only make claims, but justify and reason these claims to be more comprehensible and credible to other users, offering an increased value in their purchase-decision process, and, consequently, being perceived as more helpful.
 
-\pagebreak
 \textbf{Example:}
 \vspace{-1em}
 
@@ -314,7 +327,7 @@ In order to use only informative items, reviews with less than ten helpfulness v
 
 \subsection{Learning Task}
 
-In this study, the task of predicting the helpfulness of product reviews is seen as a regression problem. Given a product review and its metadata, the probabilistic model predicts a score that captures the helpfulness of the review.
+Helpfulness prediction is sometimes treated as a classification problem, labeling each review as either \textit{helpful} or \textit{not helpful} \citep[see][3ff.]{Almagrabi2015}. In order to allow for ranking reviews according to their helpfulness, however, it makes sense to rather perceive the problem as a regression task. Given a product review and its metadata, the probabilistic model predicts a score that captures the helpfulness of the review.
 
 For learning the model, the helpfulness score of a product review can be simply defined as the ratio of its positive helpfulness votes to its total helpfulness votes. \citet[424]{Kim2006} formalize this metric as the helpfulness function $ h $ that computes the helpfulness score of a review $ r $:
 
@@ -457,7 +470,7 @@ This section presents the results with regard to both research questions. They s
 \end{enumerate}
 
 Tables~\ref{tab:feature-weights-electronics} and \ref{tab:feature-weights-books} rank the features of both probabilistic models (for electronics and book reviews) according to their learned regression coefficients, or feature weights.
-The coefficients represent the mean change in the predicted helpfulness score if the corresponding discourse-relation type is present in a review (while holding the other predictors in the model constant). 
+The coefficients represent the mean change in the predicted helpfulness score if the corresponding discourse-relation type is present in a review (while holding the other predictors in the model constant). Positive coefficients indicate that the presence of the discourse relation increases on average the predicted helpfulness score, while negative coefficients mark a negative impact on the predicted helpfulness.
 
 \begin{table}[h!]
 	\centering
@@ -744,8 +757,11 @@ Both code and data used for this study are freely available for research purpose
 
 \newpage
 \begin{thebibliography}{9}
+\interlinepenalty=10000
 
 \bibitem[Almagrabi et al.(2015)]{Almagrabi2015} Almagrabi, H., Malibari, A., \& McNaught, J. (2015). A Survey of Quality Prediction of Product Reviews. In \textit{International Journal of Advanced Computer Science \& Applications}, 1(6), 49-58.
+
+\bibitem[Chen \& Tseng(2011)]{ChenTseng2011} Chen, C. C., \& Tseng, Y. D. (2011). Quality evaluation of product reviews using an information quality framework. In \textit{Decision Support Systems}, 50(4), 755-768.
 
 \bibitem[Eckle-Kohler et al.(2015)]{Eckle-Kohler2015} Eckle-Kohler, J., Kluge, R., \& Gurevych, I. (2015). On the Role of Discourse Markers for Discriminating Claims and Premises in Argumentative Discourse. In \textit{EMNLP}, 2236-2242.
 
@@ -753,7 +769,7 @@ Both code and data used for this study are freely available for research purpose
 
 \bibitem[He and McAuley(2016)]{HeMcAuley2016} He, R., \& McAuley, J. (2016). Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering. In \textit{Proceedings of the 25th International Conference on World Wide Web}, International World Wide Web Conferences Steering Committee, 507-517.
 
-\bibitem[Kamalski et al.(2008)]{Kamalski2008} Kamalski, J., Lentz, L., Sanders, T., \& Zwaan, R. A. (2008). The forewarning effect of coherence markers in persuasive discourse: Evidence from persuasion and processing. \textit{Discourse Processes}, 45, 545–579.
+\bibitem[Kamalski et al.(2008)]{Kamalski2008} Kamalski, J., Lentz, L., Sanders, T., \& Zwaan, R. A. (2008). The forewarning effect of coherence markers in persuasive discourse: Evidence from persuasion and processing. In \textit{Discourse Processes}, 45, 545–579.
 
 \bibitem[Kim et al.(2006)]{Kim2006} Kim, S. M., Pantel, P., Chklovski, T., \& Pennacchiotti, M. (2006). Automatically assessing review helpfulness. In \textit{Proceedings of the 2006 Conference on Empirical Methods in Natural Language Processing}, Association for Computational Linguistics, 423-430.
 
@@ -767,7 +783,7 @@ Both code and data used for this study are freely available for research purpose
 
 \bibitem[Mudambi and Schuff(2010)]{MudambiSchuff2010} Mudambi, S. M., \& Schuff, D. (2010). What Makes a Helpful Online Review? A Study of Customer Reviews on Amazon.com. In \textit{MIS Quarterly}, 34(1), 185-200.
 
-\bibitem[Nelson(1970)]{Nelson1970} Nelson, P. (1970). Information and consumer behavior. \textit{Journal of political economy}, 78(2), 311-329.
+\bibitem[Nelson(1970)]{Nelson1970} Nelson, P. (1970). Information and consumer behavior. In \textit{Journal of political economy}, 78(2), 311-329.
 
 \bibitem[Prasad et al.(2008)]{Prasad2008} Prasad, R., Dinesh, N., Lee, A., Miltsakaki, E., Robaldo, L., Joshi, A., \& Webber, B. (2008). \textit{The Penn Discourse Treebank 2.0.} Paper presented at the 6th International Conference on Language Resources and Evaluation (LREC 2008), Marrakesh, Morocco.
 
@@ -775,7 +791,13 @@ Both code and data used for this study are freely available for research purpose
 
 \bibitem[Stab and Gurevych(2014)]{StabGurevych2014} Stab, C., \& Gurevych, I. (2014). Identifying Argumentative Discourse Structures in Persuasive Essays. In \textit{EMNLP}, 46-56.
 
-\bibitem[Webber et al.(2006)]{Webber2006} Webber, B., Joshi, A., Miltsakaki, E., Prasad, R., Dinesh, N., Lee, A., \& Forbes, K. (2006). A Short Introduction to the Penn Discourse TreeBank. \textit{Copenhagen Studies in Language}, 32(9).
+\bibitem[Siering \& Muntermann(2013)]{SieringMuntermann2013} Siering, M., \& Muntermann, J. (2013). What Drives the Helpfulness of Online Product Reviews? From Stars to Facts and Emotions. In \textit{Wirtschaftsinformatik} (Vol. 7). 103-118.
+
+\bibitem[Webber et al.(2006)]{Webber2006} Webber, B., Joshi, A., Miltsakaki, E., Prasad, R., Dinesh, N., Lee, A., \& Forbes, K. (2006). A Short Introduction to the Penn Discourse TreeBank. In \textit{Copenhagen Studies in Language}, 32(9).
+
+\bibitem[Zhang et al.(2015)]{Zhang2015} Zhang, Z., Ma, Y., Chen, G., \& Wei, Q. (2015, June). Extending associative classifier to detect helpful online reviews with uncertain classes. In \textit{IFSA-EUSFLAT}. 1134-1139.
+
+\bibitem[Zhang \& Varadarajan(2006)]{ZhangVaradarajan2006} Zhang, Z., \& Varadarajan, B. (2006). Utility scoring of product reviews. In \textit{Proceedings of the 15th ACM international conference on Information and knowledge management}. 51-57.
 
 \end{thebibliography}
 

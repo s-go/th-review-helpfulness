@@ -26,6 +26,12 @@
 * Almagrabi
 * Kim
 * Mertz
+	* they argue that the main influence on review helpfulness is the text of the review itself (rather than its product rating or other features derived from meta data.)
+	* aim: propose and evaluate two novel text-based features for predicting review helpfulness
+		* bigrams according to grammatical dependencies (dependency bigrams)
+		* discourse connectives
+			* "A potential indicator of review helpfulness could be the amount of internal discourse in a review text." (→ coherence)
+			* regular expression matching instead of discourse parsing
 * Mudambi and Schuff (2010)
 	* definition
 	* product type, specifically whether the product is a search or experience good, is important in understanding what makes a review helpful to consumers
@@ -37,6 +43,10 @@
 * Lin
 * He & McAuley
 * Golly (2017)
+	* takes up the idea of Mertz that discourse structure is likely to have an effect on the perceived helpfulness of product reviews, while trying to overcome the shortcomings in their study.
+	* a baseline regression model using the best-performing feature combination by Kim is enriched by features capturing the presence and occurrence frequencies of different discourse-relation types
+	* To this end, it uses the discourse parser by \citet{Lin2014} to extract explicit discourse connectives and aggregate them into PDTB senses
+	* supports the hypothesis that the distribution of discourse relations in a product review is an indicator of its helpfulness to other users – at least if the term “distribution” is defined as the \textit{presence} of certain relation types, rather than their occurrence frequencies.
 
 ## Goal of this Study
 
