@@ -10,9 +10,19 @@
 	1. Other than expected, conjunction relations contribute most to predicting review helpfulness.
 	2. When comparing the results between both product categories, around half of the relation types exhibit similar impact on review helpfulness, while the other half shows differing effects.
 
+## Zusammenfassung
+
+Die vorliegende Arbeit untersucht den Einfluss verschiedener Typen von Diskursrelationen auf die automatische Bestimmung der Nützlichkeit von Produktrezensionen. Zusätzlich analysiert sie, ob sich diese Auswirkungen zwischen verschiedenen Produktkategorien unterscheiden. Hierzu werden zwei probabilistische Modelle auf Rezensionen elektronischer Produkte und Bücher trainiert, wobei die Verteilung von Diskursrelationen als einzige Gruppe von Features genutzt wird. Aus Analysen der Merkmalsgewichte und Vergleichen zwischen den Produktkategorien werden zwei wesentliche Erkenntnisse abgeleitet: (a) Anders als erwartet steuern nicht kausale, sondern additive Relationen den größten Beitrag zur Vorhersage der Nützlichkeit bei. (b) Für etwa die Hälfte der untersuchten Relationstypen lassen sich in beiden Produktkategorien ähnliche Auswirkungen auf die Nützlichkeitsbestimmung beobachten, während die andere Hälfte abweichende Effekte zeigt.
+
 ## Introduction
 
-* The task of automatically evaluating the helpfulness of product reviews has rev
+* User-authored product reviews, published on the product pages of many e-commerce websites, have become an “important source of information for making informed purchase decisions” \citep[55]{Almagrabi2015}.
+* These reviews typically include a rating of the customer's satisfaction with the product, usually on a star scale ranging from one star (“I hate it”) to five stars (“I love it”) as well as a free text in which the reviewer expresses whatever seems relevant, in their eyes, to other consumers, often in an unstructured way. Figure ... gives an example of a typical product review on Amazon.com.
+* Some reviews are more helpful to other users, while others are less. As website operators aim to display more helpful reviews first in order to increase user engagement, they need a mechanism for ranking reviews according to their helpfulness.
+* Currently, this is mainly done by asking users to assess the helpfulness of product reviews written by other users (“Was this review helpful to you?”), and using this aggregated user feedback as a ranking metric.
+* Limitations
+
+* Discourse relations (also known as \textit{coherence relations} or \textit{rhetorical relations}) describe the logical connections holding between individual discourse segments, typically clauses. Characteristical classes of discourse relations include temporal, causal, conditional, contrastive, and elaborating relation types.
 
 * Golly (2017) provides some evidence for the general claim that discourse structure influences the helpfulness of product reviews.
 * Goal: investigate how certain discourse-relation types affect review helpfulness.
